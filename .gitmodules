@@ -1,0 +1,6 @@
+[submodule "sageflow-ui"]
+	path = sageflow-ui
+	url = https://www.github.com/sageflow/sageflow-ui
+[submodule "sageflow-backend"]
+	path = sageflow-backend
+	url = https://www.github.com/sageflow/sageflow-backend
