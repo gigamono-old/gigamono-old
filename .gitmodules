@@ -1,6 +1,18 @@
-[submodule "sageflow-ui"]
-	path = sageflow-ui
-	url = https://www.github.com/sageflow/sageflow-ui
-[submodule "sageflow-backend"]
-	path = sageflow-backend
-	url = https://www.github.com/sageflow/sageflow-backend
+[submodule "sub-sagedb"]
+	path = sub-sagedb
+	url = https://www.github.com/sageflow/sagedb
+[submodule "sub-sageui"]
+	path = sub-sageui
+	url = https://www.github.com/sageflow/sageui
+[submodule "sub-sageauth"]
+	path = sub-sageauth
+	url = https://www.github.com/sageflow/sageauth
+[submodule "sub-sageengine"]
+	path = sub-sageengine
+	url = https://www.github.com/sageflow/sageengine
+[submodule "sub-sageexec"]
+	path = sub-sageexec
+	url = https://www.github.com/sageflow/sageexec
+[submodule "sub-sageapi"]
+	path = sub-sageapi
+	url = https://www.github.com/sageflow/sageapi
