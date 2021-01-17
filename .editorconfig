@@ -1,0 +1,4 @@
+# Needed to make Github behave.
+[*.go]
+indent_type = tab
+indent_size = 4
