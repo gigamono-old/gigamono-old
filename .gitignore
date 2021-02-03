@@ -2,4 +2,4 @@
 public
 .env
 tmp
-logs
+*.log
