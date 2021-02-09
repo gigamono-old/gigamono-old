@@ -1,4 +1,4 @@
-sageflow-ui/dist/bundle.min.js.LICENSE.txt
-sageflow-ui/dist/bundle.min.js.map
-sageflow-ui/node_modules
-sageflow-ui/coverage
+sub-sageui-ent/dist/bundle.min.js.LICENSE.txt
+sub-sageui-ent/dist/bundle.min.js.map
+sub-sageui-ent/node_modules
+sub-sageui-ent/coverage

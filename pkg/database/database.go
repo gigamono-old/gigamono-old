@@ -10,7 +10,6 @@ type DB struct {
 	kind DBKind
 }
 
-
 // GetTableName gets a model's real table name.
 func (db *DB) GetTableName(model interface{}) string {
 	stmt := &gorm.Statement{DB: db.DB}

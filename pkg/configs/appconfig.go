@@ -8,11 +8,18 @@ import (
 type AppConfig struct {
 	Model    *models.App
 	Version  uint
-	Kind     string
+	Kind     ConfigKind
 	Metadata struct {
-		Name     string
-		PublicID UUID `mapstructure:"public_id"`
-		Version  string
+		Name          string
+		PublicID      UUID `mapstructure:"public_id"`
+		Version       string
+		Description   string
+		Category      string
+		Tags          []string
+		AvatarID      UUID `mapstructure:"avatar_id"`
+		HomepageURL   string
+		ResourceNouns []string
+		Authors       []Author
 	}
 	Auths struct {
 		OAuth2s []OAuth2
@@ -26,10 +33,13 @@ type AppConfig struct {
 
 // OAuth2 holds the necessary information for getting authorisation via OAuth2.
 type OAuth2 struct {
+	Label                      string
 	Scopes                     []string
 	ShouldRefreshAutomatically bool `mapstructure:"should_refresh_automatically"`
 	Fields                     []struct {
+		Label            string
 		Key              string
+		Tip              string
 		IsRequired       bool      `mapstructure:"is_required"`
 		IsAdministrative bool      `mapstructure:"is_administrative"`
 		InputKind        InputKind `mapstructure:"input_kind"`
@@ -46,7 +56,9 @@ type OAuth2 struct {
 // APIKey holds the necessary information for getting authorisation via api keys.
 type APIKey struct {
 	Fields []struct {
+		Label            string
 		Key              string
+		Tip              string
 		IsRequired       bool      `mapstructure:"is_required"`
 		IsAdministrative bool      `mapstructure:"is_administrative"`
 		InputKind        InputKind `mapstructure:"input_kind"`
@@ -59,14 +71,9 @@ type APIKey struct {
 // Trigger specifies a trigger operation.
 type Trigger struct {
 	Key    string
-	Fields []struct {
-		Key              string
-		IsRequired       bool      `mapstructure:"is_required"`
-		IsWriteOp        bool      `mapstructure:"is_write_op"`
-		IsIdentification bool      `mapstructure:"is_identification"`
-		InputKind        InputKind `mapstructure:"input_kind"`
-		Dropdown         Dropdown
-	}
+	Label  string
+	Tip    string
+	Fields []Field
 	APIs struct {
 		Polls     []Poll
 		RestHooks []RestHook
@@ -76,16 +83,24 @@ type Trigger struct {
 // Action specifies an action operation.
 type Action struct {
 	Key        string
+	Label      string
+	Tip        string
 	ActionKind ActionKind
-	Fields     []struct {
-		Key              string
-		IsRequired       bool      `mapstructure:"is_required"`
-		IsWriteOp        bool      `mapstructure:"is_write_op"`
-		IsIdentification bool      `mapstructure:"is_identification"`
-		InputKind        InputKind `mapstructure:"input_kind"`
-		Dropdown         Dropdown
-	}
+	Fields     []Field
 	API Endpoint
+}
+
+// Field describes an input field.
+type Field struct {
+	Key              string
+	Label            string
+	Tip              string
+	IsRequired       bool `mapstructure:"is_required"`
+	IsWriteOp        bool `mapstructure:"is_write_op"`
+	IsIdentification bool `mapstructure:"is_identification"`
+	ResourceNoun     string
+	InputKind        InputKind `mapstructure:"input_kind"`
+	Dropdown         Dropdown
 }
 
 // Poll describes how a trigger polls data.
