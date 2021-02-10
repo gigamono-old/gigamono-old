@@ -7,8 +7,7 @@ require (
 	github.com/gofrs/uuid v4.0.0+incompatible
 	github.com/joho/godotenv v1.3.0
 	github.com/mitchellh/mapstructure v1.4.1
-	github.com/sageflow/sagedb v0.0.0-20210116121843-2d65a6a1864f
-	github.com/sageflow/sageutils v0.0.0-20210116083915-cd4b1c30f533
+	github.com/sageflow/sagedb v0.0.0-20210117193554-834c3eaadd58
 	github.com/spf13/viper v1.7.1
 	gorm.io/datatypes v1.0.0
 	gorm.io/driver/mysql v1.0.3

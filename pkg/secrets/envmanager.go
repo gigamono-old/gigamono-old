@@ -22,7 +22,7 @@ func NewEnvManager(_ *configs.SageflowConfig) (EnvManager, error) {
 // Get get a secret by its key.
 func (mgr *EnvManager) Get(key string, _ map[string]string) (string, error) {
 	secret := os.Getenv(key)
-	if secret != "" {
+	if secret == "" {
 		return secret, errors.New(fmt.Sprint("Env Secrets Manager: ", key, " env variable is missing or empty"))
 	}
 

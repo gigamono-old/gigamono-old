@@ -23,23 +23,23 @@ type SageflowConfig struct {
 	}
 	Server struct {
 		API struct {
-			Port int8
+			Port int
 		}
 		Engine struct {
-			Port int8
+			Port int
 		}
 		Auth struct {
-			Port int8
+			Port int
 		}
 	}
 	Database struct {
 		Resource struct {
 			URI  string
-			Type string
+			Kind string
 		}
 		Auth struct {
 			URI  string
-			Type string
+			Kind string
 		}
 	}
 	SecretsManager struct {
@@ -78,7 +78,7 @@ func LoadSageflowConfig() (SageflowConfig, error) {
 	}
 
 	// Get file extension and use it to determine config format.
-	format, err := ToConfigFormat(filepath.Ext(path))
+	format, err := ToConfigFormat(filepath.Ext(path)[1:])
 	if err != nil {
 		return SageflowConfig{}, err
 	}

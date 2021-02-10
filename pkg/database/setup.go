@@ -2,10 +2,12 @@ package database
 
 import (
 	"errors"
-	"github.com/sageflow/sageflow/pkg/secrets"
 	"log"
-	"os"
+	"strings"
 	"time"
+
+	"github.com/sageflow/sageflow/pkg/configs"
+	"github.com/sageflow/sageflow/pkg/secrets"
 
 	"github.com/sageflow/sageflow/pkg/logs"
 	"gorm.io/gorm"
@@ -13,21 +15,40 @@ import (
 )
 
 // Connect connects to the appropriate database.
-func Connect(secrets secrets.Manager) (DB, error) {
-	connectionURI, err := secrets.Get("RESOURCE_DB_CONNECTION_URI", make(map[string]string))
-	if err != nil {
-		return DB{}, err
-	}
+func Connect(config *configs.SageflowConfig, secrets secrets.Manager, appKind string) (DB, error) {
+	newLogger := createStatusLogger() // Create a new logger.
+	connectionURI := ""
+	kind := DBKind(-1)
+	var err error
 
-	newLogger := createStatusLogger()
+	switch strings.ToUpper(appKind) {
+	case "RESOURCE":
+		connectionURI, err = secrets.Get("RESOURCE_DB_CONNECTION_URI", make(map[string]string))
+		if err != nil {
+			return DB{}, err
+		}
 
-	kind, err := ToDBKind(os.Getenv("RESOURCE_DB_TYPE"))
-	if err != nil {
-		return DB{}, err
+		kind, err = ToDBKind(config.Database.Resource.Kind)
+		if err != nil {
+			return DB{}, err
+		}
+	case "AUTH":
+		connectionURI, err = secrets.Get("AUTH_DB_CONNECTION_URI", make(map[string]string))
+		if err != nil {
+			return DB{}, err
+		}
+
+		kind, err = ToDBKind(config.Database.Auth.Kind)
+		if err != nil {
+			return DB{}, err
+		}
+	default:
+		return DB{}, errors.New("Unsupported application type for connecting to database. Resource and Auth app types supported at the moment")
 	}
 
 	var db *gorm.DB
 
+	// Connect using teh appropriate driver.
 	switch kind {
 	case POSTGRES:
 		db = ConnectPostgresDB(connectionURI, newLogger)

@@ -30,7 +30,7 @@ func ToConfigFormat(format string) (ConfigFormat, error) {
 	case "TOML":
 		return TOML, nil
 	default:
-		return "", errors.New(fmt.Sprint("Conversion from string", format, "to ConfigFormat not possible"))
+		return "", errors.New(fmt.Sprint("Conversion from string `", format, "` to ConfigFormat not possible"))
 	}
 }
 
