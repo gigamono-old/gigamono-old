@@ -15,7 +15,7 @@ type App struct {
 }
 
 // NewApp is a common initialiser for Sageflow servers.
-func NewApp(appKind string) App {
+func NewApp(appKind string) (App, error) {
 	// Set up log status file.
 	logs.SetStatusLogFile()
 
@@ -34,8 +34,8 @@ func NewApp(appKind string) App {
 	// Connect to database.
 	db, err := database.Connect(&config, secrets, appKind)
 	if err != nil {
-		logs.FmtPrintln("Unable to connect to database:", err)
+		return App{}, err
 	}
 
-	return App{Config: config, Secrets: secrets, DB: db, Kind: appKind}
+	return App{Config: config, Secrets: secrets, DB: db, Kind: appKind}, nil
 }
