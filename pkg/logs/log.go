@@ -5,12 +5,12 @@ import (
 	"log"
 	"fmt"
 
-	"github.com/sageflow/sageutils/pkg/files"
+	"github.com/sageflow/sageflow/pkg/files"
 )
 
 // SetStatusLogFile sets the file where status logs go.
 func SetStatusLogFile() {
-	file, err := OpenLogFile("status.log")
+	file, err := OpenOrCreateLogFile("status.log")
 	if err != nil {
 		log.Printf("Cannot open or create 'logs/status.log' file: %v\nFalling back to stdout/stderr\n", err)
 	}
@@ -18,9 +18,9 @@ func SetStatusLogFile() {
 	log.SetOutput(file)
 }
 
-// OpenLogFile opens/creates log file.
-func OpenLogFile(dest string) (*os.File, error) {
-	return files.OpenFile("logs/"+dest, true)
+// OpenOrCreateLogFile opens/creates log file.
+func OpenOrCreateLogFile(dest string) (*os.File, error) {
+	return files.OpenOrCreateFile("logs/"+dest, true)
 }
 
 // FmtPrintln calls log and fmt Println function.

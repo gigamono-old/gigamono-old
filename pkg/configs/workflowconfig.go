@@ -38,11 +38,11 @@ func NewWorkflowConfig(workflowString string, format ConfigFormat) (WorkflowConf
 	workflow := WorkflowConfig{}
 	reader := strings.NewReader(workflowString)
 
-	// Set viper to parse format.
+	// Set format to parse.
 	viper.SetConfigType(format.String())
 	viper.ReadConfig(reader)
 
-	// Convert format into Workflow object.
+	// Unmarshal string into object.
 	if err := viper.Unmarshal(&workflow, getCustomDecoder()); err != nil {
 		return WorkflowConfig{}, err
 	}

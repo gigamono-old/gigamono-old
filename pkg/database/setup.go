@@ -1,6 +1,8 @@
 package database
 
 import (
+	"errors"
+	"github.com/sageflow/sageflow/pkg/secrets"
 	"log"
 	"os"
 	"time"
@@ -11,13 +13,17 @@ import (
 )
 
 // Connect connects to the appropriate database.
-func Connect() *DB {
-	connectionURI := os.Getenv("RESOURCE_DB_CONNECTION_URI")
+func Connect(secrets secrets.Manager) (DB, error) {
+	connectionURI, err := secrets.Get("RESOURCE_DB_CONNECTION_URI", make(map[string]string))
+	if err != nil {
+		return DB{}, err
+	}
+
 	newLogger := createStatusLogger()
 
 	kind, err := ToDBKind(os.Getenv("RESOURCE_DB_TYPE"))
 	if err != nil {
-		log.Panicf("%v\n", err)
+		return DB{}, err
 	}
 
 	var db *gorm.DB
@@ -30,7 +36,7 @@ func Connect() *DB {
 	case SQLITE3:
 		db = ConnectSQLite3DB(connectionURI, newLogger)
 	default:
-		log.Panic("Unsupported database type\n")
+		return DB{}, errors.New("Unsupported database type")
 	}
 
 	log.Printf(
@@ -39,11 +45,11 @@ func Connect() *DB {
 		db.Migrator().CurrentDatabase(),
 	)
 
-	return &DB{db, kind}
+	return DB{db, kind}, nil
 }
 
 func createStatusLogger() *logger.Interface {
-	file, err := logs.OpenLogFile("status.log")
+	file, err := logs.OpenOrCreateLogFile("status.log")
 	if err != nil {
 		log.Printf("Cannot open or create 'logs/status.log' file: %v\nFalling back to stdout/stderr\n", err)
 	}

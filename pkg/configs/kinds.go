@@ -1,5 +1,11 @@
 package configs
 
+import (
+	"fmt"
+	"errors"
+	"strings"
+)
+
 // ConfigFormat is the different config format supported by Sageflow.
 type ConfigFormat string
 
@@ -12,6 +18,20 @@ const (
 
 func (format *ConfigFormat) String() string {
 	return string(*format)
+}
+
+// ToConfigFormat convert a string to ConfigFormat.
+func ToConfigFormat(format string) (ConfigFormat, error) {
+	switch strings.ToUpper(format) {
+	case "YAML", "YML":
+		return YAML, nil
+	case "JSON":
+		return JSON, nil
+	case "TOML":
+		return TOML, nil
+	default:
+		return "", errors.New(fmt.Sprint("Conversion from string", format, "to ConfigFormat not possible"))
+	}
 }
 
 // ConfigKind represents the kind of config file.
