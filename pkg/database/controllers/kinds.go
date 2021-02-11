@@ -1,4 +1,4 @@
-package database
+package controllers
 
 import (
 	"errors"
@@ -7,8 +7,7 @@ import (
 
 // DBKind represents the type of the database.
 type DBKind int
-
-// DBKind types.
+// ...
 const (
 	POSTGRES DBKind = iota
 	MYSQL
