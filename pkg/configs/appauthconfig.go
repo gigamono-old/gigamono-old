@@ -1,15 +1,15 @@
 package configs
 
-import "github.com/sageflow/sagedb/pkg/models"
+import "github.com/sageflow/sageflow/pkg/database/models/auth"
 
 // AuthInfoConfig contains app-specific information for establishing auth.
 type AuthInfoConfig struct {
-	Model    *models.AuthInfo
-	Version  uint `json:"version"`
+	Model    *auth.AppAuth
+	Version  uint       `json:"version"`
 	Kind     ConfigKind `json:"kind"`
 	Metadata struct {
-		AppName string `mapstructure:"app_name" json:"app_name"`
-		AppID   UUID   `mapstructure:"app_id" json:"app_id"`
+		AppName string   `mapstructure:"app_name" json:"app_name"`
+		AppID   UUID     `mapstructure:"app_id" json:"app_id"`
 		Authors []Author `json:"authors"`
 	} `json:"metadata"`
 	Auths struct {
