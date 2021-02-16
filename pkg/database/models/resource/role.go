@@ -1,8 +1,10 @@
-package models
+package resource
+
+import "github.com/sageflow/sageflow/pkg/database/models"
 
 // Role represents roles with assigned permissions.
 type Role struct {
-	Base
+	models.Base
 	Name           string
 	Description    string
 	XApp           []*App           `gorm:"many2many:apps_x_roles"`

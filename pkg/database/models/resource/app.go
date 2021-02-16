@@ -1,12 +1,13 @@
-package models
+package resource
 
 import (
 	"github.com/gofrs/uuid"
+	"github.com/sageflow/sageflow/pkg/database/models"
 )
 
 // App represents the application a workflow step runs.
 type App struct {
-	Base
+	models.Base
 	Name                string
 	PublicID            uuid.UUID `gorm:"unique; type:uuid"`
 	IsSecurityReviewed  bool

@@ -1,12 +1,13 @@
-package models
+package resource
 
 import (
 	"github.com/gofrs/uuid"
+	"github.com/sageflow/sageflow/pkg/database/models"
 )
 
 // Group represents a group.
 type Group struct {
-	Base
+	models.Base
 	Name        string
 	Avatar32URL string `gorm:"column:avatar_32_url"`
 	CreatorID   uuid.UUID

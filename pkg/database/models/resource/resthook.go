@@ -1,12 +1,13 @@
-package models
+package resource
 
 import (
 	"github.com/gofrs/uuid"
+	"github.com/sageflow/sageflow/pkg/database/models"
 )
 
 // RESTHook represents a webhook used by an app on behalf of a user.
 type RESTHook struct {
-	Base
+	models.Base
 	UserID  uuid.UUID
 	AppID   uuid.UUID
 	HookURL string

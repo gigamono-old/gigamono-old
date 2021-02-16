@@ -1,12 +1,13 @@
-package models
+package resource
 
 import (
 	"github.com/gofrs/uuid"
+	"github.com/sageflow/sageflow/pkg/database/models"
 )
 
 // Profile stores information about the user.
 type Profile struct {
-	Base
+	models.Base
 	Username    string
 	FirstName   string
 	SecondName  string

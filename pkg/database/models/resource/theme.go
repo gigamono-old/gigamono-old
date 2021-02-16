@@ -1,13 +1,14 @@
-package models
+package resource
 
 import (
 	"github.com/gofrs/uuid"
+	"github.com/sageflow/sageflow/pkg/database/models"
 	"gorm.io/datatypes"
 )
 
 // Theme represents a theme used to change the look of the application.
 type Theme struct {
-	Base
+	models.Base
 	Name      string
 	Code      datatypes.JSON
 	PublicID  uuid.UUID `gorm:"unique; type:uuid"`

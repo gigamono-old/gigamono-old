@@ -1,10 +1,13 @@
-package models
+package resource
 
-import "github.com/gofrs/uuid"
+import (
+	"github.com/gofrs/uuid"
+	"github.com/sageflow/sageflow/pkg/database/models"
+)
 
 // User stores information about the user.
 type User struct {
-	Base
+	models.Base
 	PasswordCredID uuid.UUID `gorm:"unique; type:uuid"`
 	Profile        Profile
 	SocialLogin    SocialLogin
