@@ -6,33 +6,40 @@ import (
 	"strconv"
 
 	"github.com/sageflow/sageflow/internal/db/migrations"
-	"github.com/sageflow/sageflow/pkg/database"
-	"github.com/sageflow/sageflow/pkg/envs"
+	"github.com/sageflow/sageflow/pkg/inits"
 	"github.com/sageflow/sageflow/pkg/logs"
 )
 
 func main() {
 	var up, down bool
 	var upTo, downTo int
+	var appKind string
 
 	// Set args.
 	flag.BoolVar(&up, "up", false, "Migrate the DB to the most recent version available\n")
 	flag.BoolVar(&down, "down", false, "Roll back the version by 1\n")
 	flag.IntVar(&upTo, "up-to", 0, "Migrate the DB to a specific VERSION\n")
 	flag.IntVar(&downTo, "down-to", 0, "Roll back to a specific VERSION\n")
+	flag.StringVar(&appKind, "kind", "", "Specify the application kind (resource or auth)\n")
+	flag.StringVar(&appKind, "k", "", "Specify the application kind (resource or auth)\n")
 	flag.Parse()
 
-	// Set up log status file and load .env file.
-	logs.SetStatusLogFile()
-	envs.LoadEnvFile()
+	// Set default app kind.
+	if appKind == "" {
+		appKind = "Resource"
+	}
 
-	// Connect to database.
-	db := database.Connect()
+	// Initialise app.
+	app, err := inits.NewApp(appKind)
+	if err != nil {
+		logs.FmtPrintln(err)
+		return
+	}
 
-	// Get all migrations. Create migrations table if one does not exist.
-	migrator := migrations.PrepareMigrations(db)
+	// Create a migrator.
+	migrator := migrations.NewMigrator(&app.DB, appKind)
 
-	log.Println("Last migration =", migrations.GetLastMigration(db))
+	log.Println("Last migration =", migrations.GetLastMigration(&app.DB))
 
 	if up {
 		if err := migrator.Migrate(); err != nil {

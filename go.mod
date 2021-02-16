@@ -8,6 +8,7 @@ require (
 	github.com/joho/godotenv v1.3.0
 	github.com/mitchellh/mapstructure v1.4.1
 	github.com/sageflow/sagedb v0.0.0-20210117193554-834c3eaadd58
+	github.com/sageflow/sageutils v0.0.0-20210117193611-dead46f2eee1 // indirect
 	github.com/spf13/viper v1.7.1
 	gorm.io/datatypes v1.0.0
 	gorm.io/driver/mysql v1.0.3

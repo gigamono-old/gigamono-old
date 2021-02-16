@@ -1,18 +1,33 @@
 package migrations
 
 import (
+	"strings"
+
 	"github.com/go-gormigrate/gormigrate/v2"
+	"github.com/sageflow/sageflow/internal/db/migrations/auth"
+	"github.com/sageflow/sageflow/internal/db/migrations/resource"
 	"github.com/sageflow/sageflow/pkg/database"
 )
 
-// PrepareMigrations prepares all migrations.
-func PrepareMigrations(db *database.DB) *gormigrate.Gormigrate {
+// NewMigrator prepares migrations and creates a new migrator.
+func NewMigrator(db *database.DB, appKind string) *gormigrate.Gormigrate {
 	// If table is missing on down migration, gormigrate returns an error.
 	// So this is to make sure a migrations table is always present.
 	createMigrationsTable(db)
-	return gormigrate.New(db.DB, gormigrate.DefaultOptions, []*gormigrate.Migration{
-		InitialTables1(),
-	})
+
+	var migrator *gormigrate.Gormigrate
+	switch strings.ToUpper(appKind) {
+	case "AUTH":
+		migrator = gormigrate.New(db.DB, gormigrate.DefaultOptions, []*gormigrate.Migration{
+			auth.InitialTables1(),
+		})
+	default:
+		migrator = gormigrate.New(db.DB, gormigrate.DefaultOptions, []*gormigrate.Migration{
+			resource.InitialTables1(),
+		})
+	}
+
+	return migrator
 }
 
 // RollbackAll rolls back all migrations. The function is not provided by gormigrate.

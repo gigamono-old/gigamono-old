@@ -3,40 +3,64 @@ package seeds
 import (
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/gofrs/uuid"
 
+	"github.com/sageflow/sageflow/internal/db/seeds/common"
+	"github.com/sageflow/sageflow/internal/db/seeds/resource"
 	"github.com/sageflow/sageflow/pkg/database"
-	"github.com/sageflow/sageflow/pkg/database/models"
 )
 
-// Seed represents a seed in the database.
-type Seed struct {
-	models.Base
-	TableName string
-	SeedID    uuid.UUID `gorm:"type:uuid"`
+// Loader represent a pair of fake data generating function and its generated ids.
+type Loader = struct {
+	lambda func(*database.DB, int) ([]uuid.UUID, error)
+	ids    []uuid.UUID
+}
+
+// Seeder represents a seeder instance.
+type Seeder struct {
+	DB          *database.DB
+	appKind     string
+	tableLoader map[string]Loader
+}
+
+// NewSeeder creates a new seeder.
+func NewSeeder(db *database.DB, appKind string) Seeder {
+	tableLoader := make(map[string]Loader)
+
+	switch strings.ToUpper(appKind) {
+	case "AUTH":
+	default:
+		tableLoader["users"] = Loader{
+			lambda: resource.LoadFakeUsers,
+			ids:    []uuid.UUID{},
+		}
+	}
+	return Seeder{DB: db, appKind: appKind, tableLoader: tableLoader}
 }
 
 // AddAll adds all seed data to the DB.
-func AddAll(db *database.DB) error {
+func (seeder *Seeder) AddAll() error {
 	var err error
 
 	// Creates seeds table if one does not exist.
-	if err = createSeedsTable(db); err != nil {
+	if err = seeder.createSeedsTable(); err != nil {
 		return err
 	}
 
-	// Load user seeds to the database.
-	if err = loadUsers(db); err != nil {
-		return err
+	for tableName := range seeder.tableLoader {
+		if err := seeder.Add(tableName); err != nil {
+			return err
+		}
 	}
 
 	return nil
 }
 
 // RemoveAll removes all seed data in the DB.
-func RemoveAll(db *database.DB) error {
-	tableNames, err := getSeedTableNames(db)
+func (seeder *Seeder) RemoveAll() error {
+	tableNames, err := seeder.getSeedTableNames()
 	if err != nil {
 		return err
 	}
@@ -46,44 +70,42 @@ func RemoveAll(db *database.DB) error {
 	for tableName := range tableNames {
 		// Delete seeds in a specified table.
 		// Sec: TODO: Need to remove concat. Gorm currently doesn't handle table name escaping well.
-		db.Exec(
+		seeder.DB.Exec(
 			"DELETE FROM "+tableName+" WHERE id IN (SELECT seed_id FROM seeds WHERE table_name = ?)",
 			tableName,
 		)
 
 		// Delete rows associated with a specified table in seeds table.
-		db.Exec("DELETE FROM seeds WHERE table_name = ?", tableName)
+		seeder.DB.Exec("DELETE FROM seeds WHERE table_name = ?", tableName)
 	}
 
 	return nil
 }
 
 // Add adds seed data for a table to the DB.
-func Add(db *database.DB, tableName string) error {
+func (seeder *Seeder) Add(tableName string) error {
 	var err error
 
 	// Creates seeds table if one does not exist.
-	if err = createSeedsTable(db); err != nil {
+	if err = seeder.createSeedsTable(); err != nil {
 		return err
 	}
 
-	// Load specified table with seeds.
-	switch tableName {
-	case "users":
-		if err = loadUsers(db); err != nil {
-			return err
-		}
-
-	default:
-		return errors.New("Table not seeded (Perhaps table name not updated)")
+	// Get fake data loader from map.
+	loader := seeder.tableLoader[tableName]
+	if loader.lambda == nil {
+		return errors.New("Specified table name does not exist in seed list")
 	}
 
-	return nil
+	// Generate fake data.
+	loader.ids, err = loader.lambda(seeder.DB, 10)
+
+	return err
 }
 
 // Remove removes seed data for a table in the DB.
-func Remove(db *database.DB, tableName string) error {
-	tableNames, err := getSeedTableNames(db)
+func (seeder *Seeder) Remove(tableName string) error {
+	tableNames, err := seeder.getSeedTableNames()
 	if err != nil {
 		return err
 	}
@@ -94,13 +116,13 @@ func Remove(db *database.DB, tableName string) error {
 
 		// Delete seeds in a specified table.
 		// Sec: TODO: Need to remove concat. Gorm currently doesn't handle table name escaping well.
-		db.Exec(
+		seeder.DB.Exec(
 			"DELETE FROM "+tableName+" WHERE id IN (SELECT seed_id FROM seeds WHERE table_name = ?)",
 			tableName,
 		)
 
 		// Delete rows associated with a specified table in seeds table.
-		db.Exec("DELETE FROM seeds WHERE table_name = ?", tableName)
+		seeder.DB.Exec("DELETE FROM seeds WHERE table_name = ?", tableName)
 
 	}
 
@@ -108,34 +130,19 @@ func Remove(db *database.DB, tableName string) error {
 }
 
 // createSeedsTable creates seeds table if one does not exist.
-func createSeedsTable(db *database.DB) error {
-	migr := db.Migrator()
+func (seeder *Seeder) createSeedsTable() error {
+	migr := seeder.DB.Migrator()
 
-	if !migr.HasTable(&Seed{}) {
-		return migr.CreateTable(&Seed{})
+	if !migr.HasTable(&common.Seed{}) {
+		return migr.CreateTable(&common.Seed{})
 	}
 
 	return nil
 }
 
-// generateUUIDs generates random UUIDs.
-func generateUUIDs(count int) ([]uuid.UUID, error) {
-	var err error
-	uuids := make([]uuid.UUID, count)
-
-	for i := 0; i < count; i++ {
-		uuids[i], err = uuid.NewV4()
-		if err != nil {
-			return []uuid.UUID{}, err
-		}
-	}
-
-	return uuids, nil
-}
-
 // getSeedTableNames gets all tables with seeds.
-func getSeedTableNames(db *database.DB) (map[string]struct{}, error) {
-	rows, err := db.Table("seeds").
+func (seeder *Seeder) getSeedTableNames() (map[string]struct{}, error) {
+	rows, err := seeder.DB.Table("seeds").
 		Distinct("table_name").
 		Select("table_name").
 		Rows()
@@ -147,6 +154,7 @@ func getSeedTableNames(db *database.DB) (map[string]struct{}, error) {
 	// Using maps instead of array because it make checking for "contains" easy.
 	tableNames := map[string]struct{}{}
 	defer rows.Close()
+
 	for rows.Next() {
 		var tableName string
 		rows.Scan(&tableName)
@@ -154,22 +162,4 @@ func getSeedTableNames(db *database.DB) (map[string]struct{}, error) {
 	}
 
 	return tableNames, nil
-}
-
-// loadUsers loads seeds into the users table.
-func loadUsers(db *database.DB) error {
-	users, err := FakeUsers(10)
-	if err != nil {
-		return err
-	}
-
-	for _, user := range users {
-		db.Create(&user)
-		db.Create(&Seed{
-			TableName: db.GetTableName(user),
-			SeedID:    user.ID,
-		})
-	}
-
-	return nil
 }

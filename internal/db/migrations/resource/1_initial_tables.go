@@ -1,4 +1,4 @@
-package migrations
+package resource
 
 import (
 	"time"
@@ -12,7 +12,7 @@ import (
 // InitialTables1 returns the migration for creating the initial table.
 func InitialTables1() *gormigrate.Migration {
 	return &gormigrate.Migration{
-		ID: "1",
+		ID: "1_initial_tables",
 		Migrate: func(tx *gorm.DB) error {
 			return tx.AutoMigrate(
 				&Workspace{},
@@ -26,7 +26,6 @@ func InitialTables1() *gormigrate.Migration {
 				&Engine{},
 				&Workflow{},
 				&Account{},
-				&AuthInfo{},
 				&App{},
 				&Theme{},
 				&RESTHook{},
@@ -39,7 +38,6 @@ func InitialTables1() *gormigrate.Migration {
 				"access_controls",
 				"accounts",
 				"apps",
-				"auth_infos",
 				"engines",
 				"folders",
 				"groups",
@@ -107,14 +105,6 @@ type App struct {
 	RESTHook            []RESTHook
 	XRole               []*Role    `gorm:"many2many:apps_x_roles"`
 	XAccount            []*Account `gorm:"many2many:apps_x_accounts"`
-}
-
-// AuthInfo ...
-type AuthInfo struct {
-	Base
-	Name string
-	Code datatypes.JSON
-	App  App
 }
 
 // Engine ...
@@ -227,12 +217,11 @@ type Workflow struct {
 	Code             datatypes.JSON
 	IsActive         bool
 	IsDraft          bool
-	FolderID         uuid.UUID
-	CreatorID        uuid.UUID
+	FolderID         *uuid.UUID
+	CreatorID        *uuid.UUID
 	WorkflowInstance []WorkflowInstance
 	XRole            []*Role `gorm:"many2many:workflows_x_roles"`
 }
-
 
 // WorkflowInstance ...
 type WorkflowInstance struct {
