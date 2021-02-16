@@ -12,39 +12,30 @@ import (
 )
 
 // SageflowConfig holds Sageflow configurations.
+// Sec: Secrets shouldn't be stored in this file.
 type SageflowConfig struct {
-	Version  uint
-	Kind     ConfigKind
+	Version  uint `json:"version"`
+	Kind     ConfigKind `json:"kind"`
 	Metadata struct {
-		Authors []Author
-	}
+		Authors []Author `json:"authors"`
+	} `json:"metdata"`
 	Execution struct {
-		UseSubprocess bool `mapstructure:"use_subprocess"`
-	}
+		UseSubprocess bool `mapstructure:"use_subprocess" json:"use_subprocess"`
+	} `json:"execution"`
 	Server struct {
 		API struct {
-			Port int
-		}
+			Port int `json:"port"`
+		} `json:"api"`
 		Engine struct {
-			Port int
-		}
+			Port int `json:"port"`
+		} `json:"engine"`
 		Auth struct {
-			Port int
-		}
-	}
-	Database struct {
-		Resource struct {
-			URI  string
-			Kind string
-		}
-		Auth struct {
-			URI  string
-			Kind string
-		}
-	}
+			Port int `json:"port"`
+		} `json:"auth"`
+	} `json:"server"`
 	SecretsManager struct {
 		kind string
-	} `mapstructure:"secrets_manager"`
+	} `mapstructure:"secrets_manager" json:"secrets_manager"`
 }
 
 // NewSageflowConfig creates a SageflowConfig from string. Supports JSON, TOML and YAML string format.
@@ -53,11 +44,12 @@ func NewSageflowConfig(sageflowString string, format ConfigFormat) (SageflowConf
 	reader := strings.NewReader(sageflowString)
 
 	// Set format to parse.
-	viper.SetConfigType(format.String())
-	viper.ReadConfig(reader)
+	converter := viper.New()
+	converter.SetConfigType(format.String())
+	converter.ReadConfig(reader)
 
 	// Unmarshal string into object.
-	if err := viper.Unmarshal(&config); err != nil {
+	if err := converter.Unmarshal(&config); err != nil {
 		return SageflowConfig{}, err
 	}
 
