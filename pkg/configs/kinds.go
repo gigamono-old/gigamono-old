@@ -42,7 +42,7 @@ const (
 	APP      ConfigKind = "APP"
 	WORKFLOW ConfigKind = "WORKFLOW"
 	SAGEFLOW ConfigKind = "SAGEFLOW"
-	AUTHINFO ConfigKind = "AUTHINFO"
+	APPAUTH ConfigKind = "APPAUTH"
 )
 
 // ExecutionContext refers to how the engine is going to run each task.

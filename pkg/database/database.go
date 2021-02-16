@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/sageflow/sageflow/pkg/configs"
-	"github.com/sageflow/sageflow/pkg/database/controllers"
 	"github.com/sageflow/sageflow/pkg/secrets"
 
 	"github.com/sageflow/sageflow/pkg/logs"
@@ -15,36 +14,36 @@ import (
 	"gorm.io/gorm/logger"
 )
 
-// DB wraps controllers.DB
+// DB contains a db connection.
 type DB struct {
-	controllers.DB
+	*gorm.DB
+	Kind DBKind
+}
+
+// GetTableName gets a model's real table name.
+func (db *DB) GetTableName(model interface{}) string {
+	stmt := &gorm.Statement{DB: db.DB}
+	stmt.Parse(model)
+	return stmt.Schema.Table
 }
 
 // Connect connects to the appropriate database.
 func Connect(config *configs.SageflowConfig, secrets secrets.Manager, appKind string) (DB, error) {
 	newLogger := createStatusLogger() // Create a new logger.
-	connectionURI := ""
-	kind := controllers.DBKind(-1)
+	kind := DBKind(-1)
+	var connectionURI string
 	var err error
+	var db *gorm.DB
 
+	// Choose appropriate URI to use.
 	switch strings.ToUpper(appKind) {
-	case "RESOURCE":
-		connectionURI, err = secrets.Get("RESOURCE_DB_CONNECTION_URI", make(map[string]string))
-		if err != nil {
-			return DB{}, err
-		}
-
-		kind, err = controllers.ToDBKind(config.Database.Resource.Kind)
+	case "RESOURCE", "RES":
+		connectionURI, err = secrets.Get("RESOURCE_DB_CONNECTION_URI")
 		if err != nil {
 			return DB{}, err
 		}
 	case "AUTH":
-		connectionURI, err = secrets.Get("AUTH_DB_CONNECTION_URI", make(map[string]string))
-		if err != nil {
-			return DB{}, err
-		}
-
-		kind, err = controllers.ToDBKind(config.Database.Auth.Kind)
+		connectionURI, err = secrets.Get("AUTH_DB_CONNECTION_URI")
 		if err != nil {
 			return DB{}, err
 		}
@@ -52,15 +51,23 @@ func Connect(config *configs.SageflowConfig, secrets secrets.Manager, appKind st
 		return DB{}, errors.New("Unsupported application type for connecting to database. Resource and Auth app types supported at the moment")
 	}
 
-	var db *gorm.DB
+	// Get the db kind from connection URI.
+	if index := strings.IndexByte(connectionURI, ':'); index >= 0 {
+		kind, err = ToDBKind(connectionURI[:index])
+		if err != nil {
+			return DB{}, err
+		}
+	} else {
+		return DB{}, errors.New("Invalid connection URI: No semi-colon in URI")
+	}
 
-	// Connect using teh appropriate driver.
+	// Connect using the appropriate driver.
 	switch kind {
-	case controllers.POSTGRES:
+	case POSTGRES:
 		db = ConnectPostgresDB(connectionURI, newLogger)
-	case controllers.MYSQL:
+	case MYSQL:
 		db = ConnectMySQLDB(connectionURI, newLogger)
-	case controllers.SQLITE3:
+	case SQLITE3:
 		db = ConnectSQLite3DB(connectionURI, newLogger)
 	default:
 		return DB{}, errors.New("Unsupported database type")
@@ -73,10 +80,8 @@ func Connect(config *configs.SageflowConfig, secrets secrets.Manager, appKind st
 	)
 
 	return DB{
-		controllers.DB{
-			DB: db,
-			Kind: kind,
-		},
+		DB: db,
+		Kind: kind,
 	}, nil
 }
 

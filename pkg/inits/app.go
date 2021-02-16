@@ -22,7 +22,7 @@ func NewApp(appKind string) (App, error) {
 	// Load sageflow config file.
 	config, err := configs.LoadSageflowConfig()
 	if err != nil {
-		logs.FmtPrintln("Unable to load config file:", err)
+		logs.FmtPrintln("Unable to load sageflow config file from env var `SAGEFLOW_CONFIG_FILE`:", err)
 	}
 
 	// Set up secret manager,
