@@ -1,8 +1,8 @@
 package configs
 
 import (
-	"fmt"
 	"errors"
+	"fmt"
 	"strings"
 )
 
@@ -39,10 +39,10 @@ type ConfigKind string
 
 // ...
 const (
-	APP      ConfigKind = "APP"
-	WORKFLOW ConfigKind = "WORKFLOW"
-	SAGEFLOW ConfigKind = "SAGEFLOW"
-	APPAUTH ConfigKind = "APPAUTH"
+	APP            ConfigKind = "APP"
+	WORKFLOW       ConfigKind = "WORKFLOW"
+	SAGEFLOW       ConfigKind = "SAGEFLOW"
+	APP_CREDENTIALS ConfigKind = "APP_CREDENTIALS"
 )
 
 // ExecutionContext refers to how the engine is going to run each task.

@@ -16,14 +16,14 @@ func InitialTables1() *gormigrate.Migration {
 		Migrate: func(tx *gorm.DB) error {
 			return tx.AutoMigrate(
 				&AccessToken{},
-				&AppAuth{},
+				&AppCredentials{},
 				&Password{},
 			)
 		},
 		Rollback: func(tx *gorm.DB) error {
 			return tx.Migrator().DropTable(
 				"access_tokens",
-				"app_auths",
+				"app_credentials",
 				"passwords",
 			)
 		},
@@ -46,8 +46,8 @@ type AccessToken struct {
 	EncryptedAccessToken string // Sec: Encrypted with AUTH_SECRET_KEY
 }
 
-// AppAuth ...
-type AppAuth struct {
+// AppCredentials ...
+type AppCredentials struct {
 	Base
 	Name  string
 	Code  datatypes.JSON

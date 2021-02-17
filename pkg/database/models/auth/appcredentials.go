@@ -6,8 +6,8 @@ import (
 	"gorm.io/datatypes"
 )
 
-// AppAuth represents information an application needs for administrative authentication.
-type AppAuth struct {
+// AppCredentials represents information an application needs for administrative authentication.
+type AppCredentials struct {
 	models.Base
 	Name  string
 	Code  datatypes.JSON
