@@ -36,6 +36,10 @@ func NewSeeder(db *database.DB, appKind string) Seeder {
 			lambda: resource.LoadFakeUsers,
 			ids:    []uuid.UUID{},
 		}
+		tableLoader["profiles"] = Loader{
+			lambda: resource.LoadFakeProfiles,
+			ids:    []uuid.UUID{},
+		}
 	}
 	return Seeder{DB: db, appKind: appKind, tableLoader: tableLoader}
 }

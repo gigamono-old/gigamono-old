@@ -148,7 +148,7 @@ type Profile struct {
 	Base
 	Username    string
 	FirstName   string
-	SecondName  string
+	LastName  string
 	Email       string
 	Avatar32URL string `gorm:"column:avatar_32_url"`
 	UserID      uuid.UUID
@@ -194,7 +194,7 @@ type Theme struct {
 // User ...
 type User struct {
 	Base
-	PasswordCredID uuid.UUID `gorm:"unique; type:uuid"`
+	PasswordCredID *uuid.UUID `gorm:"unique; type:uuid"`
 	Profile        Profile
 	SocialLogin    SocialLogin
 	Account        []Account

@@ -8,7 +8,7 @@ import (
 // User stores information about the user.
 type User struct {
 	models.Base
-	PasswordCredID uuid.UUID `gorm:"unique; type:uuid"`
+	PasswordCredID *uuid.UUID `gorm:"unique; type:uuid"`
 	Profile        Profile
 	SocialLogin    SocialLogin
 	Account        []Account

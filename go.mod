@@ -3,6 +3,7 @@ module github.com/sageflow/sageflow
 go 1.15
 
 require (
+	github.com/brianvoe/gofakeit/v6 v6.1.1
 	github.com/go-gormigrate/gormigrate/v2 v2.0.0
 	github.com/gofrs/uuid v4.0.0+incompatible
 	github.com/joho/godotenv v1.3.0
