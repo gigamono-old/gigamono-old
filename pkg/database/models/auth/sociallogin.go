@@ -1,4 +1,4 @@
-package resource
+package auth
 
 import (
 	"github.com/gofrs/uuid"
@@ -8,6 +8,6 @@ import (
 // SocialLogin for social login information.
 type SocialLogin struct {
 	models.Base
-	AppName string
-	UserID  uuid.UUID
+	AppName       string
+	UserAccountID uuid.UUID
 }

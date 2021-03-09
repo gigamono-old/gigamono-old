@@ -1,13 +1,10 @@
 package resource
 
 import (
-	"fmt"
-
 	"github.com/gofrs/uuid"
-	"github.com/sageflow/sagedb/pkg/database"
+	"github.com/sageflow/sageflow/pkg/database"
 	"github.com/sageflow/sageflow/pkg/database/models/resource"
 	"gorm.io/datatypes"
-	"gorm.io/gorm"
 )
 
 // CreateWorkflow creates a workflow.
@@ -32,17 +29,9 @@ func CreateWorkflow(
 		CreatorID: creatorID,
 	}
 
-	fmt.Println("workflow >>>", workflow)
-
-	stmt := db.Session(&gorm.Session{DryRun: true}).Create(&workflow).Statement
-	fmt.Println("SQL >>>", stmt.SQL.String())
-	fmt.Println("SQL Vars >>>", stmt.Vars)
-
 	if err := db.Create(&workflow).Error; err != nil {
 		return resource.Workflow{}, err
 	}
-
-	fmt.Println("created workflow >>>", workflow)
 
 	return workflow, nil
 }

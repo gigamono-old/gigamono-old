@@ -10,7 +10,7 @@ type User struct {
 	models.Base
 	PasswordCredID *uuid.UUID `gorm:"unique; type:uuid"`
 	Profile        Profile
-	SocialLogin    SocialLogin
+	RefreshToken   string // JWT.1.R
 	Account        []Account
 	RESTHook       []RESTHook
 	AppID          []App        `gorm:"foreignKey:CreatorID"`

@@ -3,11 +3,11 @@ package resource
 import (
 	"errors"
 
+	"github.com/brianvoe/gofakeit/v6"
 	"github.com/gofrs/uuid"
 	"github.com/sageflow/sageflow/internal/db/seeds/common"
 	"github.com/sageflow/sageflow/pkg/database"
 	"github.com/sageflow/sageflow/pkg/database/models/resource"
-	"github.com/brianvoe/gofakeit/v6"
 )
 
 // LoadFakeProfiles loads fake user profiles
@@ -31,10 +31,10 @@ func LoadFakeProfiles(db *database.DB, count int) ([]uuid.UUID, error) {
 		profile := resource.Profile{
 			Username:    faker.Username(),
 			FirstName:   faker.FirstName(),
-			LastName:  faker.LastName(),
+			LastName:    faker.LastName(),
 			Email:       faker.Email(),
 			Avatar32URL: faker.URL(),
-			UserID: users[i].ID,
+			UserID:      users[i].ID,
 		}
 
 		profile.ID = uuids[i]

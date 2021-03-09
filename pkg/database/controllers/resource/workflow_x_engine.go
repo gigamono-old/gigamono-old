@@ -1,7 +1,7 @@
 package resource
 
 import (
-	"github.com/sageflow/sagedb/pkg/database"
+	"github.com/sageflow/sageflow/pkg/database"
 	"github.com/sageflow/sageflow/pkg/database/models/resource"
 )
 

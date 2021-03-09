@@ -10,7 +10,7 @@ type Profile struct {
 	models.Base
 	Username    string
 	FirstName   string
-	LastName  string
+	LastName    string
 	Email       string
 	Avatar32URL string `gorm:"column:avatar_32_url"`
 	UserID      uuid.UUID

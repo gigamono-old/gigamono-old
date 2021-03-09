@@ -2,8 +2,8 @@ package configs
 
 import "github.com/sageflow/sageflow/pkg/database/models/auth"
 
-// AuthInfoConfig contains app-specific information for establishing auth.
-type AuthInfoConfig struct {
+// AppCredentialsConfig contains app-specific information for establishing auth.
+type AppCredentialsConfig struct {
 	Model    *auth.AppCredentials
 	Version  uint       `json:"version"`
 	Kind     ConfigKind `json:"kind"`

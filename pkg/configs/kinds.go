@@ -2,7 +2,6 @@ package configs
 
 import (
 	"errors"
-	"fmt"
 	"strings"
 )
 
@@ -30,7 +29,7 @@ func ToConfigFormat(format string) (ConfigFormat, error) {
 	case "TOML":
 		return TOML, nil
 	default:
-		return "", errors.New(fmt.Sprint("Conversion from string `", format, "` to ConfigFormat not possible"))
+		return "", errors.New("Conversion from string `" + format + "` to ConfigFormat not possible")
 	}
 }
 
@@ -42,7 +41,7 @@ const (
 	APP            ConfigKind = "APP"
 	WORKFLOW       ConfigKind = "WORKFLOW"
 	SAGEFLOW       ConfigKind = "SAGEFLOW"
-	APP_CREDENTIALS ConfigKind = "APP_CREDENTIALS"
+	APPCREDENTIALS ConfigKind = "APPCREDENTIALS"
 )
 
 // ExecutionContext refers to how the engine is going to run each task.

@@ -17,14 +17,18 @@ func InitialTables1() *gormigrate.Migration {
 			return tx.AutoMigrate(
 				&AccessToken{},
 				&AppCredentials{},
-				&Password{},
+				&ClientAccount{},
+				&SocialLogin{},
+				&UserAccount{},
 			)
 		},
 		Rollback: func(tx *gorm.DB) error {
 			return tx.Migrator().DropTable(
 				"access_tokens",
 				"app_credentials",
-				"passwords",
+				"client_acounts",
+				"social_logins",
+				"user_acounts",
 			)
 		},
 	}
@@ -54,10 +58,30 @@ type AppCredentials struct {
 	AppID uuid.UUID
 }
 
-// Password ...
-type Password struct {
+// ClientAccount ...
+type ClientAccount struct {
 	Base
-	OwnerID           uuid.UUID
-	EncryptedPassword string
+	ClientID              uuid.UUID // Public-facing ID // SecureRandom.hex(32)
+	EncryptedClientSecret string    // For verifying client // UUID
+	Kind                  string    // Confidential or Public
+	RedirectURI           string
+	IsFirstParty          bool
 }
 
+// SocialLogin ...
+type SocialLogin struct {
+	Base
+	AppName       string
+	UserAccountID uuid.UUID
+}
+
+// UserAccount ...
+type UserAccount struct {
+	Base
+	ResourceUserID    uuid.UUID
+	EncryptedPassword string
+	Username          string
+	Email             string
+	RefreshToken      string
+	SocialLogin       SocialLogin
+}

@@ -18,7 +18,6 @@ func InitialTables1() *gormigrate.Migration {
 				&Workspace{},
 				&User{},
 				&Profile{},
-				&SocialLogin{},
 				&Group{},
 				&AccessControl{},
 				&Role{},
@@ -43,7 +42,6 @@ func InitialTables1() *gormigrate.Migration {
 				"groups",
 				"profiles",
 				"roles",
-				"social_logins",
 				"themes",
 				"workflows",
 				"workspaces",
@@ -148,7 +146,7 @@ type Profile struct {
 	Base
 	Username    string
 	FirstName   string
-	LastName  string
+	LastName    string
 	Email       string
 	Avatar32URL string `gorm:"column:avatar_32_url"`
 	UserID      uuid.UUID
@@ -174,13 +172,6 @@ type Role struct {
 	XWorkflow      []*Workflow      `gorm:"many2many:workflows_x_roles"`
 }
 
-// SocialLogin ...
-type SocialLogin struct {
-	Base
-	AppName string
-	UserID  uuid.UUID
-}
-
 // Theme ...
 type Theme struct {
 	Base
@@ -196,7 +187,7 @@ type User struct {
 	Base
 	PasswordCredID *uuid.UUID `gorm:"unique; type:uuid"`
 	Profile        Profile
-	SocialLogin    SocialLogin
+	RefreshToken   string // JWT.1.R
 	Account        []Account
 	RESTHook       []RESTHook
 	AppID          []App        `gorm:"foreignKey:CreatorID"`

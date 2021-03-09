@@ -1,7 +1,7 @@
 package resource
 
 import (
-	"github.com/sageflow/sagedb/pkg/database"
+	"github.com/sageflow/sageflow/pkg/database"
 	"github.com/sageflow/sageflow/pkg/database/models/resource"
 )
 
@@ -12,7 +12,7 @@ func CreateUnprotectedUserWithProfile(
 	db *database.DB,
 	username string,
 	firstName string,
-	secondName string,
+	lastName string,
 	email string,
 	avatar32URL string,
 ) (resource.User, resource.Profile, error) {
@@ -25,7 +25,7 @@ func CreateUnprotectedUserWithProfile(
 	profile := resource.Profile{
 		Username:    username,
 		FirstName:   firstName,
-		SecondName:  secondName,
+		LastName:    lastName,
 		Email:       email,
 		Avatar32URL: avatar32URL,
 		UserID:      user.ID,

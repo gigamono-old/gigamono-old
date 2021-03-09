@@ -14,7 +14,7 @@ import (
 // SageflowConfig holds Sageflow configurations.
 // Sec: Secrets shouldn't be stored in this file.
 type SageflowConfig struct {
-	Version  uint `json:"version"`
+	Version  uint       `json:"version"`
 	Kind     ConfigKind `json:"kind"`
 	Metadata struct {
 		Authors []Author `json:"authors"`

@@ -2,7 +2,6 @@ package secrets
 
 import (
 	"errors"
-	"fmt"
 	"os"
 
 	"github.com/sageflow/sageflow/pkg/configs"
@@ -23,7 +22,7 @@ func NewEnvManager(_ *configs.SageflowConfig) (EnvManager, error) {
 func (mgr *EnvManager) Get(key string, _ ...interface{}) (string, error) {
 	secret := os.Getenv(key)
 	if secret == "" {
-		return secret, errors.New(fmt.Sprint("Env Secrets Manager: ", key, " env variable is missing or empty"))
+		return secret, errors.New("Env Secrets Manager: " + key + " env variable is missing or empty")
 	}
 
 	return secret, nil

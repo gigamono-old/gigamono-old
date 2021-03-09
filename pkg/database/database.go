@@ -80,7 +80,7 @@ func Connect(config *configs.SageflowConfig, secrets secrets.Manager, appKind st
 	)
 
 	return DB{
-		DB: db,
+		DB:   db,
 		Kind: kind,
 	}, nil
 }

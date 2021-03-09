@@ -13,4 +13,3 @@ type AppCredentials struct {
 	Code  datatypes.JSON
 	AppID uuid.UUID
 }
-
