@@ -20,8 +20,8 @@ func main() {
 	flag.BoolVar(&down, "down", false, "Roll back the version by 1\n")
 	flag.IntVar(&upTo, "up-to", 0, "Migrate the DB to a specific VERSION\n")
 	flag.IntVar(&downTo, "down-to", 0, "Roll back to a specific VERSION\n")
-	flag.StringVar(&appKind, "kind", "", "Specify the application kind (resource or auth)\n")
-	flag.StringVar(&appKind, "k", "", "Specify the application kind (resource or auth)\n")
+	flag.StringVar(&appKind, "type", "", "Specify the application kind (resource or auth)\n")
+	flag.StringVar(&appKind, "t", "", "Specify the application kind (resource or auth)\n")
 	flag.Parse()
 
 	// Set default app kind.

@@ -87,7 +87,7 @@ type AccessControl struct {
 type Account struct {
 	Base
 	UserID            uuid.UUID
-	AccessTokenCredID uuid.UUID `gorm:"unique; type:uuid"`
+	AuthAccessTokenID uuid.UUID `gorm:"unique; type:uuid"`
 	XApp              []*App    `gorm:"many2many:apps_x_accounts"`
 }
 
@@ -185,20 +185,20 @@ type Theme struct {
 // User ...
 type User struct {
 	Base
-	PasswordCredID *uuid.UUID `gorm:"unique; type:uuid"`
-	Profile        Profile
-	RefreshToken   string // JWT.1.R
-	Account        []Account
-	RESTHook       []RESTHook
-	AppID          []App        `gorm:"foreignKey:CreatorID"`
-	Group          []Group      `gorm:"foreignKey:CreatorID"`
-	Workflow       []Workflow   `gorm:"foreignKey:CreatorID"`
-	Workspace      []Workspace  `gorm:"foreignKey:CreatorID"`
-	Folder         []Folder     `gorm:"foreignKey:CreatorID"`
-	Theme          []Theme      `gorm:"foreignKey:CreatorID"`
-	XGroup         []*Group     `gorm:"many2many:users_x_groups"`
-	XWorkspace     []*Workspace `gorm:"many2many:users_x_workspaces"`
-	XRole          []*Role      `gorm:"many2many:users_x_roles"`
+	AuthUserID   *uuid.UUID `gorm:"unique; type:uuid"`
+	Profile      Profile
+	RefreshToken string // JWT.1.R
+	Account      []Account
+	RESTHook     []RESTHook
+	AppID        []App        `gorm:"foreignKey:CreatorID"`
+	Group        []Group      `gorm:"foreignKey:CreatorID"`
+	Workflow     []Workflow   `gorm:"foreignKey:CreatorID"`
+	Workspace    []Workspace  `gorm:"foreignKey:CreatorID"`
+	Folder       []Folder     `gorm:"foreignKey:CreatorID"`
+	Theme        []Theme      `gorm:"foreignKey:CreatorID"`
+	XGroup       []*Group     `gorm:"many2many:users_x_groups"`
+	XWorkspace   []*Workspace `gorm:"many2many:users_x_workspaces"`
+	XRole        []*Role      `gorm:"many2many:users_x_roles"`
 }
 
 // Workflow ...

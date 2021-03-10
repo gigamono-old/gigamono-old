@@ -15,20 +15,20 @@ func InitialTables1() *gormigrate.Migration {
 		ID: "1_initial_tables",
 		Migrate: func(tx *gorm.DB) error {
 			return tx.AutoMigrate(
+				&UserAccount{},
 				&AccessToken{},
 				&AppCredentials{},
 				&ClientAccount{},
 				&SocialLogin{},
-				&UserAccount{},
 			)
 		},
 		Rollback: func(tx *gorm.DB) error {
 			return tx.Migrator().DropTable(
 				"access_tokens",
 				"app_credentials",
-				"client_acounts",
+				"client_accounts",
 				"social_logins",
-				"user_acounts",
+				"user_accounts",
 			)
 		},
 	}

@@ -9,6 +9,6 @@ import (
 type Account struct {
 	models.Base
 	UserID            uuid.UUID
-	AccessTokenCredID uuid.UUID `gorm:"unique; type:uuid"`
+	AuthAccessTokenID uuid.UUID `gorm:"unique; type:uuid"`
 	XApp              []*App    `gorm:"many2many:apps_x_accounts"`
 }
