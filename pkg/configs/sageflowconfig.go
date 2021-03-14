@@ -22,17 +22,20 @@ type SageflowConfig struct {
 	Execution struct {
 		UseSubprocess bool `mapstructure:"use_subprocess" json:"use_subprocess"`
 	} `json:"execution"`
-	Server struct {
-		API struct {
-			Port int `json:"port"`
-		} `json:"api"`
-		Engine struct {
-			Port int `json:"port"`
-		} `json:"engine"`
-		Auth struct {
-			Port int `json:"port"`
-		} `json:"auth"`
-	} `json:"server"`
+	Services struct {
+		TLS   struct{} `json:"tls"`
+		Types struct {
+			API struct {
+				Port int `json:"port"`
+			} `json:"api"`
+			Engine struct {
+				Port int `json:"port"`
+			} `json:"engine"`
+			Auth struct {
+				Port int `json:"port"`
+			} `json:"auth"`
+		} `json:"types"`
+	} `json:"services"`
 	SecretsManager struct {
 		kind string
 	} `mapstructure:"secrets_manager" json:"secrets_manager"`
