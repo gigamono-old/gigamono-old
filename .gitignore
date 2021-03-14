@@ -4,3 +4,7 @@ public
 tmp
 *.log
 sageflow.yaml
+gqlgen
+!gqlgen.*
+
+!/**/
