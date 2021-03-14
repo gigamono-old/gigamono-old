@@ -63,11 +63,11 @@ func Connect(config *configs.SageflowConfig, secrets secrets.Manager, appKind st
 
 	// Connect using the appropriate driver.
 	switch kind {
-	case POSTGRES:
+	case Postgres:
 		db = ConnectPostgresDB(connectionURI, newLogger)
-	case MYSQL:
+	case MySQL:
 		db = ConnectMySQLDB(connectionURI, newLogger)
-	case SQLITE3:
+	case SQLite3:
 		db = ConnectSQLite3DB(connectionURI, newLogger)
 	default:
 		return DB{}, errors.New("Unsupported database type")

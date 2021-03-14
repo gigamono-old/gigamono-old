@@ -10,20 +10,20 @@ type DBKind int
 
 // ...
 const (
-	POSTGRES DBKind = iota
-	MYSQL
-	SQLITE3
+	Postgres DBKind = iota
+	MySQL
+	SQLite3
 )
 
 func (kind DBKind) String() string {
 	var res string
 
 	switch kind {
-	case POSTGRES:
+	case Postgres:
 		res = "postgres"
-	case MYSQL:
+	case MySQL:
 		res = "mysql"
-	case SQLITE3:
+	case SQLite3:
 		res = "sqlite"
 	}
 
@@ -32,13 +32,13 @@ func (kind DBKind) String() string {
 
 // ToDBKind converts string representation to
 func ToDBKind(ty string) (DBKind, error) {
-	switch strings.ToUpper(ty) {
-	case "POSTGRES", "POSTGRESQL", "PSQL":
-		return POSTGRES, nil
-	case "MYSQL", "MYSQLDB":
-		return MYSQL, nil
-	case "SQLITE":
-		return SQLITE3, nil
+	switch strings.ToLower(ty) {
+	case "postgres", "postgresql", "psql":
+		return Postgres, nil
+	case "mysql", "mysqldb":
+		return MySQL, nil
+	case "sqlite":
+		return SQLite3, nil
 	default:
 		return 0, errors.New("Unsupported database type")
 	}

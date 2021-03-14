@@ -21,12 +21,12 @@ func (format *ConfigFormat) String() string {
 
 // ToConfigFormat convert a string to ConfigFormat.
 func ToConfigFormat(format string) (ConfigFormat, error) {
-	switch strings.ToUpper(format) {
-	case "YAML", "YML":
+	switch strings.ToLower(format) {
+	case "yaml", "yml":
 		return YAML, nil
-	case "JSON":
+	case "json":
 		return JSON, nil
-	case "TOML":
+	case "toml":
 		return TOML, nil
 	default:
 		return "", errors.New("Conversion from string `" + format + "` to ConfigFormat not possible")
@@ -38,10 +38,10 @@ type ConfigKind string
 
 // ...
 const (
-	APP            ConfigKind = "APP"
-	WORKFLOW       ConfigKind = "WORKFLOW"
-	SAGEFLOW       ConfigKind = "SAGEFLOW"
-	APPCREDENTIALS ConfigKind = "APPCREDENTIALS"
+	App            ConfigKind = "App"
+	Workflow       ConfigKind = "Workflow"
+	Sageflow       ConfigKind = "Sageflow"
+	Appcredentials ConfigKind = "AppCredentials"
 )
 
 // ExecutionContext refers to how the engine is going to run each task.
@@ -49,8 +49,8 @@ type ExecutionContext string
 
 // ...
 const (
-	PROTECTED ExecutionContext = "PROTECTED" // Sandboxed code execution
-	BARE      ExecutionContext = "BARE"      // Non-sandboxed code execution
+	Protected ExecutionContext = "Protected" // Sandboxed code execution
+	Bare      ExecutionContext = "Bare"      // Non-sandboxed code execution
 )
 
 // AuthKind is the type of authorisation an App supports.
@@ -58,7 +58,7 @@ type AuthKind string
 
 // ...
 const (
-	OAUTH2 AuthKind = "OAUTH2"
+	AuthKindOAuth2 AuthKind = "OAuth2"
 )
 
 // InputKind is the type of user input.
@@ -66,8 +66,8 @@ type InputKind string
 
 // ...
 const (
-	EMAIL  InputKind = "EMAIL"
-	SELECT InputKind = "SELECT"
+	Email  InputKind = "Email"
+	Select InputKind = "Select"
 )
 
 // DropdownKind is the type of dropdown.
@@ -75,8 +75,8 @@ type DropdownKind string
 
 // ...
 const (
-	STATIC  DropdownKind = "STATIC"
-	DYNAMIC DropdownKind = "DYNAMIC"
+	Static  DropdownKind = "Static"
+	Dynamic DropdownKind = "Dynamic"
 )
 
 // ActionKind is the type of action.
@@ -84,8 +84,8 @@ type ActionKind string
 
 // ...
 const (
-	ACTION ActionKind = "ACTION"
-	SEARCH ActionKind = "SEARCH"
+	ActionKindAction ActionKind = "Action"
+	ActionKindSearch ActionKind = "Search"
 )
 
 // TaskKind is the type of task.
@@ -93,6 +93,6 @@ type TaskKind string
 
 // ...
 const (
-	TaskKindTRIGGER TaskKind = "TRIGGER"
-	TaskKindACTION  TaskKind = "ACTION"
+	TaskKindTrigger TaskKind = "Trigger"
+	TaskKindAction  TaskKind = "Action"
 )
