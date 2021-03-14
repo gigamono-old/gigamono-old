@@ -1,7 +1,9 @@
 syntax = "proto3";
 option go_package = "github.com/sageflow/sageflow/pkg/services/proto/generated";
-import "common.proto";
+package common;
 
-service APIService {
-    rpc SayHello(common.Message) returns (common.Message);
+message Empty {}
+
+message Message {
+    string content = 1;
 }

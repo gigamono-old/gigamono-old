@@ -1,12 +1,7 @@
 syntax = "proto3";
-option go_package = "github.com/sageflow/sageflow/internal/proto";
-
-message EngineNull {}
-
-message EngineMessage {
-    string content = 1;
-}
+option go_package = "github.com/sageflow/sageflow/pkg/services/proto/generated";
+import "common.proto";
 
 service EngineService {
-    rpc SayHello(EngineMessage) returns (EngineMessage);
+    rpc SayHello(common.Message) returns (common.Message);
 }

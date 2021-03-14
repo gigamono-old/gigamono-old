@@ -1,8 +1,7 @@
 syntax = "proto3";
-option go_package = "github.com/sageflow/sageflow/internal/proto";
+option go_package = "github.com/sageflow/sageflow/pkg/services/proto/generated";
 import "github.com/mwitkow/go-proto-validators/validator.proto";
-
-message AuthNull {}
+import "common.proto";
 
 message UserTokenRequest { // Sec: Add OAuth2-like client authentication.
     string username = 1;
@@ -23,7 +22,7 @@ message PingResponse {
 }
 
 service AuthService {
-    rpc Ping(AuthNull) returns (PingResponse);
+    rpc Ping(common.Empty) returns (PingResponse);
     rpc GetSignUpToken(UserTokenRequest) returns (UserTokenResponse);
     rpc GetSignInToken(UserTokenRequest) returns (UserTokenResponse);
     rpc RefreshAccessToken(AccessTokenRequest) returns (UserTokenResponse);
