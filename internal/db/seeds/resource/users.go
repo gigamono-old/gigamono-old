@@ -16,12 +16,9 @@ func LoadFakeUsers(db *database.DB, count int) ([]uuid.UUID, error) {
 	}
 
 	userIDs := make([]uuid.UUID, count)
-	passwordCredIDs := make([]*uuid.UUID, count) // TODO. Add actual passwords.
 
 	for i := 0; i < count; i++ {
-		user := resource.User{
-			PasswordCredID: passwordCredIDs[i],
-		}
+		user := resource.User{}
 
 		user.ID = uuids[i]
 		userIDs[i] = user.ID

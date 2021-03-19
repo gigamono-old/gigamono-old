@@ -10,6 +10,7 @@ import (
 )
 
 // InitialTables1 returns the migration for creating the initial table.
+// TODO: Not idempotent.
 func InitialTables1() *gormigrate.Migration {
 	return &gormigrate.Migration{
 		ID: "1_initial_tables",

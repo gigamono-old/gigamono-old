@@ -1,4 +1,4 @@
-package services
+package grpc
 
 import (
 	"errors"
@@ -12,7 +12,7 @@ import (
 
 // GetInsecureServiceClient returns a connection interface of supported gRPC client.
 // Sec: The assumption is that the services will run together in TLS-protected Kubernetes cluster.
-// TODO: Support optional TLS cert. config.
+// TODO: Support optional usage of TLS cert. config.Services.TLS.
 func GetInsecureServiceClient(host string, port int, config configs.SageflowConfig) (interface{}, error) {
 	conn, err := grpc.Dial(fmt.Sprint(host, ":", port), grpc.WithInsecure())
 	if err != nil {

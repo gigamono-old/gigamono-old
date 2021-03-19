@@ -16,15 +16,14 @@ func NewMigrator(db *database.DB, appKind string) *gormigrate.Gormigrate {
 	createMigrationsTable(db)
 
 	var migrator *gormigrate.Gormigrate
-	switch strings.ToUpper(appKind) {
-	case "AUTH":
+	switch strings.ToLower(appKind) {
+	case "auth":
 		migrator = gormigrate.New(db.DB, gormigrate.DefaultOptions, []*gormigrate.Migration{
 			auth.InitialTables1(),
 		})
 	default:
-		migrator = gormigrate.New(db.DB, gormigrate.DefaultOptions, []*gormigrate.Migration{
-			resource.InitialTables1(),
-		})
+		migrator = gormigrate.New(db.DB, gormigrate.DefaultOptions, []*gormigrate.Migration{})
+		migrator.InitSchema(resource.InitialTables1())
 	}
 
 	return migrator

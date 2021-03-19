@@ -1,25 +1,27 @@
 package resource
 
 import (
+	"github.com/gofrs/uuid"
 	"github.com/sageflow/sageflow/pkg/database"
 	"github.com/sageflow/sageflow/pkg/database/models/resource"
+	"gorm.io/gorm"
 )
 
-// CreateUnprotectedUserWithProfile creates a user without password credentials.
+// CreateUserWithProfile creates a user without password credentials.
 // Arguments are used to create Profile for user.
-// SEC: Only used for dev.
-func CreateUnprotectedUserWithProfile(
+func CreateUserWithProfile(
 	db *database.DB,
 	username string,
 	firstName string,
 	lastName string,
 	email string,
 	avatar32URL string,
+	authUserID uuid.UUID,
+	refreshToken string,
 ) (resource.User, resource.Profile, error) {
-	user := resource.User{}
-
-	if err := db.Create(&user).Error; err != nil {
-		return resource.User{}, resource.Profile{}, err
+	user := resource.User{
+		AuthUserID:   &authUserID,
+		RefreshToken: refreshToken,
 	}
 
 	profile := resource.Profile{
@@ -31,7 +33,13 @@ func CreateUnprotectedUserWithProfile(
 		UserID:      user.ID,
 	}
 
-	if err := db.Create(&profile).Error; err != nil {
+	// Add user and profile entries. Reverse if there is an error.
+	if err := db.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Create(&user).Error; err != nil {
+			return err
+		}
+		return tx.Create(&profile).Error
+	}); err != nil {
 		return resource.User{}, resource.Profile{}, err
 	}
 

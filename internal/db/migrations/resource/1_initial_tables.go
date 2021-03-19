@@ -3,64 +3,44 @@ package resource
 import (
 	"time"
 
-	"github.com/go-gormigrate/gormigrate/v2"
 	"github.com/gofrs/uuid"
 	"gorm.io/datatypes"
-	"gorm.io/gorm"
 )
 
-// InitialTables1 returns the migration for creating the initial table.
-func InitialTables1() *gormigrate.Migration {
-	return &gormigrate.Migration{
-		ID: "1_initial_tables",
-		Migrate: func(tx *gorm.DB) error {
-			return tx.AutoMigrate(
-				&Workspace{},
-				&User{},
-				&Profile{},
-				&Group{},
-				&AccessControl{},
-				&Role{},
-				&Folder{},
-				&Engine{},
-				&Workflow{},
-				&Account{},
-				&App{},
-				&Theme{},
-				&RESTHook{},
-				&WorkflowInstance{},
-				&Log{},
-			)
-		},
-		Rollback: func(tx *gorm.DB) error {
-			return tx.Migrator().DropTable(
-				"access_controls",
-				"accounts",
-				"apps",
-				"engines",
-				"folders",
-				"groups",
-				"profiles",
-				"roles",
-				"themes",
-				"workflows",
-				"workspaces",
-				"users",
-				"rest_hooks",
-				"workflow_instances",
-				"logs",
-				"apps_x_accounts",
-				"access_controls_x_roles",
-				"themes_x_roles",
-				"workflows_x_roles",
-				"workflows_x_engines",
-				"apps_x_roles",
-				"users_x_groups",
-				"users_x_roles",
-				"users_x_workflows",
-				"users_x_workspaces",
-			)
-		},
+//
+func GetInitialTables() []interface{} {
+	return []interface{}{
+		&Workspace{},
+		&User{},
+		&Profile{},
+		&Group{},
+		&AccessControl{},
+		&Role{},
+		&Folder{},
+		&Engine{},
+		&Workflow{},
+		&Account{},
+		&App{},
+		&Theme{},
+		&RESTHook{},
+		&WorkflowInstance{},
+		&Log{},
+	}
+}
+
+//
+func GetInitialJoinTables() []string {
+	return []string{
+		"apps_x_accounts",
+		"access_controls_x_roles",
+		"themes_x_roles",
+		"workflows_x_roles",
+		"workflows_x_engines",
+		"apps_x_roles",
+		"users_x_groups",
+		"users_x_roles",
+		"users_x_workflows",
+		"users_x_workspaces",
 	}
 }
 

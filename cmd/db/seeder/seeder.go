@@ -38,27 +38,27 @@ func main() {
 
 	if addAll {
 		if err := seeder.AddAll(); err != nil {
-			logs.FmtPrintln("Unable to add all seeds:", err)
+			logs.FmtPrintln("unable to add all seeds:", err)
 		} else {
-			logs.FmtPrintln("Successfully added all seeds")
+			logs.FmtPrintln("successfully added all seeds")
 		}
 	} else if removeAll {
 		if err := seeder.RemoveAll(); err != nil {
-			logs.FmtPrintln("Unable to remove all seeds:", err)
+			logs.FmtPrintln("unable to remove all seeds:", err)
 		} else {
-			logs.FmtPrintln("Successfully removed all seeds")
+			logs.FmtPrintln("successfully removed all seeds")
 		}
 	} else if seedToAdd != "" {
 		if err := seeder.Add(seedToAdd); err != nil {
-			logs.FmtPrintf("Unable to add \"%v\" seeds: %v\n", seedToAdd, err)
+			logs.FmtPrintf("unable to add \"%v\" seeds: %v\n", seedToAdd, err)
 		} else {
-			logs.FmtPrintf("Successfully added \"%v\" seeds\n", seedToAdd)
+			logs.FmtPrintf("successfully added \"%v\" seeds\n", seedToAdd)
 		}
 	} else if seedToRemove != "" {
 		if err := seeder.Remove(seedToRemove); err != nil {
-			logs.FmtPrintf("Unable to remove \"%v\" seeds: %v\n", seedToRemove, err)
+			logs.FmtPrintf("unable to remove \"%v\" seeds: %v\n", seedToRemove, err)
 		} else {
-			logs.FmtPrintf("Successfully removed \"%v\" seeds\n", seedToRemove)
+			logs.FmtPrintf("successfully removed \"%v\" seeds\n", seedToRemove)
 		}
 	} else {
 		flag.Usage()

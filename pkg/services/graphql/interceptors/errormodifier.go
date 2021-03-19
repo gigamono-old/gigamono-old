@@ -4,9 +4,8 @@ import (
 	"context"
 
 	"github.com/99designs/gqlgen/graphql"
-	"github.com/sageflow/sageflow/pkg/logs"
-	"github.com/vektah/gqlparser/v2/gqlerror"
 	gql "github.com/sageflow/sageflow/pkg/services/graphql"
+	"github.com/vektah/gqlparser/v2/gqlerror"
 )
 
 type (
@@ -27,13 +26,10 @@ func (interceptor ErrorModifier) InterceptResponse(ctx context.Context, next gra
 	errors := graphql.GetErrors(ctx)
 	for _, err := range errors {
 		if err.Message == "internal system error" {
-			// Log response before changing.
-			logs.FmtPrintf("intercepted server error:\n%v", response.Errors)
-
 			// Change response to only show server error.
 			response = &graphql.Response{
 				Errors: gqlerror.List{{
-					Message: "internal system error",
+					Message: err.Message,
 					Extensions: map[string]interface{}{
 						"code": gql.InternalSystemError,
 					},

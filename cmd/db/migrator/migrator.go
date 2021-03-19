@@ -2,8 +2,6 @@ package main
 
 import (
 	"flag"
-	"log"
-	"strconv"
 
 	"github.com/sageflow/sageflow/internal/db/migrations"
 	"github.com/sageflow/sageflow/pkg/inits"
@@ -12,14 +10,14 @@ import (
 
 func main() {
 	var up, down bool
-	var upTo, downTo int
+	var upTo, downTo string
 	var appKind string
 
 	// Set args.
 	flag.BoolVar(&up, "up", false, "Migrate the DB to the most recent version available\n")
 	flag.BoolVar(&down, "down", false, "Roll back the version by 1\n")
-	flag.IntVar(&upTo, "up-to", 0, "Migrate the DB to a specific VERSION\n")
-	flag.IntVar(&downTo, "down-to", 0, "Roll back to a specific VERSION\n")
+	flag.StringVar(&upTo, "up-to", "", "Migrate the DB to a specific VERSION\n")
+	flag.StringVar(&downTo, "down-to", "", "Roll back to a specific VERSION\n")
 	flag.StringVar(&appKind, "type", "", "Specify the application kind (resource or auth)\n")
 	flag.StringVar(&appKind, "t", "", "Specify the application kind (resource or auth)\n")
 	flag.Parse()
@@ -37,33 +35,26 @@ func main() {
 	}
 
 	// Create a migrator.
-	migrator := migrations.NewMigrator(&app.DB, appKind)
+	migrator := migrations.NewMigrator(app.DB.DB)
+	migrator.PrepareMigrations(appKind)
 
-	log.Println("Last migration =", migrations.GetLastMigration(&app.DB))
+	// log.Println("Last migration =", migrations.GetLastMigration(&app.DB))
 
 	if up {
-		if err := migrator.Migrate(); err != nil {
-			logs.FmtPrintln("Unsuccessfully migrated:", err)
-		} else {
-			logs.FmtPrintln("Successfully migrated to the most recent version")
+		if err := migrator.Up(); err != nil {
+			logs.FmtPrintln("unsuccessfully migrated:", err)
 		}
 	} else if down {
-		if err := migrator.RollbackLast(); err != nil {
-			logs.FmtPrintln("Unable to roll back:", err)
-		} else {
-			logs.FmtPrintln("Rolled back last migration")
+		if err := migrator.Down(); err != nil {
+			logs.FmtPrintln("unable to roll back:", err)
 		}
-	} else if upTo > 0 {
-		if err := migrator.MigrateTo(strconv.Itoa(upTo)); err != nil {
-			logs.FmtPrintln("Unsuccessfully migrated:", err)
-		} else {
-			logs.FmtPrintln("Successfully migrated to version")
+	} else if upTo != "" {
+		if err := migrator.UpTo(upTo); err != nil {
+			logs.FmtPrintln("unsuccessfully migrated:", err)
 		}
-	} else if downTo > 0 {
-		if err := migrator.RollbackTo(strconv.Itoa(downTo)); err != nil {
-			logs.FmtPrintln("Unable to roll back:", err)
-		} else {
-			logs.FmtPrintln("Rolled back migration to version")
+	} else if downTo != "" {
+		if err := migrator.DownTo(downTo); err != nil {
+			logs.FmtPrintln("unable to roll back:", err)
 		}
 	} else {
 		flag.Usage()
