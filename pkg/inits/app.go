@@ -5,6 +5,7 @@ import (
 
 	"github.com/sageflow/sageflow/pkg/configs"
 	"github.com/sageflow/sageflow/pkg/database"
+	"github.com/sageflow/sageflow/pkg/filestore"
 	"github.com/sageflow/sageflow/pkg/logs"
 	"github.com/sageflow/sageflow/pkg/secrets"
 )
@@ -19,8 +20,11 @@ type App struct {
 
 // NewApp is a common initialiser for Sageflow servers.
 func NewApp(appKind string) (App, error) {
-	// Set up log status file.
-	logs.SetStatusLogFile()
+	// Set log status file.
+	logs.SetStatusLogFile() // TODO: Abstract
+
+	// Set filestore avatars location.
+	filestore.SetAvatarsLocation() // TODO: Abstract
 
 	// Load sageflow config file.
 	config, err := configs.LoadSageflowConfig()

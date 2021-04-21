@@ -5,6 +5,12 @@ import (
 	"path/filepath"
 )
 
+// OpenOrCreateFolder opens specified folder. Creates folder and its path if they do not exist.
+func OpenOrCreateFolder(path string) error {
+	// Had to pass 0777 here. https://stackoverflow.com/a/58403214/3984876
+	return os.MkdirAll(path, 0777)
+}
+
 // OpenOrCreateFile opens specified file. Creates file and its path if they do not exist.
 func OpenOrCreateFile(path string, isAppend bool) (*os.File, error) {
 	var append int
