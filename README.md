@@ -16,16 +16,31 @@
 git clone --recursive github.com/sageflow/sageflow
 ```
 
+### BUILDING BINARIES
+
+- GQLGen
+  Build the custom gqlgen binary.
+
+  ```go
+  go build cmd/gqlgen/gqlgen.go
+  ```
+
+  Add the binary to system path and run command in a directory with gqlgen.yml file.
+
+  ```sh
+  gqlgen
+  ```
+
 ### DATABASE
 
-```go
+```sh
 go run cmd/migrator/migrator.go -up
 go run cmd/migrator/migrator.go -down
 go run cmd/migrator/migrator.go -up-to 2
 go run cmd/migrator/migrator.go -down-to 1
 ```
 
-```go
+```sh
 go run cmd/seeder/seeder.go -add-all
 go run cmd/seeder/seeder.go -remove-all
 go run cmd/seeder/seeder.go -add users
@@ -33,4 +48,3 @@ go run cmd/seeder/seeder.go -remove users
 ```
 
 When you add a model, make sure to update the copy of its initial state in `/migrations/1_initial_tables.go` file
-

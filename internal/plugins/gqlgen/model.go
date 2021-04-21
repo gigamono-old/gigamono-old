@@ -93,9 +93,16 @@ func (m *Plugin) MutateConfig(cfg *config.Config) error {
 	}
 
 	for _, schemaType := range cfg.Schema.Types {
-		if schemaType.BuiltIn { // NOTE: Skip builtin schema type generation
-			continue
+		if cfg.Models.UserDefined(schemaType.Name) {
+			if schemaType.BuiltIn {
+				// fmt.Println("Builtin =", schemaType.Name)
+			} else {
+				// fmt.Println("User defined =", schemaType.Name)
+			}
+		} else {
+			// fmt.Println("Other Model =", schemaType.Name)
 		}
+
 		switch schemaType.Kind {
 		case ast.Interface, ast.Union:
 			it := &Interface{
@@ -213,6 +220,7 @@ func (m *Plugin) MutateConfig(cfg *config.Config) error {
 			b.Scalars = append(b.Scalars, schemaType.Name)
 		}
 	}
+
 	sort.Slice(b.Enums, func(i, j int) bool { return b.Enums[i].Name < b.Enums[j].Name })
 	sort.Slice(b.Models, func(i, j int) bool { return b.Models[i].Name < b.Models[j].Name })
 	sort.Slice(b.Interfaces, func(i, j int) bool { return b.Interfaces[i].Name < b.Interfaces[j].Name })

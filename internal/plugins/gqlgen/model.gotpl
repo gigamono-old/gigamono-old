@@ -12,6 +12,12 @@
 {{ reserveImport "github.com/99designs/gqlgen/graphql" }}
 {{ reserveImport "github.com/99designs/gqlgen/graphql/introspection" }}
 
+{{- range $model := .Interfaces }}
+	{{ with .Description }} {{.|prefixLines "// "}} {{ end }}
+	type {{.Name|go }} interface {
+		Is{{.Name|go }}()
+	}
+{{- end }}
 
 {{ range $model := .Models }}
 	type {{ .Name|go }} struct {
