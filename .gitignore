@@ -3,7 +3,7 @@ public
 .env
 tmp
 *.log
-sageflow.yaml
+*sageflow.yaml
 gqlgen
 !gqlgen.*
 
