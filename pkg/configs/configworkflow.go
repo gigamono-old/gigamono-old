@@ -16,12 +16,12 @@ type WorkflowConfig struct {
 		ExecutionContexts []ExecutionContext `mapstructure:"execution_contexts" json:"execution_contexts"`
 		Authors           []Author           `json:"authors"`
 	} `json:"metadata"`
-	Tasks []Task `json:"tasks"`
+	Steps []Step `json:"steps"`
 }
 
-// Task is an executable step in a workflow.
-type Task struct {
-	Kind             TaskKind            `json:"kind"`
+// Step is an executable step in a workflow.
+type Step struct {
+	Kind             StepKind            `json:"kind"`
 	Name             string              `json:"name"`
 	Index            uint                `json:"index"`
 	Dependencies     []uint              `json:"dependencies"`

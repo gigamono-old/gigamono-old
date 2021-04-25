@@ -88,11 +88,11 @@ const (
 	ActionKindSearch ActionKind = "Search"
 )
 
-// TaskKind is the type of task.
-type TaskKind string
+// StepKind is the type of task.
+type StepKind string
 
 // ...
 const (
-	TaskKindTrigger TaskKind = "Trigger"
-	TaskKindAction  TaskKind = "Action"
+	StepKindTrigger StepKind = "Trigger"
+	StepKindAction  StepKind = "Action"
 )
