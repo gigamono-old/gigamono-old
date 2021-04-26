@@ -18,7 +18,7 @@ type App struct {
 	Kind    string
 }
 
-// NewApp is a common initialiser for Sageflow servers.
+// NewApp is a common initialiser for Gigamono servers.
 func NewApp(appKind string) (App, error) {
 	// Set log status file.
 	logs.SetStatusLogFile() // TODO: Abstract

@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-// ConfigFormat is the different config format supported by Sageflow.
+// ConfigFormat is the different config format supported by Gigamono.
 type ConfigFormat string
 
 // ...
@@ -40,7 +40,7 @@ type ConfigKind string
 const (
 	App            ConfigKind = "App"
 	Workflow       ConfigKind = "Workflow"
-	Sageflow       ConfigKind = "Sageflow"
+	Gigamono       ConfigKind = "Gigamono"
 	Appcredentials ConfigKind = "AppCredentials"
 )
 

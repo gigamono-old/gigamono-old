@@ -22,8 +22,8 @@ func GetInsecureServiceClient(host string, port int, config configs.GigamonoConf
 	switch port {
 	case config.Services.Types.Auth.Port:
 		return generated.NewAuthServiceClient(conn), nil
-	case config.Services.Types.Engine.Port:
-		return generated.NewEngineServiceClient(conn), nil
+	case config.Services.Types.WorkflowEngine.Port:
+		return generated.NewWorkflowEngineServiceClient(conn), nil
 	case config.Services.Types.API.Port:
 		return generated.NewAPIServiceClient(conn), nil
 	default:

@@ -28,9 +28,9 @@ type GigamonoConfig struct {
 			API struct {
 				Port int `json:"port"`
 			} `json:"api"`
-			Engine struct {
+			WorkflowEngine struct {
 				Port int `json:"port"`
-			} `json:"engine"`
+			} `mapstructure:"workflow_engine" json:"workflow_engine"`
 			Auth struct {
 				Port int `json:"port"`
 			} `json:"auth"`
