@@ -1,6 +1,6 @@
 package resource
 
-import "github.com/sageflow/sageflow/pkg/database/models"
+import "github.com/gigamono/gigamono/pkg/database/models"
 
 // AccessControl represents access control for managing access to resources.
 type AccessControl struct {

@@ -7,9 +7,9 @@ import (
 
 	"github.com/gofrs/uuid"
 
-	"github.com/sageflow/sageflow/internal/db/seeds/common"
-	"github.com/sageflow/sageflow/internal/db/seeds/resource"
-	"github.com/sageflow/sageflow/pkg/database"
+	"github.com/gigamono/gigamono/internal/db/seeds/common"
+	"github.com/gigamono/gigamono/internal/db/seeds/resource"
+	"github.com/gigamono/gigamono/pkg/database"
 )
 
 // Loader represent a pair of fake data generating function and its generated ids.

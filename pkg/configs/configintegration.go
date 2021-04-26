@@ -1,7 +1,7 @@
 package configs
 
 import (
-	models "github.com/sageflow/sageflow/pkg/database/models/resource"
+	models "github.com/gigamono/gigamono/pkg/database/models/resource"
 )
 
 // AppConfig holds the information about an app which can be used in tasks.

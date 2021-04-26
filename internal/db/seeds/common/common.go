@@ -2,7 +2,7 @@ package common
 
 import (
 	"github.com/gofrs/uuid"
-	"github.com/sageflow/sageflow/pkg/database/models"
+	"github.com/gigamono/gigamono/pkg/database/models"
 )
 
 // Seed represents a seed in the database.

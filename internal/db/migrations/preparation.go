@@ -3,7 +3,7 @@ package migrations
 import (
 	"strings"
 
-	"github.com/sageflow/sageflow/internal/db/migrations/resource"
+	"github.com/gigamono/gigamono/internal/db/migrations/resource"
 )
 
 //

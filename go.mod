@@ -1,4 +1,4 @@
-module github.com/sageflow/sageflow
+module github.com/gigamono/gigamono
 
 go 1.15
 
@@ -16,7 +16,6 @@ require (
 	github.com/mitchellh/mapstructure v1.4.1
 	github.com/mwitkow/go-proto-validators v0.3.2
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/sageflow/sageapi v0.0.0-20210310195905-496b28dffb15
 	github.com/spf13/viper v1.7.1
 	github.com/vektah/gqlparser v1.3.1
 	github.com/vektah/gqlparser/v2 v2.1.0

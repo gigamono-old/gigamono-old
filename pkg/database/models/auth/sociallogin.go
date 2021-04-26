@@ -2,7 +2,7 @@ package auth
 
 import (
 	"github.com/gofrs/uuid"
-	"github.com/sageflow/sageflow/pkg/database/models"
+	"github.com/gigamono/gigamono/pkg/database/models"
 )
 
 // SocialLogin for social login information.

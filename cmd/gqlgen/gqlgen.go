@@ -6,7 +6,7 @@ import (
 
 	"github.com/99designs/gqlgen/api"
 	"github.com/99designs/gqlgen/codegen/config"
-	plugin "github.com/sageflow/sageflow/internal/plugins/gqlgen"
+	plugin "github.com/gigamono/gigamono/internal/plugins/gqlgen"
 )
 
 func main() {

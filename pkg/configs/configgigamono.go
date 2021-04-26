@@ -11,9 +11,9 @@ import (
 	"github.com/spf13/viper"
 )
 
-// SageflowConfig holds Sageflow configurations.
+// GigamonoConfig holds Gigamono configurations.
 // Sec: Secrets shouldn't be stored in this file.
-type SageflowConfig struct {
+type GigamonoConfig struct {
 	Version  uint       `json:"version"`
 	Kind     ConfigKind `json:"kind"`
 	Metadata struct {
@@ -41,10 +41,10 @@ type SageflowConfig struct {
 	} `mapstructure:"secrets_manager" json:"secrets_manager"`
 }
 
-// NewSageflowConfig creates a SageflowConfig from string. Supports JSON, TOML and YAML string format.
-func NewSageflowConfig(sageflowString string, format ConfigFormat) (SageflowConfig, error) {
-	config := SageflowConfig{}
-	reader := strings.NewReader(sageflowString)
+// NewGigamonoConfig creates a GigamonoConfig from string. Supports JSON, TOML and YAML string format.
+func NewGigamonoConfig(gigamonoString string, format ConfigFormat) (GigamonoConfig, error) {
+	config := GigamonoConfig{}
+	reader := strings.NewReader(gigamonoString)
 
 	// Set format to parse.
 	converter := viper.New()
@@ -53,36 +53,36 @@ func NewSageflowConfig(sageflowString string, format ConfigFormat) (SageflowConf
 
 	// Unmarshal string into object.
 	if err := converter.Unmarshal(&config); err != nil {
-		return SageflowConfig{}, err
+		return GigamonoConfig{}, err
 	}
 
 	return config, nil
 }
 
-// LoadSageflowConfig loads a sageflow config from file
-func LoadSageflowConfig() (SageflowConfig, error) {
+// LoadGigamonoConfig loads a gigamono config from file
+func LoadGigamonoConfig() (GigamonoConfig, error) {
 	// Load .env file.
 	if err := godotenv.Load(); err != nil {
-		return SageflowConfig{}, err
+		return GigamonoConfig{}, err
 	}
 
 	// Get config file path from env.
 	path := os.Getenv("SAGEFLOW_CONFIG_FILE")
 	if path == "" {
-		return SageflowConfig{}, errors.New("SAGEFLOW_CONFIG_FILE env variable is missing or empty")
+		return GigamonoConfig{}, errors.New("SAGEFLOW_CONFIG_FILE env variable is missing or empty")
 	}
 
 	// Get file extension and use it to determine config format.
 	format, err := ToConfigFormat(filepath.Ext(path)[1:])
 	if err != nil {
-		return SageflowConfig{}, err
+		return GigamonoConfig{}, err
 	}
 
 	// Read file.
 	fileContent, err := ioutil.ReadFile(path)
 	if err != nil {
-		return SageflowConfig{}, err
+		return GigamonoConfig{}, err
 	}
 
-	return NewSageflowConfig(string(fileContent), format)
+	return NewGigamonoConfig(string(fileContent), format)
 }

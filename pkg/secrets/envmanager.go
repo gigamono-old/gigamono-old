@@ -4,7 +4,7 @@ import (
 	"errors"
 	"os"
 
-	"github.com/sageflow/sageflow/pkg/configs"
+	"github.com/gigamono/gigamono/pkg/configs"
 
 	"github.com/joho/godotenv"
 )
@@ -13,7 +13,7 @@ import (
 type EnvManager struct{}
 
 // NewEnvManager creates a new EnvManager.
-func NewEnvManager(_ *configs.SageflowConfig) (EnvManager, error) {
+func NewEnvManager(_ *configs.GigamonoConfig) (EnvManager, error) {
 	// Load .env file.
 	return EnvManager{}, godotenv.Load()
 }

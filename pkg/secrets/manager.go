@@ -1,7 +1,7 @@
 package secrets
 
 import (
-	"github.com/sageflow/sageflow/pkg/configs"
+	"github.com/gigamono/gigamono/pkg/configs"
 )
 
 // Manager abstracts how application secrets are managed.
@@ -11,8 +11,8 @@ type Manager interface {
 	Set(key string, value string, opts ...interface{}) error
 }
 
-// NewManager creates a new secrets manager based on settings in your sageflow.yaml file.
-func NewManager(config *configs.SageflowConfig) (Manager, error) {
+// NewManager creates a new secrets manager based on settings in your gigamono.yaml file.
+func NewManager(config *configs.GigamonoConfig) (Manager, error) {
 	// TODO: Currently only supports EnvManager
 	manager, err := NewEnvManager(config)
 	return &manager, err

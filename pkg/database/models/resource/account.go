@@ -2,7 +2,7 @@ package resource
 
 import (
 	"github.com/gofrs/uuid"
-	"github.com/sageflow/sageflow/pkg/database/models"
+	"github.com/gigamono/gigamono/pkg/database/models"
 )
 
 // Account represents credentials needed for an app to authorize access.

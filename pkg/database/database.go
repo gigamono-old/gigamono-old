@@ -6,10 +6,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/sageflow/sageflow/pkg/configs"
-	"github.com/sageflow/sageflow/pkg/secrets"
+	"github.com/gigamono/gigamono/pkg/configs"
+	"github.com/gigamono/gigamono/pkg/secrets"
 
-	"github.com/sageflow/sageflow/pkg/logs"
+	"github.com/gigamono/gigamono/pkg/logs"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )

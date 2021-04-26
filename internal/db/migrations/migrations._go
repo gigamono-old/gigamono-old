@@ -4,9 +4,9 @@ import (
 	"strings"
 
 	"github.com/go-gormigrate/gormigrate/v2"
-	"github.com/sageflow/sageflow/internal/db/migrations/auth"
-	"github.com/sageflow/sageflow/internal/db/migrations/resource"
-	"github.com/sageflow/sageflow/pkg/database"
+	"github.com/gigamono/gigamono/internal/db/migrations/auth"
+	"github.com/gigamono/gigamono/internal/db/migrations/resource"
+	"github.com/gigamono/gigamono/pkg/database"
 )
 
 // NewMigrator prepares migrations and creates a new migrator.

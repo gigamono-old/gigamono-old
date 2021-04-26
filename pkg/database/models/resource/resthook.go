@@ -2,7 +2,7 @@ package resource
 
 import (
 	"github.com/gofrs/uuid"
-	"github.com/sageflow/sageflow/pkg/database/models"
+	"github.com/gigamono/gigamono/pkg/database/models"
 )
 
 // RESTHook represents a webhook used by an app on behalf of a user.

@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/sageflow/sageflow/pkg/logs"
+	"github.com/gigamono/gigamono/pkg/logs"
 )
 
 // PanicHandler logs all panics from graphql handler.

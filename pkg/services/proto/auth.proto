@@ -1,5 +1,5 @@
 syntax = "proto3";
-option go_package = "github.com/sageflow/sageflow/pkg/services/proto/generated";
+option go_package = "github.com/gigamono/gigamono/pkg/services/proto/generated";
 import "github.com/mwitkow/go-proto-validators/validator.proto";
 import "common.proto";
 

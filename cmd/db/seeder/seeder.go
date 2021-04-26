@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 
-	"github.com/sageflow/sageflow/internal/db/seeds"
-	"github.com/sageflow/sageflow/pkg/inits"
-	"github.com/sageflow/sageflow/pkg/logs"
+	"github.com/gigamono/gigamono/internal/db/seeds"
+	"github.com/gigamono/gigamono/pkg/inits"
+	"github.com/gigamono/gigamono/pkg/logs"
 )
 
 func main() {

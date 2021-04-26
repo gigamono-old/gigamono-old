@@ -5,9 +5,9 @@ import (
 
 	"github.com/brianvoe/gofakeit/v6"
 	"github.com/gofrs/uuid"
-	"github.com/sageflow/sageflow/internal/db/seeds/common"
-	"github.com/sageflow/sageflow/pkg/database"
-	"github.com/sageflow/sageflow/pkg/database/models/resource"
+	"github.com/gigamono/gigamono/internal/db/seeds/common"
+	"github.com/gigamono/gigamono/pkg/database"
+	"github.com/gigamono/gigamono/pkg/database/models/resource"
 )
 
 // LoadFakeProfiles loads fake user profiles

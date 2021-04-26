@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/99designs/gqlgen/graphql"
-	gql "github.com/sageflow/sageflow/pkg/services/graphql"
+	gql "github.com/gigamono/gigamono/pkg/services/graphql"
 	"github.com/vektah/gqlparser/v2/gqlerror"
 )
 

@@ -1,6 +1,6 @@
 package resource
 
-import "github.com/sageflow/sageflow/pkg/database/models"
+import "github.com/gigamono/gigamono/pkg/database/models"
 
 // Engine represents an engine.
 type Engine struct {

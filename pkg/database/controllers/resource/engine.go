@@ -1,8 +1,8 @@
 package resource
 
 import (
-	"github.com/sageflow/sageflow/pkg/database"
-	"github.com/sageflow/sageflow/pkg/database/models/resource"
+	"github.com/gigamono/gigamono/pkg/database"
+	"github.com/gigamono/gigamono/pkg/database/models/resource"
 )
 
 // CreateEngine creates an engine.

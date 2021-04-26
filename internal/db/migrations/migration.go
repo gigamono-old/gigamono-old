@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/sageflow/sageflow/pkg/logs"
+	"github.com/gigamono/gigamono/pkg/logs"
 
 	"gorm.io/gorm"
 )

@@ -1,6 +1,6 @@
 package configs
 
-import "github.com/sageflow/sageflow/pkg/database/models/auth"
+import "github.com/gigamono/gigamono/pkg/database/models/auth"
 
 // AppCredentialsConfig contains app-specific information for establishing auth.
 type AppCredentialsConfig struct {

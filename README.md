@@ -1,6 +1,6 @@
 <div align="center">
     <a href="#" target="_blank">
-        <img src="https://raw.githubusercontent.com/sageflow/sageflow/main/media/logo.png" alt="Sageflow Logo" width="140" height="140"></img>
+        <img src="https://raw.githubusercontent.com/gigamono/gigamono/main/media/logo.png" alt="Sageflow Logo" width="140" height="140"></img>
     </a>
 </div>
 
@@ -13,7 +13,7 @@
 ### SETTING UP PROJECT
 
 ```sh
-git clone --recursive github.com/sageflow/sageflow
+git clone --recursive github.com/gigamono/gigamono
 ```
 
 ### BUILDING BINARIES

@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/sageflow/sageflow/pkg/files"
+	"github.com/gigamono/gigamono/pkg/files"
 )
 
 // SetStatusLogFile sets the file where status logs go.

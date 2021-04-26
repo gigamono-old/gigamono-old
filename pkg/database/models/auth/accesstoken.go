@@ -2,7 +2,7 @@ package auth
 
 import (
 	"github.com/gofrs/uuid"
-	"github.com/sageflow/sageflow/pkg/database/models"
+	"github.com/gigamono/gigamono/pkg/database/models"
 )
 
 // AccessToken represents the user's access token gotten from OAuth flow.
