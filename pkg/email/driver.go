@@ -8,7 +8,7 @@ type Driver interface {
 }
 
 // NewDriver creates a new email driver based on settings in your gigamono.yaml file.
-func NewDriver(config *configs.SageflowConfig) (Driver, error) {
+func NewDriver(config *configs.GigamonoConfig) (Driver, error) {
 	// TODO: Currently only supports EnvManager
 	// manager, err := NewSendGridDriver(config)
 	// return &manager, err

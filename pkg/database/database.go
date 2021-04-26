@@ -28,7 +28,7 @@ func (db *DB) GetTableName(model interface{}) string {
 }
 
 // Connect connects to the appropriate database.
-func Connect(config *configs.SageflowConfig, secrets secrets.Manager, appKind string) (DB, error) {
+func Connect(config *configs.GigamonoConfig, secrets secrets.Manager, appKind string) (DB, error) {
 	newLogger := createStatusLogger() // Create a new logger.
 	kind := DBKind(-1)
 	var connectionURI string

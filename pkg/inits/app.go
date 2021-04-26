@@ -12,7 +12,7 @@ import (
 
 // App holds common important states of a service.
 type App struct {
-	Config  configs.SageflowConfig
+	Config  configs.GigamonoConfig
 	Secrets secrets.Manager
 	DB      database.DB
 	Kind    string

@@ -67,9 +67,9 @@ func LoadGigamonoConfig() (GigamonoConfig, error) {
 	}
 
 	// Get config file path from env.
-	path := os.Getenv("SAGEFLOW_CONFIG_FILE")
+	path := os.Getenv("GIGAMONO_CONFIG_FILE")
 	if path == "" {
-		return GigamonoConfig{}, errors.New("SAGEFLOW_CONFIG_FILE env variable is missing or empty")
+		return GigamonoConfig{}, errors.New("GIGAMONO_CONFIG_FILE env variable is missing or empty")
 	}
 
 	// Get file extension and use it to determine config format.
