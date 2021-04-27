@@ -16,35 +16,39 @@
 git clone --recursive github.com/gigamono/gigamono
 ```
 
-### BUILDING BINARIES
+### GRAPHQL GENERATION
 
-- GQLGen
-  Build the custom gqlgen binary.
+Build the custom gqlgen binary.
 
-  ```go
-  go build cmd/gqlgen/gqlgen.go
-  ```
+```sh
+go build cmd/gqlgen/gqlgen.go
+```
 
-  Add the binary to system path and run command in a directory with gqlgen.yml file.
+Add the binary to system path and run command in a directory with gqlgen.yml file.
 
-  ```sh
-  gqlgen
-  ```
+```sh
+gqlgen
+```
 
 ### DATABASE
 
-```sh
-go run cmd/migrator/migrator.go -up
-go run cmd/migrator/migrator.go -down
-go run cmd/migrator/migrator.go -up-to 2
-go run cmd/migrator/migrator.go -down-to 1
-```
+##### Migration
+
+??
+
+##### Seeding
+
+Build the seeder binary.
 
 ```sh
-go run cmd/seeder/seeder.go -add-all
-go run cmd/seeder/seeder.go -remove-all
-go run cmd/seeder/seeder.go -add users
-go run cmd/seeder/seeder.go -remove users
+go build cmd/seeder/seeder.go
 ```
 
-When you add a model, make sure to update the copy of its initial state in `/migrations/1_initial_tables.go` file
+Seed database or roll back.
+
+```sh
+./seeder -k auth -add-all
+./seeder -k auth -remove-all
+./seeder -k auth -add users
+./seeder -k resource -remove users
+```

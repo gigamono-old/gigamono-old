@@ -17,8 +17,8 @@ func main() {
 	flag.BoolVar(&removeAll, "remove-all", false, "Removes all seeds in table\n")
 	flag.StringVar(&seedToAdd, "add", "", "Removes all seeds in table\n")
 	flag.StringVar(&seedToRemove, "remove", "", "Removes all seeds in table\n")
-	flag.StringVar(&appKind, "kind", "", "Specify the application kind (resource or auth)\n")
-	flag.StringVar(&appKind, "k", "", "Specify the application kind (resource or auth)\n")
+	flag.StringVar(&appKind, "type", "", "Specify the application kind (resource or auth)\n")
+	flag.StringVar(&appKind, "t", "", "Specify the application kind (resource or auth)\n")
 	flag.Parse()
 
 	// Set default app kind.
