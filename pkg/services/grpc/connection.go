@@ -6,8 +6,8 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/gigamono/gigamono/pkg/services/proto/generated"
 	"github.com/gigamono/gigamono/pkg/configs"
+	"github.com/gigamono/gigamono/pkg/services/proto/generated"
 )
 
 // GetInsecureServiceClient returns a connection interface of supported gRPC client.

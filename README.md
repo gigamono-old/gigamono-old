@@ -34,21 +34,44 @@ gqlgen
 
 ##### Migration
 
-??
+Install goose
+
+```
+go get -u github.com/pressly/goose/cmd/goose
+```
+
+Or follow the instructions [here](https://github.com/pressly/goose#install)
+
+Run `goose` command in a directory with migrations or specify with seed directory with `--dir` flag
+
+```sh
+goose postgres "postgres://appcypher@localhost:5432/resourcedb?sslmode=disable" up
+goose postgres "postgres://appcypher@localhost:5432/resourcedb?sslmode=disable" reset
+```
+
+Check [here](https://github.com/pressly/goose) for more instructions on how to use goose.
 
 ##### Seeding
 
-Build the seeder binary.
+Clone pgseeder repo and cd into the created folder
 
 ```sh
-go build cmd/seeder/seeder.go
+git clone https://girhub.com/gigamono/pgseeder
+cd pgseeder
 ```
 
-Seed database or roll back.
+Build the binary.
 
 ```sh
-./seeder -k auth -add-all
-./seeder -k auth -remove-all
-./seeder -k auth -add users
-./seeder -k resource -remove users
+go build cmd/pgseeder.go
 ```
+
+Add the binary to system path and run `pgseeder` command in a directory with seeds or specify with seed directory with `-d` flag
+
+```sh
+pgseeder -c "postgres://appcypher@localhost:5432/resourcedb?sslmode=disable" --add users
+pgseeder -c "postgres://appcypher@localhost:5432/resourcedb?sslmode=disable" --add-all -d internal/db/seeds/resource
+pgseeder -c "postgres://appcypher@localhost:5432/resourcedb?sslmode=disable" --remove-all
+```
+
+Check [here](https://github.com/gigamono/pgseeder) for more instructions on how to use goose.

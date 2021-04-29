@@ -1,10 +1,7 @@
 package configs
 
-import "github.com/gigamono/gigamono/pkg/database/models/auth"
-
 // AppCredentialsConfig contains app-specific information for establishing auth.
 type AppCredentialsConfig struct {
-	Model    *auth.AppCredentials
 	Version  uint       `json:"version"`
 	Kind     ConfigKind `json:"kind"`
 	Metadata struct {

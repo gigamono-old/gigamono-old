@@ -1,15 +1,15 @@
 package resource
 
 import (
-	"github.com/gofrs/uuid"
 	"github.com/gigamono/gigamono/pkg/database/models"
+	"github.com/gofrs/uuid"
 )
 
 // Workspace represents a workspace.
 type Workspace struct {
 	models.Base
 	Name        string
-	Avatar32URL string `gorm:"column:avatar_32_url"`
-	CreatorID   uuid.UUID
-	XUser       []*User `gorm:"many2many:users_x_workspaces"`
+	Avatar32URL string    `pg:"avatar_32_url" json:"avatar_32_url"`
+	CreatorID   uuid.UUID `pg:"type:uuid" json:"creator_id"`
+	XUsers      []User    `pg:"many2many:x_users_workspaces" json:"-"`
 }

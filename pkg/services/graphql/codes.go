@@ -5,8 +5,8 @@ type ErrorCode string
 
 // ...
 const (
-	InputValidationError   ErrorCode = "InputValidationError"
-	InternalSystemError ErrorCode = "InternalSystemError"
+	InputValidationError ErrorCode = "InputValidationError"
+	InternalSystemError  ErrorCode = "InternalSystemError"
 )
 
 func (code *ErrorCode) String() string {

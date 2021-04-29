@@ -1,12 +1,7 @@
 package configs
 
-import (
-	models "github.com/gigamono/gigamono/pkg/database/models/resource"
-)
-
-// AppConfig holds the information about an app which can be used in tasks.
-type AppConfig struct {
-	Model    *models.App
+// IntegrationConfig holds the information about an app which can be used in tasks.
+type IntegrationConfig struct {
 	Version  uint       `json:"version"`
 	Kind     ConfigKind `json:"kind"`
 	Metadata struct {

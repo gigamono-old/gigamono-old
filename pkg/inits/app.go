@@ -43,7 +43,7 @@ func NewApp(appKind string) (App, error) {
 	}
 
 	// Connect to database.
-	db, err := database.Connect(&config, secrets, appKind)
+	db, err := database.Connect(secrets, appKind)
 	if err != nil {
 		err := fmt.Errorf("initialising app: unable to connect to db: %v", err)
 		logs.FmtPrintln(err)

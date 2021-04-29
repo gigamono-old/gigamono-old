@@ -2,15 +2,13 @@ package resource
 
 import (
 	"github.com/gigamono/gigamono/pkg/database/models"
-	"github.com/gofrs/uuid"
 )
 
 // User stores information about the user.
 type User struct {
 	models.Base
-	AuthUserID *uuid.UUID `gorm:"unique; type:uuid"`
-	Profile    Profile
-	Workspace  []Workspace  `gorm:"foreignKey:CreatorID"`
-	Project    []Project    `gorm:"foreignKey:CreatorID"`
-	XWorkspace []*Workspace `gorm:"many2many:users_x_workspaces"`
+	Profile     Profile     `pg:"rel:belongs-to"`
+	Workspaces  []Workspace `pg:"rel:has-many, join_fk:creator_id"`
+	Projects    []Project   `pg:"rel:has-many, join_fk:creator_id"`
+	XWorkspaces []Workspace `pg:"many2many:x_users_workspaces" json:"-"`
 }
