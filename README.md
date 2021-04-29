@@ -30,6 +30,21 @@ Add the binary to system path and run command in a directory with gqlgen.yml fil
 gqlgen
 ```
 
+### PROTO GENERATION
+
+Compile proto files with this command.
+
+```sh
+protoc \
+	--proto_path=./pkg/services/proto \
+	--proto_path=$GOPATH/src \
+	--go_out=plugins=grpc:./pkg/services/proto/generated \
+	--govalidators_out=./pkg/services/proto/generated \
+	--go_opt=paths=source_relative \
+	--govalidators_opt=paths=source_relative \
+	$(find ./pkg/services/proto -iname "*.proto")
+```
+
 ### DATABASE
 
 ##### Migration

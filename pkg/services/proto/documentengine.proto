@@ -1,0 +1,7 @@
+syntax = "proto3";
+option go_package = "github.com/gigamono/gigamono/pkg/services/proto/generated";
+import "common.proto";
+
+service DocumentEngineService {
+    rpc SayHello(common.Message) returns (common.Message);
+}
