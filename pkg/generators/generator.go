@@ -1,5 +1,5 @@
 
-package generator
+package generators
 
 // Generator abstracts how code is generated from a target.
 type Generator interface {
