@@ -1,5 +1,3 @@
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fgigamono%2Fgigamono.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fgigamono%2Fgigamono?ref=badge_shield)
-
 <div align="center">
     <a href="#" target="_blank">
         <img src="https://raw.githubusercontent.com/gigamono/gigamono/main/media/logo.png" alt="Gigamono Logo" width="140" height="140"></img>
@@ -95,4 +93,8 @@ Check [here](https://github.com/gigamono/pgseeder) for more instructions on how 
 
 
 ## License
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fgigamono%2Fgigamono.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fgigamono%2Fgigamono?ref=badge_large)
+<div align="center">
+    <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fgigamono%2Fgigamono?ref=badge_large" target="_blank">
+      <img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fgigamono%2Fgigamono.svg?type=large" alt="FOSSA Status"></img>
+    </a>
+</div>
