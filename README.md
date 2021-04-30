@@ -93,8 +93,4 @@ Check [here](https://github.com/gigamono/pgseeder) for more instructions on how 
 
 
 ## License
-<div align="center">
-    <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fgigamono%2Fgigamono?ref=badge_large" target="_blank">
-      <img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fgigamono%2Fgigamono.svg?type=large" alt="FOSSA Status"></img>
-    </a>
-</div>
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fgigamono%2Fgigamono.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fgigamono%2Fgigamono?ref=badge_large)
