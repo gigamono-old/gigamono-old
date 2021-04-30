@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fgigamono%2Fgigamono.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fgigamono%2Fgigamono?ref=badge_shield)
+
 <div align="center">
     <a href="#" target="_blank">
         <img src="https://raw.githubusercontent.com/gigamono/gigamono/main/media/logo.png" alt="Gigamono Logo" width="140" height="140"></img>
@@ -90,3 +92,7 @@ pgseeder -c "postgres://appcypher@localhost:5432/resourcedb?sslmode=disable" --r
 ```
 
 Check [here](https://github.com/gigamono/pgseeder) for more instructions on how to use goose.
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fgigamono%2Fgigamono.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fgigamono%2Fgigamono?ref=badge_large)
