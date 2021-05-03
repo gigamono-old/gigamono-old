@@ -1,0 +1,9 @@
+type Tokens {
+    AccessToken: String!
+    RefereshToken: String!
+}
+
+input TokensInput {
+    AccessToken: String!
+    RefereshToken: String!
+}
