@@ -7,7 +7,7 @@ CREATE TABLE workflows (
     deleted_at timestamp with time zone,
     name text,
     specification jsonb,
-    is_active boolean,
+    is_active boolean DEFAULT FALSE,
     creator_id uuid REFERENCES users(id)
 );
 -- +goose Down

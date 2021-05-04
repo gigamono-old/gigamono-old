@@ -1,0 +1,56 @@
+version: '3.9'
+services:
+  resource_database:
+    restart: always
+    image: postgres:13.2-alpine
+    environment:
+      - POSTGRES_DB=${RESOURCE_POSTGRES_DB}
+      - POSTGRES_USER=${RESOURCE_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${RESOURCE_POSTGRES_PASSWORD}
+    ports:
+      - '5000:5000'
+    volumes:
+      - resource_database:/var/lib/postgresql/data
+
+  auth_database:
+    restart: always
+    image: postgres:13.2-alpine
+    environment:
+      - POSTGRES_DB=${AUTH_POSTGRES_DB}
+      - POSTGRES_USER=${AUTH_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${AUTH_POSTGRES_PASSWORD}
+    ports:
+      - '5001:5001'
+    volumes:
+      - auth_database:/var/lib/postgresql/data
+
+  api:
+    restart: always
+    environment:
+      - RESOURCE_DB_CONNECTION_URI
+      - GIGAMONO_CONFIG_FILE
+    build:
+      context: ../../../
+      dockerfile: gigamono/docker/gigamono-api/Dockerfile
+    ports:
+      - '3000:3000'
+    depends_on:
+      - resource_database
+      - auth
+
+  auth:
+    restart: always
+    environment:
+      - AUTH_DB_CONNECTION_URI
+      - GIGAMONO_CONFIG_FILE
+    build:
+      context: ../../../
+      dockerfile: gigamono/docker/gigamono-auth/Dockerfile
+    ports:
+      - '3001:3001'
+    depends_on:
+      - auth_database
+
+volumes:
+  resource_database:
+  auth_database:

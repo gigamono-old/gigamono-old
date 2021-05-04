@@ -44,15 +44,6 @@ const (
 	Appcredentials ConfigKind = "AppCredentials"
 )
 
-// ExecutionContext refers to how the engine is going to run each task.
-type ExecutionContext string
-
-// ...
-const (
-	Protected ExecutionContext = "Protected" // Sandboxed code execution
-	Bare      ExecutionContext = "Bare"      // Non-sandboxed code execution
-)
-
 // AuthKind is the type of authorisation an App supports.
 type AuthKind string
 

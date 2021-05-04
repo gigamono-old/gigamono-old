@@ -11,7 +11,7 @@ import (
 // Decodes unsupported types like UUID.
 func getCustomDecoder() viper.DecoderConfigOption {
 	return viper.DecodeHook(mapstructure.ComposeDecodeHookFunc(
-		func(f reflect.Type, t reflect.Type, data interface{}) (interface{}, error) {
+		func(_ reflect.Type, t reflect.Type, data interface{}) (interface{}, error) {
 			switch t {
 			case reflect.TypeOf(UUID{}): // When UUID type is encountered.
 				parsedID, err := uuid.FromString(data.(string)) // Get UUID from string

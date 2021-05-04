@@ -1,6 +1,7 @@
 package configs
 
 import (
+	"encoding/json"
 	"strings"
 
 	"github.com/spf13/viper"
@@ -13,7 +14,6 @@ type WorkflowConfig struct {
 	Metadata struct {
 		Name              string             `json:"name"`
 		Description       string             `json:"description"`
-		ExecutionContexts []ExecutionContext `mapstructure:"execution_contexts" json:"execution_contexts"`
 		Authors           []Author           `json:"authors"`
 	} `json:"metadata"`
 	Steps []Step `json:"steps"`
@@ -27,7 +27,6 @@ type Step struct {
 	Dependencies     []uint              `json:"dependencies"`
 	Position         []uint              `json:"position"`
 	AppName          string              `mapstructure:"app_name" json:"app_name"`
-	ExecutionContext ExecutionContext    `mapstructure:"execution_context" json:"execution_context"`
 	AppID            UUID                `mapstructure:"app_id" json:"app_id"`
 	AccountID        UUID                `mapstructure:"account_id" json:"account_id"`
 	Fields           map[string][]string `json:"fields"`
@@ -35,6 +34,7 @@ type Step struct {
 
 // NewWorkflowConfig creates a WorkflowConfig from string. Supports JSON, TOML and YAML string format.
 func NewWorkflowConfig(workflowString string, format ConfigFormat) (WorkflowConfig, error) {
+	// TODO: Sec: Validation
 	workflow := WorkflowConfig{}
 	reader := strings.NewReader(workflowString)
 
@@ -49,4 +49,15 @@ func NewWorkflowConfig(workflowString string, format ConfigFormat) (WorkflowConf
 	}
 
 	return workflow, nil
+}
+
+// JSON converts config to json.
+func (config *WorkflowConfig) JSON() (string, error) {
+	// TODO: Sec: Validation
+	bytes, err := json.Marshal(config)
+	if err != nil {
+		return "", err
+	}
+
+	return string(bytes), nil
 }

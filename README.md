@@ -10,10 +10,32 @@
 :warning:  This project is experimental and in active development  :warning:
 </p>
 
-### SETTING UP PROJECT
+:information_source: The instructions below isn't final. Will be replaced with a build script :information_source:
+
+### DOCKER SETUP
+
+Clone the following repos under the same directory.
 
 ```sh
-git clone --recursive github.com/gigamono/gigamono
+git clone github.com/gigamono/gigamono
+git clone github.com/gigamono/gigamono-api
+git clone github.com/gigamono/gigamono-auth
+```
+
+Follow directions in respective repo to set the up properly.
+
+Change directory.
+
+```sh
+cd gigamono
+```
+
+Add a `.env.docker` file following the template `.env.docker.sample`
+
+Run the following docker-compose command.
+
+```sh
+docker-compose --env-file ./.env.docker -f docker/compose/local.yaml up
 ```
 
 ### GRAPHQL GENERATION

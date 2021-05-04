@@ -1,6 +1,7 @@
 package configs
 
 import (
+	"encoding/json"
 	"errors"
 	"io/ioutil"
 	"os"
@@ -46,6 +47,7 @@ type GigamonoConfig struct {
 
 // NewGigamonoConfig creates a GigamonoConfig from string. Supports JSON, TOML and YAML string format.
 func NewGigamonoConfig(gigamonoString string, format ConfigFormat) (GigamonoConfig, error) {
+	// TODO: Sec: Validation
 	config := GigamonoConfig{}
 	reader := strings.NewReader(gigamonoString)
 
@@ -62,7 +64,7 @@ func NewGigamonoConfig(gigamonoString string, format ConfigFormat) (GigamonoConf
 	return config, nil
 }
 
-// LoadGigamonoConfig loads a gigamono config from file
+// LoadGigamonoConfig loads a gigamono config from file.
 func LoadGigamonoConfig() (GigamonoConfig, error) {
 	// Load .env file.
 	if err := godotenv.Load(); err != nil {
@@ -88,4 +90,15 @@ func LoadGigamonoConfig() (GigamonoConfig, error) {
 	}
 
 	return NewGigamonoConfig(string(fileContent), format)
+}
+
+// JSON converts config to json.
+func (config *GigamonoConfig) JSON() (string, error) {
+	// TODO: Sec: Validation
+	bytes, err := json.Marshal(config)
+	if err != nil {
+		return "", err
+	}
+
+	return string(bytes), nil
 }
