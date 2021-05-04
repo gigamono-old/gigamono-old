@@ -23,14 +23,20 @@ func OpenOrCreateLogFile(dest string) (*os.File, error) {
 	return files.OpenOrCreateFile("logs/"+dest, true)
 }
 
-// FmtPrintln calls log and fmt Println function.
+// FmtPrintln logs message and prints it to the console.
 func FmtPrintln(v ...interface{}) {
 	fmt.Println(v...)
 	log.Println(v...)
 }
 
-// FmtPrintf calls log and fmt Printf function.
+// FmtPrintf logs message and prints it to the console.
 func FmtPrintf(format string, v ...interface{}) {
 	fmt.Printf(format, v...)
 	log.Printf(format, v...)
+}
+
+// NewError logs message and returns an error message but without the original error.
+func NewError(message string, err error) error {
+	log.Println(message+":", err)
+	return fmt.Errorf(message)
 }

@@ -15,7 +15,7 @@ func CreateWorkflow(
 	sessionUserID *uuid.UUID,
 	workflowName string,
 	workflowSpecification configs.WorkflowConfig,
-) (string, error) {
+) (*uuid.UUID, error) {
 	// TODO: Sec: Permission.
 	workflow := resource.Workflow{
 		Name:          workflowName,
@@ -25,25 +25,24 @@ func CreateWorkflow(
 
 	// Insert workflow and return id.
 	if _, err := db.Model(&workflow).Returning("id").Insert(); err != nil {
-		return "", fmt.Errorf("unable to create workflow: %v", err)
+		return &uuid.UUID{}, fmt.Errorf("unable to create workflow: %v", err)
 	}
 
-	return workflow.ID.String(), nil
+	return &workflow.ID, nil
 }
 
 // ActivateWorkflow updates the `is_active` field of a workflow.
-func ActivateWorkflow(db *database.DB, _ *uuid.UUID, workflowID *uuid.UUID) (string, error) {
+func ActivateWorkflow(db *database.DB, _ *uuid.UUID, workflowID *uuid.UUID) (*uuid.UUID, error) {
 	// TODO: Sec: Permission.
-	workflow := &resource.Workflow{}
-	workflow.ID = *workflowID
+	workflow := new(resource.Workflow)
 	workflow.IsActive = true
 
 	// Update details specified workflow.
-	if _, err := db.Model(&workflow).Update(); err != nil {
-		return "", fmt.Errorf("unable to activate workflow: %v", err)
+	if _, err := db.Model(workflow).Set("is_active = ?is_active").Where("id = ?", workflowID).Update(); err != nil {
+		return &uuid.UUID{}, fmt.Errorf("unable to activate workflow: %v", err)
 	}
 
-	return workflow.ID.String(), nil
+	return workflowID, nil
 }
 
 // GetWorkflow gets a workflow by id.
@@ -52,7 +51,7 @@ func GetWorkflow(db *database.DB, _ *uuid.UUID, workflowID *uuid.UUID) (*resourc
 	workflow := new(resource.Workflow)
 
 	// Select the workflow with the specified workflowID
-	if err := db.Model(&workflow).Where("id = ?", workflowID).Select(); err != nil {
+	if err := db.Model(workflow).Where("id = ?", workflowID).Select(); err != nil {
 		return &resource.Workflow{}, fmt.Errorf("unable to get workflow: %v", err)
 	}
 
