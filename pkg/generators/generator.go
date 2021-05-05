@@ -1,4 +1,3 @@
-
 package generators
 
 // Generator abstracts how code is generated from a target.

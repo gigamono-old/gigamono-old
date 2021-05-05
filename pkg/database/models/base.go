@@ -9,7 +9,7 @@ import (
 
 // Base is the base model for other models.
 type Base struct {
-	ID        uuid.UUID  `pg:",pk, unique, notnull, type:uuid, default:uuid_generate_v4()"`
+	ID        uuid.UUID  `pg:",pk, unique, notnull, type:uuid, default:uuid_generate_v4()" json:"id"`
 	CreatedAt time.Time  `json:"created_at"`
 	UpdatedAt time.Time  `json:"updated_at"`
 	DeletedAt *time.Time `pg:",soft_delete" json:"deleted_at"`
