@@ -3,7 +3,6 @@ package resource
 import (
 	"fmt"
 
-	"github.com/gigamono/gigamono/pkg/configs"
 	"github.com/gigamono/gigamono/pkg/database"
 	"github.com/gigamono/gigamono/pkg/database/models/resource"
 	"github.com/gofrs/uuid"
@@ -14,7 +13,7 @@ func CreateWorkflow(
 	db *database.DB,
 	sessionUserID *uuid.UUID,
 	workflowName string,
-	workflowSpecification configs.WorkflowConfig,
+	workflowSpecification string,
 ) (*uuid.UUID, error) {
 	// TODO: Sec: Permission.
 	workflow := resource.Workflow{

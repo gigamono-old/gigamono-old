@@ -33,7 +33,11 @@ type GigamonoConfig struct {
 				Port int `json:"port"`
 			} `json:"auth"`
 			WorkflowEngine struct {
-				Port int `json:"port"`
+				Ports struct {
+					MainServer         int `mapstructure:"main_server" json:"main_server"`
+					WebhookService     int `mapstructure:"webhook_service" json:"webhook_service"`
+					RunnableSupervisor int `mapstructure:"runnable_supervisor" json:"runnable_supervisor"`
+				} `json:"ports"`
 			} `mapstructure:"workflow_engine" json:"workflow_engine"`
 			DocumentEngine struct {
 				Port int `json:"port"`

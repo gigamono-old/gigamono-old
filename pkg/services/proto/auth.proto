@@ -21,7 +21,7 @@ message PingResponse {
     string content = 1;
 }
 
-service AuthService {
+service Auth {
     rpc Ping(common.Empty) returns (PingResponse);
     rpc GetSignUpToken(UserTokenRequest) returns (UserTokenResponse);
     rpc GetSignInToken(UserTokenRequest) returns (UserTokenResponse);

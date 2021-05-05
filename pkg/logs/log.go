@@ -1,6 +1,7 @@
 package logs
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -33,6 +34,13 @@ func FmtPrintln(v ...interface{}) {
 func FmtPrintf(format string, v ...interface{}) {
 	fmt.Printf(format, v...)
 	log.Printf(format, v...)
+}
+
+// Error logs message and returns an error message with the original error.
+func Error(message string, err error) error {
+	msg := message + ":"
+	log.Println(msg, err)
+	return errors.New(fmt.Sprintln(msg, err))
 }
 
 // NewError logs message and returns an error message but without the original error.
