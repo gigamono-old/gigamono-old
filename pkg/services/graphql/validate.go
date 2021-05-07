@@ -7,6 +7,7 @@ import (
 	"unicode"
 
 	"github.com/99designs/gqlgen/graphql"
+	"github.com/gigamono/gigamono/pkg/errs"
 	"github.com/go-playground/validator/v10"
 	"github.com/vektah/gqlparser/v2/ast"
 	"github.com/vektah/gqlparser/v2/gqlerror"
@@ -19,8 +20,8 @@ func ValidateStructAndAppendErrors(ctx context.Context, validate *validator.Vali
 		return nil
 	}
 
-	if errs := err.(validator.ValidationErrors); errs != nil {
-		for _, err := range errs {
+	if validationErrors := err.(validator.ValidationErrors); validationErrors != nil {
+		for _, err := range validationErrors {
 			// Recreate the rule that failed.
 			rule := err.ActualTag()
 			param := err.Param()
@@ -38,9 +39,9 @@ func ValidateStructAndAppendErrors(ctx context.Context, validate *validator.Vali
 			// Add error to response.
 			graphql.AddError(ctx, &gqlerror.Error{
 				Path:    path,
-				Message: "input validation failed",
+				Message: err.Error(),
 				Extensions: map[string]interface{}{
-					"code":  InputValidationError,
+					"code":  errs.InputValidationError,
 					"value": err.Value(),
 					"rule":  rule,
 				},

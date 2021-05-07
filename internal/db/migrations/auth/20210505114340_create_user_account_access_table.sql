@@ -6,7 +6,7 @@ CREATE TABLE user_account_access (
     updated_at timestamp with time zone,
     deleted_at timestamp with time zone,
     email text,
-    enc_password text
+    hashed_password text
 );
 -- +goose Down
 -- SQL in this section is executed when the migration is rolled back.

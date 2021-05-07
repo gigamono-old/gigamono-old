@@ -3,27 +3,6 @@ option go_package = "github.com/gigamono/gigamono/pkg/services/proto/generated";
 import "github.com/mwitkow/go-proto-validators/validator.proto";
 import "common.proto";
 
-message UserTokenRequest { // Sec: Add OAuth2-like client authentication.
-    string username = 1;
-    string password = 2;
-}
-
-message AccessTokenRequest { // Sec: Add OAuth2-like client authentication.
-    string refresh_token = 1;
-}
-
-message UserTokenResponse {
-    string access_token = 1;
-    string refresh_token = 2;
-}
-
-message PingResponse {
-    string content = 1;
-}
-
 service Auth {
-    rpc Ping(common.Empty) returns (PingResponse);
-    rpc GetSignUpToken(UserTokenRequest) returns (UserTokenResponse);
-    rpc GetSignInToken(UserTokenRequest) returns (UserTokenResponse);
-    rpc RefreshAccessToken(AccessTokenRequest) returns (UserTokenResponse);
+    rpc SayHello(common.Message) returns (common.Message);
 }

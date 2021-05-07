@@ -1,7 +1,6 @@
 package logs
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -24,6 +23,18 @@ func OpenOrCreateLogFile(dest string) (*os.File, error) {
 	return files.OpenOrCreateFile("logs/"+dest, true)
 }
 
+// Println logs a message.
+// This is just to provide a singe source of truth for everyting logging.
+func Println(v ...interface{}) {
+	log.Println(v...)
+}
+
+// Printf logs a message.
+// This is just to provide a singe source of truth for everyting logging.
+func Printf(format string, v ...interface{}) {
+	log.Printf(format, v...)
+}
+
 // FmtPrintln logs message and prints it to the console.
 func FmtPrintln(v ...interface{}) {
 	fmt.Println(v...)
@@ -34,17 +45,4 @@ func FmtPrintln(v ...interface{}) {
 func FmtPrintf(format string, v ...interface{}) {
 	fmt.Printf(format, v...)
 	log.Printf(format, v...)
-}
-
-// Error logs message and returns an error message with the original error.
-func Error(message string, err error) error {
-	msg := message + ":"
-	log.Println(msg, err)
-	return errors.New(fmt.Sprintln(msg, err))
-}
-
-// NewError logs message and returns an error message but without the original error.
-func NewError(message string, err error) error {
-	log.Println(message+":", err)
-	return fmt.Errorf(message)
 }

@@ -1,10 +1,11 @@
-package interceptors
+package middleware
 
 import (
 	"context"
 
 	"github.com/99designs/gqlgen/graphql"
-	gql "github.com/gigamono/gigamono/pkg/services/graphql"
+	"github.com/gigamono/gigamono/pkg/errs"
+	"github.com/gigamono/gigamono/pkg/messages"
 	"github.com/vektah/gqlparser/v2/gqlerror"
 )
 
@@ -19,19 +20,20 @@ var _ interface {
 } = ErrorModifier{}
 
 // InterceptResponse modifies error messages with "internal system error".
+// And removes client errors if present. It prevents the client user from fixing the wrong issues.
 func (interceptor ErrorModifier) InterceptResponse(ctx context.Context, next graphql.ResponseHandler) *graphql.Response {
 	response := next(ctx)
 
 	// Check if error messages contain a "internal system error".
 	errors := graphql.GetErrors(ctx)
 	for _, err := range errors {
-		if err.Message == "internal system error" {
+		if err.Message == messages.Error["internal-system-error"] {
 			// Change response to only show server error.
 			response = &graphql.Response{
 				Errors: gqlerror.List{{
 					Message: err.Message,
 					Extensions: map[string]interface{}{
-						"code": gql.InternalSystemError,
+						"code": errs.InternalSystemError,
 					},
 				}},
 			}

@@ -27,20 +27,20 @@ type GigamonoConfig struct {
 		TLS   struct{} `json:"tls"`
 		Types struct {
 			API struct {
-				Port int `json:"port"`
+				Port uint `json:"port"`
 			} `json:"api"`
 			Auth struct {
-				Port int `json:"port"`
+				Port uint `json:"port"`
 			} `json:"auth"`
 			WorkflowEngine struct {
 				Ports struct {
-					MainServer         int `mapstructure:"main_server" json:"main_server"`
-					WebhookService     int `mapstructure:"webhook_service" json:"webhook_service"`
-					RunnableSupervisor int `mapstructure:"runnable_supervisor" json:"runnable_supervisor"`
+					MainServer         uint `mapstructure:"main_server" json:"main_server"`
+					WebhookService     uint `mapstructure:"webhook_service" json:"webhook_service"`
+					RunnableSupervisor uint `mapstructure:"runnable_supervisor" json:"runnable_supervisor"`
 				} `json:"ports"`
 			} `mapstructure:"workflow_engine" json:"workflow_engine"`
 			DocumentEngine struct {
-				Port int `json:"port"`
+				Port uint `json:"port"`
 			} `mapstructure:"document_engine" json:"document_engine"`
 		} `json:"types"`
 	} `json:"services"`

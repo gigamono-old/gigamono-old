@@ -24,7 +24,7 @@ func CreateWorkflow(
 
 	// Insert workflow and return id.
 	if _, err := db.Model(&workflow).Returning("id").Insert(); err != nil {
-		return &uuid.UUID{}, fmt.Errorf("unable to create workflow: %v", err)
+		return &uuid.UUID{}, fmt.Errorf("creating workflow: %v", err)
 	}
 
 	return &workflow.ID, nil
@@ -38,7 +38,7 @@ func ActivateWorkflow(db *database.DB, _ *uuid.UUID, workflowID *uuid.UUID) (*uu
 
 	// Update details specified workflow.
 	if _, err := db.Model(workflow).Set("is_active = ?is_active").Where("id = ?", workflowID).Update(); err != nil {
-		return &uuid.UUID{}, fmt.Errorf("unable to activate workflow: %v", err)
+		return &uuid.UUID{}, fmt.Errorf("activating workflow: %v", err)
 	}
 
 	return workflowID, nil
@@ -51,7 +51,7 @@ func GetWorkflow(db *database.DB, _ *uuid.UUID, workflowID *uuid.UUID) (*resourc
 
 	// Select the workflow with the specified workflowID
 	if err := db.Model(workflow).Where("id = ?", workflowID).Select(); err != nil {
-		return &resource.Workflow{}, fmt.Errorf("unable to get workflow: %v", err)
+		return &resource.Workflow{}, fmt.Errorf("getting workflow: %v", err)
 	}
 
 	return workflow, nil
