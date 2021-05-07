@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-:warning:  The instructions below isn't final. Will be replaced with a build script  :warning:
+:warning:  The instructions below are not final. Will be replaced in the future.  :warning:
 </p>
 
 ### DOCKER SETUP
