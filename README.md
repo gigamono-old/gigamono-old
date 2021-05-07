@@ -10,7 +10,9 @@
 :warning:  This project is experimental and in active development  :warning:
 </p>
 
-:information_source: The instructions below isn't final. Will be replaced with a build script :information_source:
+<p align="center">
+:warning:  The instructions below isn't final. Will be replaced with a build script  :warning:
+</p>
 
 ### DOCKER SETUP
 
