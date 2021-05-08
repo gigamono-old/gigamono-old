@@ -27,7 +27,7 @@ func (interceptor ErrorModifier) InterceptResponse(ctx context.Context, next gra
 	// Check if error messages contain a "internal system error".
 	errors := graphql.GetErrors(ctx)
 	for _, err := range errors {
-		if err.Message == messages.Error["internal-system-error"] {
+		if err.Message == messages.Error["internal"] {
 			// Change response to only show server error.
 			response = &graphql.Response{
 				Errors: gqlerror.List{{

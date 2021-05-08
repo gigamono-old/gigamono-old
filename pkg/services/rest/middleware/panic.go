@@ -14,14 +14,18 @@ import (
 // Sec: DON'T log requests because of sensitive data.
 func PanicHandler(ctx *gin.Context, err interface{}) {
 	newErr := err
+	clientErrorMessage := messages.Error["internal"].(string)
 
-	// Check if err is a SystemError
-	if systemErr, ok := err.(*errs.SystemError); ok {
+	// Check if err is a SystemError and log error.
+	if systemErr, ok := err.(errs.SystemError); ok {
 		newErr = systemErr
+		if systemErr.ClientContextMessage != "" {
+			clientErrorMessage = systemErr.ClientContextMessage
+		}
+		logs.FmtPrintln(systemErr.Error())
+	} else {
+		logs.FmtPrintln(newErr)
 	}
-
-	// Log error.
-	logs.FmtPrintln(newErr)
 
 	// Send system error to client.
 	ctx.JSON(
@@ -29,7 +33,7 @@ func PanicHandler(ctx *gin.Context, err interface{}) {
 		response.Response{
 			Errors: []errs.ClientError{{
 				Path:    []string{ctx.FullPath()},
-				Message: messages.Error["internal-system-error"].(string),
+				Message: clientErrorMessage,
 				Code:    errs.InternalSystemError,
 				Type:    errs.None,
 			}},

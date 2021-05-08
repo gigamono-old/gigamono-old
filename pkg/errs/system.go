@@ -3,39 +3,46 @@ package errs
 import (
 	"fmt"
 	"runtime"
+
+	"github.com/gigamono/gigamono/pkg/logs"
 )
 
 // SystemError represents an internal system error, typically invoked by a panic that will be handled by a panic handler.
 // It wraps actual error to add context information to error.
 type SystemError struct {
-	Context string        // A contextual message.
-	Frame   runtime.Frame // The function frame that invoked a panic.
-	Actual  error         /// The wrapped error.
+	ClientContextMessage string        // A contextual message for the client.
+	ServerContextMessage string        // A contextual message for the server.
+	FunctionFrame        runtime.Frame // The function frame that invoked a panic.
+	ActualError          error         // The wrapped error.
 }
 
 // NewSystemError creates a new SystemError instance.
-func NewSystemError(ctx string, actual error, frame runtime.Frame) SystemError {
+func NewSystemError(clientContextMessage string, serverContextMessage string, actualError error) SystemError {
+	// Get the frame info of the routine that calls this function.
+	frame := logs.CallerParentFrame()
+
 	return SystemError{
-		Context: ctx,
-		Actual:  actual,
-		Frame:   frame,
+		ClientContextMessage: clientContextMessage,
+		ServerContextMessage: serverContextMessage,
+		ActualError:          actualError,
+		FunctionFrame:        frame,
 	}
 }
 
 func (err *SystemError) Error() string {
-	fileName := err.Frame.File
-	funcName := err.Frame.Function
-	lineInfo := err.Frame.Line
+	fileName := err.FunctionFrame.File
+	funcName := err.FunctionFrame.Function
+	lineInfo := err.FunctionFrame.Line
 	return fmt.Sprintf(
-		"%v: %v: \n\t\t> %v: %v: %v\n",
-		err.Context,
-		err.Actual,
+		"%v: %v:\n:: %v:\n:: %v: %v\n",
+		err.ServerContextMessage,
+		err.ActualError,
+		funcName,
 		fileName,
 		lineInfo,
-		funcName,
 	)
 }
 
 func (err *SystemError) Unwrap() error {
-	return err.Actual
+	return err.ActualError
 }

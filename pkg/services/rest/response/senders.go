@@ -9,10 +9,12 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-// SendFormBindErrors handles and sends binding errors.
+// BindErrors reshapes and adds binding errors to response body.
+//
 // Gin form binding returns different types of errors. (ValidationErrors, NumError, etc.)
+//
 // https://github.com/gin-gonic/gin/issues/1093
-func SendFormBindErrors(ctx *gin.Context, err error) {
+func BindErrors(ctx *gin.Context, err error) {
 	var clientErrors []errs.ClientError
 
 	switch err.(type) {
@@ -28,7 +30,7 @@ func SendFormBindErrors(ctx *gin.Context, err error) {
 	default: // Other types of errors.
 		clientErrors = append(clientErrors, errs.ClientError{
 			Path:    []string{ctx.FullPath()},
-			Message: messages.Error["input-validation"].(messages.Func)("form"),
+			Message: messages.Error["validation"].(messages.Func)("form"),
 			Code:    errs.InputValidationError,
 			Type:    errs.URLEncodedForm,
 		})
@@ -43,8 +45,8 @@ func SendFormBindErrors(ctx *gin.Context, err error) {
 	)
 }
 
-// SendFormErrors simplifies sending form errors.
-func SendFormErrors(ctx *gin.Context, code errs.ErrorCode, message string) {
+// FormErrors simplifies adding form to response body.
+func FormErrors(ctx *gin.Context, code errs.ErrorCode, message string) {
 	ctx.JSON(
 		http.StatusBadRequest,
 		Response{
@@ -58,8 +60,8 @@ func SendFormErrors(ctx *gin.Context, code errs.ErrorCode, message string) {
 	)
 }
 
-// SendSuccess simplifies sending success messages.
-func SendSuccess(ctx *gin.Context, message string, data map[string]interface{}) {
+// Success simplifies adding success messages to response body.
+func Success(ctx *gin.Context, message string, data map[string]interface{}) {
 	ctx.JSON(
 		http.StatusOK,
 		Response{

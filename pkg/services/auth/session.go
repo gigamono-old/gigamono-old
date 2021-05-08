@@ -1,6 +1,8 @@
 package auth
 
-import "github.com/gofrs/uuid"
+import (
+	"github.com/gofrs/uuid"
+)
 
 // Tokens are used to identify session.
 type Tokens struct {
