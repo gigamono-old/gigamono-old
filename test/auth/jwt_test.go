@@ -35,17 +35,17 @@ YNJ5qPakZwr7GlDprxc=
 -----END PUBLIC KEY-----
 `
 
-func TestValidPublicKey(t *testing.T) {
+func TestValidJWTPublicKey(t *testing.T) {
 	payload := auth.GenerateAuthClaims("subject_id", "signup", 604800)
 
 	t.Log(">> Signing")
-	token, err := auth.GenerateJWTToken(payload, []byte(privKey))
+	token, err := auth.GenerateSignedJWT(payload, []byte(privKey))
 	assert.Nil(t, err)
 
 	t.Log(">> token =", token)
 
 	t.Log(">> Decoding")
-	claims, err := auth.DecodeJWTToken(token, []byte(validPubKey))
+	claims, err := auth.DecodeSignedJWT(token, []byte(validPubKey))
 	assert.Nil(t, err)
 
 	assert.Equal(t, &payload, claims)
@@ -55,13 +55,13 @@ func TestInvalidPublicKey(t *testing.T) {
 	payload := auth.GenerateAuthClaims("subject_id", "signup", 604800)
 
 	t.Log(">> Signing")
-	token, err := auth.GenerateJWTToken(payload, []byte(privKey))
+	token, err := auth.GenerateSignedJWT(payload, []byte(privKey))
 	assert.Nil(t, err)
 
 	t.Log(">> token =", token)
 
 	t.Log(">> Decoding")
-	claims, err := auth.DecodeJWTToken(token, []byte(invalidPubKey))
+	claims, err := auth.DecodeSignedJWT(token, []byte(invalidPubKey))
 	assert.NotNil(t, err)
 
 	t.Log(">> err", err)

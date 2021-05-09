@@ -4,8 +4,12 @@ import (
 	"github.com/alexedwards/argon2id"
 )
 
-// GenerateHash uses Argon2id KDF to generate a key from password.
-func GenerateHash(password string, iterations uint32) (string, error) {
+// GeneratePasswordHash generates a key from a password.
+//
+// This uses Argon2id key derivation function.
+//
+// https://en.wikipedia.org/wiki/Argon2
+func GeneratePasswordHash(password string, iterations uint32) (string, error) {
 	params := &argon2id.Params{
 		Memory:      64 * 1024,
 		Iterations:  iterations,
@@ -17,7 +21,7 @@ func GenerateHash(password string, iterations uint32) (string, error) {
 	return argon2id.CreateHash(password, params)
 }
 
-// VerifyHash verfies that hashed password is derived from plain text password.
-func VerifyHash(plaintextPassword string, passwordHash string) (bool, error) {
+// VerifyPasswordHash verfies that hashed password is derived from plain text password.
+func VerifyPasswordHash(plaintextPassword string, passwordHash string) (bool, error) {
 	return argon2id.ComparePasswordAndHash(plaintextPassword, passwordHash)
 }

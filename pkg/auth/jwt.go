@@ -22,14 +22,12 @@ type Claims struct {
 	Action string `json:"action,omitempty"`
 }
 
-// SignatureError represents an invalid signation error from public key decryption.
-type SignatureError struct{}
-
-func (err *SignatureError) Error() string { return "Invalid Signature" }
-
-// GenerateJWTToken generates a JWT token from payload and private key.
+// GenerateSignedJWT generates a JWT token from payload signed by a private key.
+//
 // This uses an ECDSA P-521 asymmetric encryption with SHA-512 hashing.
-func GenerateJWTToken(payload Claims, privateKeyBytes []byte) (string, error) {
+//
+// https://en.wikipedia.org/wiki/Elliptic-curve_cryptography
+func GenerateSignedJWT(payload Claims, privateKeyBytes []byte) (string, error) {
 	payloadBytes, err := json.Marshal(payload)
 	if err != nil {
 		return "", err
@@ -59,9 +57,8 @@ func GenerateAuthClaims(subject string, action string, expirationInSeconds int) 
 	}
 }
 
-// DecodeJWTToken verifies that the token was signed with associated private key.
-// This uses an ECDSA P-521 asymmetric encryption with SHA-512 hashing.
-func DecodeJWTToken(tokenString string, publicKeyBytes []byte) (*Claims, error) {
+// DecodeSignedJWT verifies that the token was signed with associated private key.
+func DecodeSignedJWT(tokenString string, publicKeyBytes []byte) (*Claims, error) {
 	publicKey, err := ecc.ReadPublic(publicKeyBytes)
 	if err != nil {
 		return &Claims{}, err
