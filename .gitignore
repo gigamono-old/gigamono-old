@@ -9,3 +9,4 @@ gqlgen
 
 !/**/
 .env.docker
+*.pem
