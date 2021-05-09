@@ -115,6 +115,14 @@ pgseeder -c "postgres://appcypher@localhost:5432/resourcedb?sslmode=disable" --r
 
 Check [here](https://github.com/gigamono/pgseeder) for more instructions on how to use goose.
 
+### GENERATING KEYS
+
+Generate private-public key pair with openssl
+
+```sh
+openssl ecparam -genkey -name secp521r1 -noout -out private.pem
+openssl ec -in private.pem -pubout -out public.pem
+```
 
 ## License
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fgigamono%2Fgigamono.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fgigamono%2Fgigamono?ref=badge_large)
