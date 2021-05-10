@@ -27,20 +27,28 @@ type GigamonoConfig struct {
 		TLS   struct{} `json:"tls"`
 		Types struct {
 			API struct {
-				Port uint `json:"port"`
+				PublicPort  uint `mapstructure:"public_port" json:"public_port"`
+				PrivatePort uint `mapstructure:"private_port" json:"private_port"`
 			} `json:"api"`
 			Auth struct {
-				Port uint `json:"port"`
+				PublicPort  uint `mapstructure:"public_port" json:"public_port"`
+				PrivatePort uint `mapstructure:"private_port" json:"private_port"`
 			} `json:"auth"`
 			WorkflowEngine struct {
-				Ports struct {
+				PublicPorts struct {
 					MainServer         uint `mapstructure:"main_server" json:"main_server"`
 					WebhookService     uint `mapstructure:"webhook_service" json:"webhook_service"`
 					RunnableSupervisor uint `mapstructure:"runnable_supervisor" json:"runnable_supervisor"`
-				} `json:"ports"`
+				} `mapstructure:"public_ports" json:"public_ports"`
+				PrivatePorts struct {
+					MainServer         uint `mapstructure:"main_server" json:"main_server"`
+					WebhookService     uint `mapstructure:"webhook_service" json:"webhook_service"`
+					RunnableSupervisor uint `mapstructure:"runnable_supervisor" json:"runnable_supervisor"`
+				} `mapstructure:"private_ports" json:"private_ports"`
 			} `mapstructure:"workflow_engine" json:"workflow_engine"`
 			DocumentEngine struct {
-				Port uint `json:"port"`
+				PublicPort  uint `mapstructure:"public_port" json:"public_port"`
+				PrivatePort uint `mapstructure:"private_port" json:"private_port"`
 			} `mapstructure:"document_engine" json:"document_engine"`
 		} `json:"types"`
 	} `json:"services"`
