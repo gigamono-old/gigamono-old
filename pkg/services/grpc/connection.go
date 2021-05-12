@@ -20,12 +20,12 @@ func GetInsecureClient(host string, port uint, config configs.GigamonoConfig) (i
 	}
 
 	switch port {
-	case config.Services.Types.Auth.PrivatePort:
-		return generated.NewAuthClient(conn), nil
-	case config.Services.Types.WorkflowEngine.PrivatePorts.MainServer:
-		return generated.NewWorkflowMainServerClient(conn), nil
-	case config.Services.Types.API.PrivatePort:
+	case config.Services.API.Ports.Private:
 		return generated.NewAPIClient(conn), nil
+	case config.Services.Auth.Ports.Private:
+		return generated.NewAuthClient(conn), nil
+	case config.Services.WorkflowEngine.MainServer.Ports.Private:
+		return generated.NewWorkflowMainServerClient(conn), nil
 	default:
 		return nil, errors.New("port is not recognised")
 	}

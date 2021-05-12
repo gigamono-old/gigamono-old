@@ -61,7 +61,7 @@ func FormErrors(ctx *gin.Context, code errs.ErrorCode, message string) {
 }
 
 // Success simplifies adding success messages to response body.
-func Success(ctx *gin.Context, message string, data map[string]interface{}) {
+func Success(ctx *gin.Context, message string, data interface{}) {
 	ctx.JSON(
 		http.StatusOK,
 		Response{
