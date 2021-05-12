@@ -20,41 +20,38 @@ type GigamonoConfig struct {
 	Metadata struct {
 		Authors []Author `json:"authors"`
 	} `json:"metdata"`
-	Execution struct {
-		UseSubprocess bool `mapstructure:"use_subprocess" json:"use_subprocess"`
-	} `json:"execution"`
-	Services struct {
-		TLS   struct{} `json:"tls"`
-		Types struct {
-			API struct {
-				PublicPort  uint `mapstructure:"public_port" json:"public_port"`
-				PrivatePort uint `mapstructure:"private_port" json:"private_port"`
-			} `json:"api"`
-			Auth struct {
-				PublicPort  uint `mapstructure:"public_port" json:"public_port"`
-				PrivatePort uint `mapstructure:"private_port" json:"private_port"`
-			} `json:"auth"`
-			WorkflowEngine struct {
-				PublicPorts struct {
-					MainServer         uint `mapstructure:"main_server" json:"main_server"`
-					WebhookService     uint `mapstructure:"webhook_service" json:"webhook_service"`
-					RunnableSupervisor uint `mapstructure:"runnable_supervisor" json:"runnable_supervisor"`
-				} `mapstructure:"public_ports" json:"public_ports"`
-				PrivatePorts struct {
-					MainServer         uint `mapstructure:"main_server" json:"main_server"`
-					WebhookService     uint `mapstructure:"webhook_service" json:"webhook_service"`
-					RunnableSupervisor uint `mapstructure:"runnable_supervisor" json:"runnable_supervisor"`
-				} `mapstructure:"private_ports" json:"private_ports"`
-			} `mapstructure:"workflow_engine" json:"workflow_engine"`
-			DocumentEngine struct {
-				PublicPort  uint `mapstructure:"public_port" json:"public_port"`
-				PrivatePort uint `mapstructure:"private_port" json:"private_port"`
-			} `mapstructure:"document_engine" json:"document_engine"`
-		} `json:"types"`
+	Environment EnvironmentKind `json:"environment"`
+	Services    struct {
+		API struct {
+			Ports Ports `json:"ports"`
+		} `json:"api"`
+		Auth struct {
+			Ports Ports `json:"ports"`
+		} `json:"auth"`
+		WorkflowEngine struct {
+			MainServer struct {
+				Ports Ports `json:"ports"`
+			} `mapstructure:"main_server" json:"main_server"`
+			WebhookService struct {
+				Ports Ports `json:"ports"`
+			} `mapstructure:"webhook_service" json:"webhook_service"`
+			RunnableSupervisor struct {
+				Ports Ports `json:"ports"`
+			} `mapstructure:"runnable_supervisor" json:"runnable_supervisor"`
+		} `mapstructure:"workflow_engine" json:"workflow_engine"`
+		DocumentEngine struct {
+			Ports Ports `json:"ports"`
+		} `mapstructure:"document_engine" json:"document_engine"`
 	} `json:"services"`
 	SecretsManager struct {
-		kind string
+		Kind SecretsManagerKind `json:"kind"`
 	} `mapstructure:"secrets_manager" json:"secrets_manager"`
+}
+
+// Ports represents public and private ports.
+type Ports struct {
+	Public  uint `json:"public_port"`
+	Private uint `json:"private_port"`
 }
 
 // NewGigamonoConfig creates a GigamonoConfig from string. Supports JSON, TOML and YAML string format.

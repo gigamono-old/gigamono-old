@@ -8,7 +8,7 @@ services:
       - POSTGRES_USER=${RESOURCE_POSTGRES_USER}
       - POSTGRES_PASSWORD=${RESOURCE_POSTGRES_PASSWORD}
     ports:
-      - '5000:5000'
+      - '5000:5432'
     volumes:
       - resource_database:/var/lib/postgresql/data
 
@@ -20,7 +20,7 @@ services:
       - POSTGRES_USER=${AUTH_POSTGRES_USER}
       - POSTGRES_PASSWORD=${AUTH_POSTGRES_PASSWORD}
     ports:
-      - '5001:5001'
+      - '5001:5432'
     volumes:
       - auth_database:/var/lib/postgresql/data
 
@@ -29,11 +29,12 @@ services:
     environment:
       - RESOURCE_DB_CONNECTION_URI
       - GIGAMONO_CONFIG_FILE
+      - AUTH_PUBLIC_KEY
     build:
       context: ../../../
       dockerfile: gigamono/docker/gigamono-api/Dockerfile
     ports:
-      - '3000:3000'
+      - '3010:3010'
     depends_on:
       - resource_database
       - auth
@@ -43,11 +44,12 @@ services:
     environment:
       - AUTH_DB_CONNECTION_URI
       - GIGAMONO_CONFIG_FILE
+      - AUTH_PUBLIC_KEY
     build:
       context: ../../../
       dockerfile: gigamono/docker/gigamono-auth/Dockerfile
     ports:
-      - '3001:3001'
+      - '3020:3020'
     depends_on:
       - auth_database
 

@@ -33,6 +33,23 @@ func ToConfigFormat(format string) (ConfigFormat, error) {
 	}
 }
 
+// EnvironmentKind represents the kind of environment.
+type EnvironmentKind string
+
+// ...
+const (
+	Development EnvironmentKind = "Development"
+	Production  EnvironmentKind = "Production"
+)
+
+// SecretsManagerKind represents the kind of secrets manager.
+type SecretsManagerKind string
+
+// ...
+const (
+	Env SecretsManagerKind = "Env"
+)
+
 // ConfigKind represents the kind of config file.
 type ConfigKind string
 
