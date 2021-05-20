@@ -46,8 +46,8 @@ func AttachSessionTokens(ctx *gin.Context, app *inits.App, csrfID string, access
 	return SetCustomHeader(ctx, SessionCSRFHeader, csrfID)
 }
 
-// VerifyPreSessionCredentials checks for an existing pre-session CSRF ID and access token.
-func VerifyPreSessionCredentials(ctx *gin.Context, privateKey []byte, publickKey []byte) error {
+// VerifyPreSessionCredentials verifies an existing pre-session CSRF ID and validates access token.
+func VerifyPreSessionCredentials(ctx *gin.Context, publicKey []byte) error {
 	// Fetch pre-session access token.
 	accessToken, err := ctx.Cookie(PreSessionAccessTokenCookie)
 	if err != nil {
@@ -63,7 +63,7 @@ func VerifyPreSessionCredentials(ctx *gin.Context, privateKey []byte, publickKey
 	plaintextCSRFID := ctx.GetHeader(PreSessionCSRFHeader)
 
 	// Decode and verify access token.
-	payload, err := auth.DecodeAndVerifySignedJWT(accessToken, publickKey)
+	payload, err := auth.DecodeAndVerifySignedJWT(accessToken, publicKey)
 	if err != nil {
 		switch err.(type) {
 		case errs.TamperError:
@@ -85,7 +85,7 @@ func VerifyPreSessionCredentials(ctx *gin.Context, privateKey []byte, publickKey
 	}
 
 	// Compare plaintext CSRF ID and signed CSRF ID.
-	err = auth.VerifySignedCSRFID(plaintextCSRFID, payload.SignedCSRFID, privateKey)
+	err = auth.VerifySignedCSRFID(plaintextCSRFID, payload.SignedCSRFID, publicKey)
 	switch err.(type) {
 	case errs.TamperError:
 		return &errs.ClientError{
