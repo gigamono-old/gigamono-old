@@ -36,7 +36,7 @@ YNJ5qPakZwr7GlDprxc=
 `
 
 func TestValidJWTPublicKey(t *testing.T) {
-	payload := auth.GenerateAuthClaims("subject_id", "signup", 604800)
+	payload := auth.GenerateSessionClaims("subject_id", "csrf_token", "signup", 604800)
 
 	t.Log(">> Signing")
 	token, err := auth.GenerateSignedJWT(payload, []byte(privKey))
@@ -45,14 +45,14 @@ func TestValidJWTPublicKey(t *testing.T) {
 	t.Log(">> token =", token)
 
 	t.Log(">> Decoding")
-	claims, err := auth.DecodeSignedJWT(token, []byte(validPubKey))
+	claims, err := auth.DecodeAndVerifySignedJWT(token, []byte(validPubKey))
 	assert.Nil(t, err)
 
-	assert.Equal(t, &payload, claims)
+	assert.Equal(t, payload, claims)
 }
 
 func TestInvalidPublicKey(t *testing.T) {
-	payload := auth.GenerateAuthClaims("subject_id", "signup", 604800)
+	payload := auth.GenerateSessionClaims("subject_id", "csrf_token", "signup", 604800)
 
 	t.Log(">> Signing")
 	token, err := auth.GenerateSignedJWT(payload, []byte(privKey))
@@ -61,7 +61,7 @@ func TestInvalidPublicKey(t *testing.T) {
 	t.Log(">> token =", token)
 
 	t.Log(">> Decoding")
-	claims, err := auth.DecodeSignedJWT(token, []byte(invalidPubKey))
+	claims, err := auth.DecodeAndVerifySignedJWT(token, []byte(invalidPubKey))
 	assert.NotNil(t, err)
 
 	t.Log(">> err", err)

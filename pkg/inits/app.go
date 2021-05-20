@@ -10,7 +10,7 @@ import (
 	"github.com/gigamono/gigamono/pkg/secrets"
 )
 
-// App holds common important states of a service.
+// App represents states common to every Gigamono service.
 type App struct {
 	Config  configs.GigamonoConfig
 	Secrets secrets.Manager

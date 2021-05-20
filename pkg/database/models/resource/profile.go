@@ -13,5 +13,5 @@ type Profile struct {
 	LastName    string    `json:"last_name"`
 	Email       string    `json:"email"`
 	Avatar32URL string    `pg:"avatar_32_url" json:"avatar_32_url"`
-	UserID      uuid.UUID `pg:"type:uuid, notnull" json:"user_id"`
+	UserID      uuid.UUID `pg:"type:uuid,notnull" json:"user_id"`
 }

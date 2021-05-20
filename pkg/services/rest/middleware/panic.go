@@ -11,20 +11,19 @@ import (
 )
 
 // PanicHandler logs all panics from rest endpoints.
+//
 // Sec: DON'T log requests because of sensitive data.
 func PanicHandler(ctx *gin.Context, err interface{}) {
-	newErr := err
 	clientErrorMessage := messages.Error["internal"].(string)
 
 	// Check if err is a SystemError and log error.
 	if systemErr, ok := err.(errs.SystemError); ok {
-		newErr = systemErr
 		if systemErr.ClientContextMessage != "" {
 			clientErrorMessage = systemErr.ClientContextMessage
 		}
 		logs.FmtPrintln(systemErr.Error())
 	} else {
-		logs.FmtPrintln(newErr)
+		logs.FmtPrintln(err)
 	}
 
 	// Send system error to client.
@@ -32,10 +31,10 @@ func PanicHandler(ctx *gin.Context, err interface{}) {
 		http.StatusInternalServerError,
 		response.Response{
 			Errors: []errs.ClientError{{
-				Path:    []string{ctx.FullPath()},
-				Message: clientErrorMessage,
-				Code:    errs.InternalSystemError,
-				Type:    errs.None,
+				Path:            []string{ctx.FullPath()},
+				Message:         clientErrorMessage,
+				Code:            errs.InternalSystemError,
+				Type:            errs.ClientErrorTypeNone,
 			}},
 		},
 	)

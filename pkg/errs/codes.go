@@ -1,15 +1,12 @@
 package errs
 
-// ErrorCode are codes for representing errors in the service
-type ErrorCode string
+// MainErrorCode are codes for representing main errors in the services.
+type MainErrorCode string
 
 // ...
 const (
-	InputValidationError ErrorCode = "InputValidationError"
-	InternalSystemError  ErrorCode = "InternalSystemError"
-	UnsupportedGrantType ErrorCode = "UnsupportedGrantType"
+	InputValidationError      MainErrorCode = "InputValidationError"
+	PreSessionValidationError MainErrorCode = "PreSessionValidationError"
+	InvalidBasicAuth          MainErrorCode = "InvalidBasicAuth"
+	InternalSystemError       MainErrorCode = "InternalSystemError"
 )
-
-func (code *ErrorCode) String() string {
-	return string(*code)
-}

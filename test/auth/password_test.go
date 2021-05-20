@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/gigamono/gigamono/pkg/auth"
+	"github.com/gigamono/gigamono/pkg/errs"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -15,10 +16,9 @@ func TestPasswordHashMatch(t *testing.T) {
 	assert.Nil(t, err)
 
 	t.Log(">> Matching")
-	ok, err := auth.VerifyPasswordHash("password1234", hash)
-	assert.Nil(t, err)
+	err = auth.VerifyPasswordHash("password1234", hash)
 
-	assert.Equal(t, true, ok)
+	assert.Nil(t, err)
 }
 
 func TestPasswordHashMismatch(t *testing.T) {
@@ -29,8 +29,7 @@ func TestPasswordHashMismatch(t *testing.T) {
 	assert.Nil(t, err)
 
 	t.Log(">> Matching")
-	ok, err := auth.VerifyPasswordHash("password123", hash)
-	assert.Nil(t, err)
+	err = auth.VerifyPasswordHash("password123", hash)
 
-	assert.Equal(t, false, ok)
+	assert.Equal(t, errs.NewTamperError(), err)
 }

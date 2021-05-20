@@ -15,5 +15,5 @@ func GenerateRandomBase64(length uint) (string, error) {
 		return "", err
 	}
 
-	return encodings.NewBase64String(bytes), nil
+	return encodings.Base64URLEncode(bytes), nil
 }

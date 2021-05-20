@@ -9,7 +9,7 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-// BindErrors reshapes and adds binding errors to response body.
+// BindErrors sets binding error response. Returns 400.
 //
 // Gin form binding returns different types of errors. (ValidationErrors, NumError, etc.)
 //
@@ -45,8 +45,8 @@ func BindErrors(ctx *gin.Context, err error) {
 	)
 }
 
-// FormErrors simplifies adding form to response body.
-func FormErrors(ctx *gin.Context, code errs.ErrorCode, message string) {
+// FormErrors sets form error response. Returns 400.
+func FormErrors(ctx *gin.Context, code errs.MainErrorCode, message string) {
 	ctx.JSON(
 		http.StatusBadRequest,
 		Response{
@@ -60,7 +60,36 @@ func FormErrors(ctx *gin.Context, code errs.ErrorCode, message string) {
 	)
 }
 
-// Success simplifies adding success messages to response body.
+// BadRequestErrors sets response for invalid or bad request like validation errors. Returns 400.
+func BadRequestErrors(ctx *gin.Context, err *errs.ClientError) {
+	ctx.JSON(
+		http.StatusBadRequest,
+		Response{
+			Errors: []errs.ClientError{*err},
+		},
+	)
+}
+
+// BasicAuthErrors sets basic auth error response. Returns 401.
+func BasicAuthErrors(ctx *gin.Context, message string) {
+	// Set a WWW-Authenticate header.
+	ctx.Header("WWW-Authenticate", "Basic realm=\"PRODUCTION_RESOURCE_SERVER\", charset=\"UTF-8\"")
+
+	// Return a 401 response.
+	ctx.JSON(
+		http.StatusUnauthorized,
+		Response{
+			Errors: []errs.ClientError{{
+				Path:    []string{ctx.FullPath(), "Authorization"},
+				Message: message,
+				Code:    errs.InvalidBasicAuth,
+				Type:    errs.Header,
+			}},
+		},
+	)
+}
+
+// Success sets a success response. Returns 200.
 func Success(ctx *gin.Context, message string, data interface{}) {
 	ctx.JSON(
 		http.StatusOK,

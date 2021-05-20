@@ -15,10 +15,9 @@ func CallerFrame() runtime.Frame {
 
 // CallerParentFrame gets stack information of the caller of the caller.
 func CallerParentFrame() runtime.Frame {
-	programCounter := make([]uintptr, 15)
-	callersCount := runtime.Callers(2, programCounter)
-	frames := runtime.CallersFrames(programCounter[:callersCount])
-	frames.Next()
+	programCounters := make([]uintptr, 5)
+	callersCount := runtime.Callers(3, programCounters)
+	frames := *runtime.CallersFrames(programCounters[:callersCount])
 	frame, _ := frames.Next()
 	return frame
 }

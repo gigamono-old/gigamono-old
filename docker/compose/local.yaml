@@ -44,6 +44,7 @@ services:
     environment:
       - AUTH_DB_CONNECTION_URI
       - GIGAMONO_CONFIG_FILE
+      - AUTH_PRIVATE_KEY
       - AUTH_PUBLIC_KEY
     build:
       context: ../../../

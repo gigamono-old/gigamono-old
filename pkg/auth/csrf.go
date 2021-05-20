@@ -5,29 +5,34 @@ import (
 	"crypto/sha512"
 
 	"github.com/gigamono/gigamono/pkg/encodings"
+	"github.com/gigamono/gigamono/pkg/errs"
 )
 
-// GenerateSignedCSRFToken generates a signed CSRF token.
+// GenerateSignedCSRFID generates a signed and hashed CSRF ID from its plaintext form using provided secret key.
 //
 // This uses HMAC with SHA512 for hashing.
-func GenerateSignedCSRFToken(csrfToken string, secretKey []byte) (string, error) {
+func GenerateSignedCSRFID(plaintextCSRFID string, secretKey []byte) (string, error) {
 	mac := hmac.New(sha512.New, secretKey)
-	_, err := mac.Write([]byte(csrfToken))
+	_, err := mac.Write([]byte(plaintextCSRFID))
 	if err != nil {
 		return "", err
 	}
 
 	hash := mac.Sum(nil)
 
-	return encodings.NewBase64String(hash), nil
+	return encodings.Base64URLEncode(hash), nil
 }
 
-// VerifySignedCSRFToken verfies that signed CSRF token was generated using specified secret key.
-func VerifySignedCSRFToken(csrfToken string, hashedCsrfToken string, secretKey []byte) (bool, error) {
-	hash, err := GenerateSignedCSRFToken(csrfToken, secretKey)
+// VerifySignedCSRFID verfies that hashed/signed CSRF ID was generated from the plaintext CSRF ID using specified secret key.
+func VerifySignedCSRFID(plaintextCSRFID string, hashedCSRFID string, secretKey []byte) error {
+	hash, err := GenerateSignedCSRFID(plaintextCSRFID, secretKey)
 	if err != nil {
-		return false, err
+		return err
 	}
 
-	return hash == hashedCsrfToken, nil
+	if hash != hashedCSRFID {
+		return errs.NewTamperError()
+	}
+
+	return nil
 }

@@ -5,8 +5,8 @@ import (
 	"github.com/gofrs/uuid"
 )
 
-// ForeignDevIntegrationAccess holds the necessary information for the app to make successful requests to third-party integrations.
-type ForeignDevIntegrationAccess struct {
+// ForeignDevIntegrationCreds holds the necessary information for the app to make successful requests to third-party integrations.
+type ForeignDevIntegrationCreds struct {
 	models.Base
 	Name          string    `json:"name"`
 	IntegrationID uuid.UUID `json:"integration_id"`

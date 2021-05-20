@@ -5,8 +5,8 @@ import (
 	"github.com/gofrs/uuid"
 )
 
-// ForeignUserAccountAccess holds the necessary information to access user's third-party resources.
-type ForeignUserAccountAccess struct {
+// ForeignUserAccountCreds holds the necessary information to access user's third-party resources.
+type ForeignUserAccountCreds struct {
 	models.Base
 	UserID          uuid.UUID `json:"user_id"`
 	IntegrationID   uuid.UUID `json:"integration_id"`
