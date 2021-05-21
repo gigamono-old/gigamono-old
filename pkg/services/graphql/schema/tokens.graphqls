@@ -1,9 +1,0 @@
-type Tokens {
-    accessToken: String!
-    refreshToken: String!
-}
-
-input TokensInput {
-    accessToken: String!
-    refreshToken: String!
-}

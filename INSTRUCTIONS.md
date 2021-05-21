@@ -4,7 +4,12 @@
 
 ### CONFIGURATION
 
-Add a `gigamono.yaml` file. See [here](#) for instructions.
+Add a `gigamono.yaml` file. See [here](#) for instructions. [WIP]
+
+Every other service repo requires gigamono repo to be in parent directory because:
+- the gigamono config file is expected to be found in the gigamono directory.
+- the gigamono directory contains common graphql schema.
+
 
 ### DOCKER SETUP
 
@@ -40,7 +45,7 @@ Build the custom gqlgen binary.
 go build cmd/gqlgen/gqlgen.go
 ```
 
-Add the binary to system path and run command in a directory with gqlgen.yml file.
+Add the binary to system path.
 
 Run command in project root directory.
 
@@ -137,7 +142,7 @@ Check [here](https://github.com/pressly/goose) for more instructions on how to u
 Clone pgseeder repo and cd into the created folder
 
 ```sh
-git clone https://girhub.com/gigamono/pgseeder
+git clone https://github.com/gigamono/pgseeder
 cd pgseeder
 ```
 
@@ -166,9 +171,9 @@ openssl ecparam -genkey -name secp521r1 -noout -out private.pem
 openssl ec -in private.pem -pubout -out public.pem
 ```
 
-### INSTALLATION
+### INSTALLATION [WIP]
 
-##### Simple Install [WIP]
+##### Simple Install
 
 ```sh
 curl https://www.gigamono.com/get -sSfL | sh
@@ -176,7 +181,7 @@ curl https://www.gigamono.com/get -sSfL | sh
 
 ...
 
-##### Simple Install [WIP]
+##### Build Install
 
 ```sh
 git clone github.com/gigamono/gigamono

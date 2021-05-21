@@ -9,14 +9,8 @@ import (
 	"github.com/gofrs/uuid"
 )
 
-// Tokens are used to identify session.
-type Tokens struct {
-	AccessToken  string
-	RefreshToken string
-}
-
 // GetSessionUser authenticates and returns session's user id from the access token.
-func GetSessionUser(tokens Tokens) (uuid.UUID, error) {
+func GetSessionUser() (uuid.UUID, error) {
 	// TODO: Sec: Auth.
 	// Validate session (not pre-session) csrf token.
 	// Validate session JWT tokens.
