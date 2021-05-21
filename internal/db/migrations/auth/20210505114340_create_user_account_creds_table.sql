@@ -5,7 +5,7 @@ CREATE TABLE user_account_creds (
     created_at timestamp with time zone,
     updated_at timestamp with time zone,
     deleted_at timestamp with time zone,
-    email text UNIQUE NOT NULL,
+    email citext UNIQUE NOT NULL,
     password_hash text NOT NULL
 );
 -- +goose Down
