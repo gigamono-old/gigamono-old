@@ -1,4 +1,4 @@
-package auth
+package security
 
 import (
 	"encoding/json"
@@ -20,8 +20,8 @@ type StandardClaims struct {
 // Claims is a custom claims type wrapping JWT standard claims.
 type Claims struct {
 	StandardClaims
-	SignedCSRFID string `json:"signed_csrf_id,omitempty"`
-	Action       string `json:"action,omitempty"`
+	SignedCSRFID string     `json:"signed_csrf_id,omitempty"`
+	Action       ActionKind `json:"action,omitempty"`
 }
 
 // GenerateSignedJWT generates a JWT token from payload signed by a private key.
@@ -56,12 +56,12 @@ func GeneratePreSessionClaims(signedCSRFID string, expirationInSeconds int) *Cla
 			IssuedAt:  now.Unix(),
 		},
 		SignedCSRFID: signedCSRFID,
-		Action:       "pre-session",
+		Action:       PreSession,
 	}
 }
 
 // GenerateSessionClaims generates JWT claims for a session user.
-func GenerateSessionClaims(subject string, signedCSRFID string, action string, expirationInSeconds int) *Claims {
+func GenerateSessionClaims(subject string, signedCSRFID string, action ActionKind, expirationInSeconds int) *Claims {
 	now := time.Now()
 
 	return &Claims{

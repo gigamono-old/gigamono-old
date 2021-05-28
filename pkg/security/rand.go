@@ -1,9 +1,8 @@
-package auth
+package security
 
 import (
 	"crypto/rand"
-
-	"github.com/gigamono/gigamono/pkg/encodings"
+	"encoding/base64"
 )
 
 // GenerateRandomBase64 generates a cryptograhically secure random vector of bytes
@@ -15,5 +14,5 @@ func GenerateRandomBase64(length uint) (string, error) {
 		return "", err
 	}
 
-	return encodings.Base64URLEncode(bytes), nil
+	return base64.URLEncoding.EncodeToString(bytes), nil
 }

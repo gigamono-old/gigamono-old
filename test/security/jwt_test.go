@@ -1,9 +1,9 @@
-package auth_test
+package security
 
 import (
 	"testing"
 
-	"github.com/gigamono/gigamono/pkg/auth"
+	"github.com/gigamono/gigamono/pkg/security"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -36,35 +36,35 @@ YNJ5qPakZwr7GlDprxc=
 `
 
 func TestValidJWTPublicKey(t *testing.T) {
-	payload := auth.GenerateSessionClaims("subject_id", "csrf_token", "signup", 604800)
+	payload := security.GenerateSessionClaims("subject_id", "csrf_token", security.SessionAccess, 604800)
 
 	t.Log(">> Signing")
-	token, err := auth.GenerateSignedJWT(payload, []byte(privKey))
+	token, err := security.GenerateSignedJWT(payload, []byte(privKey))
 	assert.Nil(t, err)
 
 	t.Log(">> token =", token)
 
 	t.Log(">> Decoding")
-	claims, err := auth.DecodeAndVerifySignedJWT(token, []byte(validPubKey))
+	claims, err := security.DecodeAndVerifySignedJWT(token, []byte(validPubKey))
 	assert.Nil(t, err)
 
 	assert.Equal(t, payload, claims)
 }
 
 func TestInvalidPublicKey(t *testing.T) {
-	payload := auth.GenerateSessionClaims("subject_id", "csrf_token", "signup", 604800)
+	payload := security.GenerateSessionClaims("subject_id", "csrf_token", security.SessionAccess, 604800)
 
 	t.Log(">> Signing")
-	token, err := auth.GenerateSignedJWT(payload, []byte(privKey))
+	token, err := security.GenerateSignedJWT(payload, []byte(privKey))
 	assert.Nil(t, err)
 
 	t.Log(">> token =", token)
 
 	t.Log(">> Decoding")
-	claims, err := auth.DecodeAndVerifySignedJWT(token, []byte(invalidPubKey))
+	claims, err := security.DecodeAndVerifySignedJWT(token, []byte(invalidPubKey))
 	assert.NotNil(t, err)
 
 	t.Log(">> err", err)
 
-	assert.Equal(t, &auth.Claims{}, claims)
+	assert.Equal(t, &security.Claims{}, claims)
 }

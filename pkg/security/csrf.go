@@ -1,10 +1,11 @@
-package auth
+package security
 
 import (
 	"crypto/hmac"
 	"crypto/sha512"
+	"encoding/base64"
+	"fmt"
 
-	"github.com/gigamono/gigamono/pkg/encodings"
 	"github.com/gigamono/gigamono/pkg/errs"
 )
 
@@ -20,17 +21,19 @@ func GenerateSignedCSRFID(plaintextCSRFID string, secretKey []byte) (string, err
 
 	hash := mac.Sum(nil)
 
-	return encodings.Base64URLEncode(hash), nil
+	return base64.URLEncoding.EncodeToString(hash), nil
 }
 
 // VerifySignedCSRFID verfies that hashed/signed CSRF ID was generated from the plaintext CSRF ID using specified secret key.
 func VerifySignedCSRFID(plaintextCSRFID string, hashedCSRFID string, secretKey []byte) error {
 	hash, err := GenerateSignedCSRFID(plaintextCSRFID, secretKey)
 	if err != nil {
+		fmt.Println(">>>>> err", err)
 		return err
 	}
 
 	if hash != hashedCSRFID {
+		fmt.Println(">>>>> err", hash, hashedCSRFID)
 		return errs.NewTamperError()
 	}
 
