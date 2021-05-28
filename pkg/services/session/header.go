@@ -43,8 +43,8 @@ func GetBasicAuthCreds(ctx *gin.Context) (string, string, error) {
 	// Remove prefix pattern from value.
 	credsString := pattern.ReplaceAllString(value, "")
 
-	// Decode credentials value.
-	credsBytes, err := base64.StdEncoding.DecodeString(credsString)
+	// Decode credentials value but also makes sure base64 value is zero-padded.
+	credsBytes, err := base64.StdEncoding.Strict().DecodeString(credsString)
 	if err != nil {
 		return "", "", errs.ClientError{
 			Message: "unable to decode base64 value",

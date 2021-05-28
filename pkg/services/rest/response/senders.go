@@ -89,6 +89,22 @@ func BasicAuthErrors(ctx *gin.Context, message string) {
 	)
 }
 
+// AuthenticationErrors sets authentication error response. Returns 401.
+func AuthenticationErrors(ctx *gin.Context, message string) {
+	// Return a 401 response.
+	ctx.JSON(
+		http.StatusUnauthorized,
+		Response{
+			Errors: []errs.ClientError{{
+				Path:    []string{ctx.FullPath()},
+				Message: message,
+				Code:    errs.SessionValidationError,
+				Type:    errs.Header,
+			}},
+		},
+	)
+}
+
 // Success sets a success response. Returns 200.
 func Success(ctx *gin.Context, message string, data interface{}) {
 	ctx.JSON(

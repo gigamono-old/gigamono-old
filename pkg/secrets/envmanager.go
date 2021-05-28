@@ -9,7 +9,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-// EnvManager manages secrets stored in .env files
+// EnvManager manages secrets stored in .env files and the system.
 type EnvManager struct{}
 
 // NewEnvManager creates a new EnvManager.

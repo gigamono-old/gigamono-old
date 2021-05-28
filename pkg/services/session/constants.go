@@ -3,8 +3,8 @@ package session
 // Cookie names.
 const (
 	PreSessionAccessTokenCookie = "__Host_Gigamono_Pre_Session_Access_Token_JWT"
-	AccessTokenCookie           = "__Host_Gigamono_Access_Token_JWT"
-	RefreshTokenCookie          = "__Host_Gigamono_Refresh_Token_JWT"
+	SessionAccessTokenCookie    = "__Host_Gigamono_Session_Access_Token_JWT"
+	SessionRefreshTokenCookie   = "__Host_Gigamono_Session_Refresh_Token_JWT"
 )
 
 // Header names.

@@ -2,7 +2,6 @@ package database
 
 import (
 	"errors"
-	"strings"
 
 	"github.com/gigamono/gigamono/pkg/database/models/resource"
 	"github.com/go-pg/pg/v10/orm"
@@ -22,12 +21,12 @@ func init() {
 }
 
 // Connect connects to specified postgres database.
-func Connect(secrets secrets.Manager, serviceKind string) (DB, error) {
+func Connect(secrets secrets.Manager, databaseKind string) (DB, error) {
 	var connectionURI string
 	var err error
 
-	switch strings.ToLower(serviceKind) {
-	case "res", "resource":
+	switch databaseKind {
+	case "resource":
 		connectionURI, err = secrets.Get("RESOURCE_DB_CONNECTION_URI")
 		if err != nil {
 			return DB{}, err
@@ -38,7 +37,7 @@ func Connect(secrets secrets.Manager, serviceKind string) (DB, error) {
 			return DB{}, err
 		}
 	default:
-		return DB{}, errors.New("Unsupported service type for connecting to database. Resource or auth supported")
+		return DB{}, errors.New("Unsupported database type. Resource or auth database types supported")
 	}
 
 	opt, err := pg.ParseURL(connectionURI)

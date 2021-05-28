@@ -6,8 +6,9 @@ CREATE TABLE workflows (
     updated_at timestamp with time zone,
     deleted_at timestamp with time zone,
     name text,
-    specification jsonb,
     is_active boolean DEFAULT FALSE,
+    workflow_path text,
+    serverless_js_path text,
     creator_id uuid REFERENCES users(id)
 );
 -- +goose Down

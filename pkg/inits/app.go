@@ -12,19 +12,18 @@ import (
 
 // App represents states common to every Gigamono service.
 type App struct {
-	Config  configs.GigamonoConfig
-	Secrets secrets.Manager
-	DB      database.DB
-	Kind    string
+	Config              configs.GigamonoConfig
+	Secrets             secrets.Manager
+	WorkflowFilestore   filestore.Manager
+	ServerlessFilestore filestore.Manager
+	DB                  database.DB
+	Kind                ServiceKind
 }
 
-// NewApp is a common initialiser for Gigamono servers.
-func NewApp(appKind string) (App, error) {
+// NewApp is a common initialiser for Gigamono services.
+func NewApp(serviceKind ServiceKind) (App, error) {
 	// Set log status file.
 	logs.SetStatusLogFile() // TODO: Abstract
-
-	// Set filestore avatars location.
-	filestore.SetAvatarsLocation() // TODO: Abstract
 
 	// Load gigamono config file.
 	config, err := configs.LoadGigamonoConfig()
@@ -34,21 +33,49 @@ func NewApp(appKind string) (App, error) {
 		return App{}, err
 	}
 
-	// Set up secret manager,
-	secrets, err := secrets.NewManager(&config)
+	// Set how secret manager.
+	secretsManager, err := secrets.NewManager(&config)
 	if err != nil {
 		err := fmt.Errorf("initialising app: unable to create a secrets manager: %v", err)
 		logs.FmtPrintln(err)
 		return App{}, err
 	}
 
+	workflowManager := (filestore.Manager)(nil)
+	serverlessManager := (filestore.Manager)(nil)
+	switch serviceKind {
+	case API:
+		// Set how workflow files are stored.
+		workflowManager, err = filestore.NewManager(config.Filestore.Workflow.Path)
+		if err != nil {
+			err := fmt.Errorf("initialising app: unable to create a workflows filestore manager: %v", err)
+			logs.FmtPrintln(err)
+			return App{}, err
+		}
+	case WorkflowEngineMainServer, WorkflowEngineWebhookService, WorkflowEngineRunnableSupervisor:
+		// Set how serverless files are stored.
+		serverlessManager, err = filestore.NewManager(config.Filestore.Serverless.Path)
+		if err != nil {
+			err := fmt.Errorf("initialising app: unable to create a workflows filestore manager: %v", err)
+			logs.FmtPrintln(err)
+			return App{}, err
+		}
+	}
+
 	// Connect to database.
-	db, err := database.Connect(secrets, appKind)
+	db, err := database.Connect(secretsManager, serviceKind.DatabaseKind())
 	if err != nil {
 		err := fmt.Errorf("initialising app: unable to connect to db: %v", err)
 		logs.FmtPrintln(err)
 		return App{}, err
 	}
 
-	return App{Config: config, Secrets: secrets, DB: db, Kind: appKind}, nil
+	return App{
+		Config:              config,
+		Secrets:             secretsManager,
+		WorkflowFilestore:   workflowManager,
+		ServerlessFilestore: serverlessManager,
+		DB:                  db,
+		Kind:                serviceKind,
+	}, nil
 }

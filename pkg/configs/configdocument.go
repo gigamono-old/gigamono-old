@@ -26,7 +26,7 @@ func NewDocumentConfig(documentString string, format ConfigFormat) (DocumentConf
 
 	// Set format to parse.
 	converter := viper.New()
-	converter.SetConfigType(format.String())
+	converter.SetConfigType(string(format))
 	converter.ReadConfig(reader)
 
 	// Unmarshal string into object.

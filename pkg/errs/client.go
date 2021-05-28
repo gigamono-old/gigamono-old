@@ -28,10 +28,6 @@ const (
 	ClientErrorTypeNone ClientErrorType = ""
 )
 
-func (code *ClientErrorType) String() string {
-	return string(*code)
-}
-
 // AddError adds new client error to the bunch.
 func (errs *ClientErrors) AddError(clientError ClientError) {
 	errs.ClientErrors = append(errs.ClientErrors, clientError)

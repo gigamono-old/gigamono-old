@@ -15,10 +15,6 @@ const (
 	TOML ConfigFormat = "TOML"
 )
 
-func (format *ConfigFormat) String() string {
-	return string(*format)
-}
-
 // ToConfigFormat convert a string to ConfigFormat.
 func ToConfigFormat(format string) (ConfigFormat, error) {
 	switch strings.ToLower(format) {
@@ -48,6 +44,14 @@ type SecretsManagerKind string
 // ...
 const (
 	Env SecretsManagerKind = "Env"
+)
+
+// FilestoreManagerKind represents the kind of filestore manager.
+type FilestoreManagerKind string
+
+// ...
+const (
+	Local FilestoreManagerKind = "Local"
 )
 
 // ConfigKind represents the kind of config file.

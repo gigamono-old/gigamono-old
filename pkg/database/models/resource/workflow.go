@@ -9,8 +9,9 @@ import (
 // TODO: js_code and wasm_code columns.
 type Workflow struct {
 	models.Base
-	Name          string     `json:"name"`
-	Specification string     `pg:"type:jsonb" json:"specification"`
-	IsActive      bool       `json:"is_active"`
-	CreatorID     *uuid.UUID `json:"creator_id"`
+	Name             string     `json:"name"`
+	IsActive         bool       `json:"is_active"`
+	WorkflowPath     string     `json:"workflow_path"`
+	ServerlessJSPath string     `json:"serverless_js_path"`
+	CreatorID        *uuid.UUID `json:"creator_id"`
 }

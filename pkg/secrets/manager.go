@@ -5,6 +5,7 @@ import (
 )
 
 // Manager abstracts how application secrets are managed.
+//
 // Secrets may be from a .env file or some external service like Hashicorp Vault.
 type Manager interface {
 	Get(key string, opts ...interface{}) (string, error)

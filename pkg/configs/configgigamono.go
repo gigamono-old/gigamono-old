@@ -43,15 +43,23 @@ type GigamonoConfig struct {
 			Ports Ports `json:"ports"`
 		} `mapstructure:"document_engine" json:"document_engine"`
 	} `json:"services"`
-	SecretsManager struct {
-		Kind SecretsManagerKind `json:"kind"`
-	} `mapstructure:"secrets_manager" json:"secrets_manager"`
+	Secrets   SecretsManagerKind `json:"secrets"`
+	Filestore struct {
+		Workflow   FilestoreInfo `json:"workflow"`
+		Serverless FilestoreInfo `json:"serverless"`
+	} `json:"filestore"`
 }
 
 // Ports represents public and private ports.
 type Ports struct {
 	Public  uint `json:"public_port"`
 	Private uint `json:"private_port"`
+}
+
+// FilestoreInfo represents information for managing certain type of file.
+type FilestoreInfo struct {
+	Kind FilestoreManagerKind `json:"kind"`
+	Path string               `json:"path"`
 }
 
 // NewGigamonoConfig creates a GigamonoConfig from string. Supports JSON, TOML and YAML string format.
@@ -62,7 +70,7 @@ func NewGigamonoConfig(gigamonoString string, format ConfigFormat) (GigamonoConf
 
 	// Set format to parse.
 	converter := viper.New()
-	converter.SetConfigType(format.String())
+	converter.SetConfigType(string(format))
 	converter.ReadConfig(reader)
 
 	// Unmarshal string into object.
