@@ -45,8 +45,9 @@ type GigamonoConfig struct {
 	} `json:"services"`
 	Secrets   SecretsManagerKind `json:"secrets"`
 	Filestore struct {
-		Workflow   FilestoreInfo `json:"workflow"`
-		Serverless FilestoreInfo `json:"serverless"`
+		Project   FilestoreInfo `json:"project"`
+		Extension FilestoreInfo `json:"extension"`
+		Image     FilestoreInfo `json:"image"`
 	} `json:"filestore"`
 }
 

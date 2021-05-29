@@ -47,7 +47,7 @@ func Authenticate(app *inits.App) gin.HandlerFunc {
 		}
 
 		// Store claims in a new context.
-		newCtx := context.WithValue(ctx.Request.Context(), ClaimContextKey{}, claims)
+		newCtx := context.WithValue(ctx.Request.Context(), ClaimContextKey{}, *claims)
 		fmt.Println("Authenticated successfully", claims)
 
 		// Replace request context.

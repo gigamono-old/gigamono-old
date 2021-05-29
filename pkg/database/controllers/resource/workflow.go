@@ -13,12 +13,10 @@ func CreateWorkflow(
 	db *database.DB,
 	sessionUserID *uuid.UUID,
 	workflowName string,
-	workflowPath string,
 ) (*uuid.UUID, error) {
 	// TODO: Sec: Permission.
 	workflow := resource.Workflow{
 		Name:         workflowName,
-		WorkflowPath: workflowPath,
 		CreatorID:    sessionUserID,
 	}
 

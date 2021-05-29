@@ -12,7 +12,9 @@ type LocalManager struct {
 // NewLocalManager creates a new local directory manager.
 func NewLocalManager(rootPath string) (LocalManager, error) {
 	// Create or open file directory.
-	files.OpenOrCreateFolder(rootPath)
+	if err := files.OpenOrCreateFolder(rootPath); err != nil {
+		return LocalManager{}, err
+	}
 
 	return LocalManager{
 		RootPath: rootPath,

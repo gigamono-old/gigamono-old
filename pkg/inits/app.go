@@ -12,12 +12,18 @@ import (
 
 // App represents states common to every Gigamono service.
 type App struct {
-	Config              configs.GigamonoConfig
-	Secrets             secrets.Manager
-	WorkflowFilestore   filestore.Manager
-	ServerlessFilestore filestore.Manager
-	DB                  database.DB
-	Kind                ServiceKind
+	Config  configs.GigamonoConfig
+	Secrets secrets.Manager
+	Filestore
+	DB   database.DB
+	Kind ServiceKind
+}
+
+// Filestore holds the different filestore managers.
+type Filestore struct {
+	Project   filestore.Manager
+	Extension filestore.Manager
+	Image     filestore.Manager
 }
 
 // NewApp is a common initialiser for Gigamono services.
@@ -41,25 +47,28 @@ func NewApp(serviceKind ServiceKind) (App, error) {
 		return App{}, err
 	}
 
-	workflowManager := (filestore.Manager)(nil)
-	serverlessManager := (filestore.Manager)(nil)
-	switch serviceKind {
-	case API:
-		// Set how workflow files are stored.
-		workflowManager, err = filestore.NewManager(config.Filestore.Workflow.Path)
-		if err != nil {
-			err := fmt.Errorf("initialising app: unable to create a workflows filestore manager: %v", err)
-			logs.FmtPrintln(err)
-			return App{}, err
-		}
-	case WorkflowEngineMainServer, WorkflowEngineWebhookService, WorkflowEngineRunnableSupervisor:
-		// Set how serverless files are stored.
-		serverlessManager, err = filestore.NewManager(config.Filestore.Serverless.Path)
-		if err != nil {
-			err := fmt.Errorf("initialising app: unable to create a workflows filestore manager: %v", err)
-			logs.FmtPrintln(err)
-			return App{}, err
-		}
+	// Set how project files are stored.
+	projectManager, err := filestore.NewManager(config.Filestore.Project.Path)
+	if err != nil {
+		err := fmt.Errorf("initialising app: unable to create a project filestore manager: %v", err)
+		logs.FmtPrintln(err)
+		return App{}, err
+	}
+
+	// Set how extension files are stored.
+	extensionManager, err := filestore.NewManager(config.Filestore.Extension.Path)
+	if err != nil {
+		err := fmt.Errorf("initialising app: unable to create a extension filestore manager: %v", err)
+		logs.FmtPrintln(err)
+		return App{}, err
+	}
+
+	// Set how image files are stored.
+	imageManager, err := filestore.NewManager(config.Filestore.Image.Path)
+	if err != nil {
+		err := fmt.Errorf("initialising app: unable to create a images filestore manager: %v", err)
+		logs.FmtPrintln(err)
+		return App{}, err
 	}
 
 	// Connect to database.
@@ -71,11 +80,14 @@ func NewApp(serviceKind ServiceKind) (App, error) {
 	}
 
 	return App{
-		Config:              config,
-		Secrets:             secretsManager,
-		WorkflowFilestore:   workflowManager,
-		ServerlessFilestore: serverlessManager,
-		DB:                  db,
-		Kind:                serviceKind,
+		Config:  config,
+		Secrets: secretsManager,
+		Filestore: Filestore{
+			Project:   projectManager,
+			Extension: extensionManager,
+			Image:     imageManager,
+		},
+		DB:   db,
+		Kind: serviceKind,
 	}, nil
 }
