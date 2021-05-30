@@ -18,7 +18,8 @@ type GigamonoConfig struct {
 	Version  uint       `json:"version"`
 	Kind     ConfigKind `json:"kind"`
 	Metadata struct {
-		Authors []Author `json:"authors"`
+		DomainName string   `json:"domain_name"`
+		Authors    []Author `json:"authors"`
 	} `json:"metdata"`
 	Environment EnvironmentKind `json:"environment"`
 	Services    struct {

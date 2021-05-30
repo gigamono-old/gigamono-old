@@ -11,7 +11,7 @@ type IntegrationConfig struct {
 		Description   string   `json:"description"`
 		Category      string   `json:"category"`
 		Tags          []string `json:"tags"`
-		AvatarID      UUID     `mapstructure:"avatar_id" json:"avatar_id"`
+		AvatarURL     string   `mapstructure:"avatar_url" json:"avatar_url"`
 		HomepageURL   string   `json:"homepage_url"`
 		ResourceNouns []string `json:"resource_nouns"`
 		Authors       []Author `json:"authors"`
