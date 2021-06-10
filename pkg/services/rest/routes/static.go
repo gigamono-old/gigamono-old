@@ -1,4 +1,4 @@
-package rest
+package routes
 
 import (
 	"net/http"
@@ -14,24 +14,24 @@ func SetLocalStaticRoutes(server *gin.Engine, app *inits.App) {
 	// Local static folder to serve project files.
 	if app.Config.Filestore.Project.Kind == configs.Local {
 		// TODO: Permission middleware.
-		// Authenticate session user.
-		workflowStaticRoute := server.Group("/project", middleware.Authenticate(app))
+		// Authenticate and add session user.
+		workflowStaticRoute := server.Group("/project", middleware.AuthenticateCreateUser(app))
 		workflowStaticRoute.StaticFS("/", http.Dir(app.Config.Filestore.Project.Path))
 	}
 
 	// Local static folder to serve extension files.
 	if app.Config.Filestore.Extension.Kind == configs.Local {
 		// TODO: Permission middleware.
-		// Authenticate session user.
-		workflowStaticRoute := server.Group("/extension", middleware.Authenticate(app))
+		// Authenticate and add session user.
+		workflowStaticRoute := server.Group("/extension", middleware.AuthenticateCreateUser(app))
 		workflowStaticRoute.StaticFS("/", http.Dir(app.Config.Filestore.Extension.Path))
 	}
 
 	// Local static folder to serve image files.
 	if app.Config.Filestore.Image.Kind == configs.Local {
 		// TODO: Permission middleware.
-		// Authenticate session user.
-		workflowStaticRoute := server.Group("/image", middleware.Authenticate(app))
+		// Authenticate and add session user.
+		workflowStaticRoute := server.Group("/image", middleware.AuthenticateCreateUser(app))
 		workflowStaticRoute.StaticFS("/", http.Dir(app.Config.Filestore.Image.Path))
 	}
 }
