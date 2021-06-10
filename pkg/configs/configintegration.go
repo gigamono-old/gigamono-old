@@ -5,24 +5,26 @@ type IntegrationConfig struct {
 	Version  uint       `json:"version"`
 	Kind     ConfigKind `json:"kind"`
 	Metadata struct {
-		Name          string   `json:"name"`
-		PublicID      UUID     `mapstructure:"public_id" json:"public_id"`
-		Version       string   `json:"version"`
-		Description   string   `json:"description"`
-		Category      string   `json:"category"`
-		Tags          []string `json:"tags"`
-		AvatarURL     string   `mapstructure:"avatar_url" json:"avatar_url"`
-		HomepageURL   string   `json:"homepage_url"`
-		ResourceNouns []string `json:"resource_nouns"`
-		Authors       []Author `json:"authors"`
+		Name                string   `json:"name"`
+		PublicID            UUID     `mapstructure:"public_id" json:"public_id"`
+		Version             string   `json:"version"`
+		Description         string   `json:"description"`
+		Category            string   `json:"category"`
+		Builtin             bool     `json:"builtin"`
+		Tags                []string `json:"tags"`
+		AvatarURL           string   `mapstructure:"avatar_url" json:"avatar_url"`
+		HomepageURL         string   `mapstructure:"homepage_url" json:"homepage_url"`
+		APIDocumentationURL string   `mapstructure:"api_documentation_url" json:"api_documentation_url"`
+		ResourceNouns       []string `mapstructure:"resource_nouns" json:"resource_nouns"`
+		Authors             []Author `json:"authors"`
 	} `json:"metadata"`
 	Auths struct {
 		OAuth2s []OAuth2 `json:"oauth2s"`
 		APIKeys []APIKey `json:"api_keys"`
 	} `json:"auths"`
 	Operations struct {
-		Triggers []Trigger `json:"triggers"`
-		Actions  []Action  `json:"actions"`
+		Triggers map[string]Trigger `json:"triggers"`
+		Actions  map[string]Action  `json:"actions"`
 	} `json:"operations"`
 }
 
@@ -31,16 +33,15 @@ type OAuth2 struct {
 	Label                      string   `json:"label"`
 	Scopes                     []string `json:"scopes"`
 	ShouldRefreshAutomatically bool     `mapstructure:"should_refresh_automatically" json:"should_refresh_automatically"`
-	Fields                     []struct {
+	Inputs                     map[string]struct {
 		Label            string    `json:"label"`
-		Key              string    `json:"key"`
 		Tip              string    `json:"tip"`
 		IsRequired       bool      `mapstructure:"is_required" json:"is_required"`
 		IsAdministrative bool      `mapstructure:"is_administrative" json:"is_administrative"`
 		InputKind        InputKind `mapstructure:"input_kind" json:"input_kind"`
 		DefaultValue     string    `mapstructure:"default_value" json:"default_value"`
 		Dropdown         Dropdown  `json:"dropdown"`
-	} `json:"fields"`
+	} `json:"inputs"`
 	APIs struct {
 		AuthorisationRequest Endpoint `mapstructure:"authorisation_request" json:"authorisation_request"`
 		AccessTokenRequest   Endpoint `mapstructure:"access_token_request" json:"access_token_request"`
@@ -50,25 +51,23 @@ type OAuth2 struct {
 
 // APIKey holds the necessary information for getting authorisation via api keys.
 type APIKey struct {
-	Fields []struct {
+	Inputs map[string]struct {
 		Label            string    `json:"label"`
-		Key              string    `json:"key"`
 		Tip              string    `json:"tip"`
 		IsRequired       bool      `mapstructure:"is_required" json:"is_required"`
 		IsAdministrative bool      `mapstructure:"is_administrative" json:"is_administrative"`
 		InputKind        InputKind `mapstructure:"input_kind" json:"input_kind"`
 		DefaultValue     string    `mapstructure:"default_value" json:"default_value"`
 		Dropdown         Dropdown  `json:"dropdown"`
-	} `json:"fields"`
+	} `json:"inputs"`
 	API Endpoint `json:"api"`
 }
 
 // Trigger specifies a trigger operation.
 type Trigger struct {
-	Key    string  `json:"key"`
-	Label  string  `json:"label"`
-	Tip    string  `json:"tip"`
-	Fields []Field `json:"field"`
+	Label  string           `json:"label"`
+	Tip    string           `json:"tip"`
+	Inputs map[string]Input `json:"inputs"`
 	APIs   struct {
 		Polls     []Poll     `json:"polls"`
 		RestHooks []RestHook `json:"resthook"`
@@ -77,17 +76,15 @@ type Trigger struct {
 
 // Action specifies an action operation.
 type Action struct {
-	Key        string     `json:"key"`
-	Label      string     `json:"label"`
-	Tip        string     `json:"tip"`
-	ActionKind ActionKind `json:"action_kind"`
-	Fields     []Field    `json:"field"`
-	API        Endpoint   `json:"api"`
+	Label      string           `json:"label"`
+	Tip        string           `json:"tip"`
+	ActionKind ActionKind       `json:"action_kind"`
+	Inputs     map[string]Input `json:"inputs"`
+	API        Endpoint         `json:"api"`
 }
 
-// Field describes an input field.
-type Field struct {
-	Key              string    `json:"key"`
+// Input describes an input field.
+type Input struct {
 	Label            string    `json:"label"`
 	Tip              string    `json:"tip"`
 	IsRequired       bool      `mapstructure:"is_required" json:"is_required"`

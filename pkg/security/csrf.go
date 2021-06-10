@@ -4,7 +4,6 @@ import (
 	"crypto/hmac"
 	"crypto/sha512"
 	"encoding/base64"
-	"fmt"
 
 	"github.com/gigamono/gigamono/pkg/errs"
 )
@@ -28,12 +27,10 @@ func GenerateSignedCSRFID(plaintextCSRFID string, secretKey []byte) (string, err
 func VerifySignedCSRFID(plaintextCSRFID string, hashedCSRFID string, secretKey []byte) error {
 	hash, err := GenerateSignedCSRFID(plaintextCSRFID, secretKey)
 	if err != nil {
-		fmt.Println(">>>>> err", err)
 		return err
 	}
 
 	if hash != hashedCSRFID {
-		fmt.Println(">>>>> err", hash, hashedCSRFID)
 		return errs.NewTamperError()
 	}
 

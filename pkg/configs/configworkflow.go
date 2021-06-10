@@ -17,20 +17,22 @@ type WorkflowConfig struct {
 		Authors     []Author `json:"authors"`
 	} `json:"metadata"`
 	Integration []struct {
-		Name    string `json:"name"`
-		ID      UUID   `json:"id"`
-		FileURL UUID   `mapstructure:"file_url" json:"file_url"`
+		Name                 string `json:"name"`
+		ID                   UUID   `json:"id"`
+		SpecificationFileURL UUID   `mapstructure:"specification_file_url" json:"specification_file_url"`
 	} `json:"integration"`
-	Steps []Step `json:"steps"`
+	Steps struct {
+		Max   uint64              `json:"max"`
+		Items map[uint64]StepItem `json:"items"`
+	} `json:"steps"`
 }
 
-// Step is an executable step in a workflow.
-type Step struct {
-	Index            uint                `json:"index"`
-	IntegrationIndex *uint               `mapstructure:"integration_index" json:"integration_index"`
-	OperationKey     string              `mapstructure:"operation_key" json:"operation_key"`
-	Dependencies     []uint              `json:"dependencies"`
-	Fields           map[string][]string `json:"fields"`
+// StepItem is a step in a workflow.
+type StepItem struct {
+	IntegrationIndex uint              `mapstructure:"integration_index" json:"integration_index"`
+	OperationKey     string            `mapstructure:"operation_key" json:"operation_key"`
+	Dependencies     []uint            `json:"dependencies"`
+	Inputs           map[string]string `json:"inputs"`
 }
 
 // NewWorkflowConfig creates a WorkflowConfig from string. Supports JSON, TOML and YAML string format.
