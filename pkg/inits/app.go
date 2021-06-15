@@ -48,7 +48,7 @@ func NewApp(serviceKind ServiceKind) (App, error) {
 	}
 
 	// Set how project files are stored.
-	projectManager, err := filestore.NewManager(config.Filestore.Project.Path)
+	projectManager, err := filestore.NewManager(config.Filestore.Project.ActualPath, config.Filestore.Project.PublicPath)
 	if err != nil {
 		err := fmt.Errorf("initialising app: unable to create a project filestore manager: %v", err)
 		logs.FmtPrintln(err)
@@ -56,7 +56,7 @@ func NewApp(serviceKind ServiceKind) (App, error) {
 	}
 
 	// Set how extension files are stored.
-	extensionManager, err := filestore.NewManager(config.Filestore.Extension.Path)
+	extensionManager, err := filestore.NewManager(config.Filestore.Extension.ActualPath, config.Filestore.Extension.PublicPath)
 	if err != nil {
 		err := fmt.Errorf("initialising app: unable to create a extension filestore manager: %v", err)
 		logs.FmtPrintln(err)
@@ -64,7 +64,7 @@ func NewApp(serviceKind ServiceKind) (App, error) {
 	}
 
 	// Set how image files are stored.
-	imageManager, err := filestore.NewManager(config.Filestore.Image.Path)
+	imageManager, err := filestore.NewManager(config.Filestore.Image.ActualPath, config.Filestore.Image.PublicPath)
 	if err != nil {
 		err := fmt.Errorf("initialising app: unable to create a images filestore manager: %v", err)
 		logs.FmtPrintln(err)

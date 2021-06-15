@@ -13,44 +13,46 @@ func CreateWorkflow(
 	db *database.DB,
 	sessionUserID *uuid.UUID,
 	workflowName string,
-) (*uuid.UUID, error) {
+	specificationPath string,
+) (*resource.Workflow, error) {
 	// TODO: Sec: Permission.
 	workflow := resource.Workflow{
-		Name:         workflowName,
-		CreatorID:    sessionUserID,
+		Name:              workflowName,
+		CreatorID:         sessionUserID,
+		SpecificationPath: specificationPath,
 	}
 
 	// Insert workflow and return id.
-	if _, err := db.Model(&workflow).Returning("id").Insert(); err != nil {
-		return &uuid.UUID{}, fmt.Errorf("creating workflow in db: %v", err)
+	if _, err := db.Model(&workflow).Insert(); err != nil {
+		return &workflow, fmt.Errorf("creating workflow in db: %v", err)
 	}
 
-	return &workflow.ID, nil
+	return &workflow, nil
 }
 
 // ActivateWorkflow updates the `is_active` field of a workflow.
-func ActivateWorkflow(db *database.DB, _ *uuid.UUID, workflowID *uuid.UUID) (*uuid.UUID, error) {
+func ActivateWorkflow(db *database.DB, _ *uuid.UUID, workflowID *uuid.UUID) (*resource.Workflow, error) {
 	// TODO: Sec: Permission.
-	workflow := new(resource.Workflow)
+	workflow := resource.Workflow{}
 	workflow.IsActive = true
 
 	// Update details specified workflow.
-	if _, err := db.Model(workflow).Set("is_active = ?is_active").Where("id = ?", workflowID).Update(); err != nil {
-		return &uuid.UUID{}, fmt.Errorf("activating workflow in db: %v", err)
+	if _, err := db.Model(&workflow).Set("is_active = ?is_active").Where("id = ?", workflowID).Update(); err != nil {
+		return &workflow, fmt.Errorf("activating workflow in db: %v", err)
 	}
 
-	return workflowID, nil
+	return &workflow, nil
 }
 
 // GetWorkflow gets a workflow by id.
 func GetWorkflow(db *database.DB, _ *uuid.UUID, workflowID *uuid.UUID) (*resource.Workflow, error) {
 	// TODO: Sec: Permission.
-	workflow := new(resource.Workflow)
+	workflow := resource.Workflow{}
 
 	// Select the workflow with the specified workflowID
-	if err := db.Model(workflow).Where("id = ?", workflowID).Select(); err != nil {
-		return &resource.Workflow{}, fmt.Errorf("fetching workflow from db: %v", err)
+	if err := db.Model(&workflow).Where("id = ?", workflowID).Select(); err != nil {
+		return &workflow, fmt.Errorf("fetching workflow from db: %v", err)
 	}
 
-	return workflow, nil
+	return &workflow, nil
 }

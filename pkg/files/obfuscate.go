@@ -7,12 +7,13 @@ import (
 	"github.com/gofrs/uuid"
 )
 
-// GenerateObfuscatedFilePath generates an obfuscated filepath using the following scheme.
+// GenerateObfuscatedFilePath generates an obfuscated filepath using the following schemes:
 //
-// [workspace-short-uuid]/[system-generated-resource-prefix].[system-generated-short-uuid]
-// or
-// [workspace-short-uuid]/[system-generated-resource-prefix].[resource-short-uuid].[system-generated-short-uuid]
+// 		[workspace-id-shortened]/[resource-name].[random-id-shortened].[file-extension]
+//
+// 		[workspace-id-shortened]/[resource-name].[resource-id-shortened].[random-id-shortened].[file-extension]
 func GenerateObfuscatedFilePath(
+	fileExtension string,
 	workspaceID uuid.UUID,
 	resourceName string,
 	resourceID *uuid.UUID,
@@ -27,7 +28,11 @@ func GenerateObfuscatedFilePath(
 		return "", err
 	}
 
-	resourcePostfix := encodings.ShortenUUID(randomID)
-
-	return fmt.Sprintf("%v/%v.%v", encodings.ShortenUUID(workspaceID), resourcePrefix, resourcePostfix), nil
+	return fmt.Sprintf(
+		"%v/%v.%v.%v",
+		encodings.ShortenUUID(workspaceID),
+		resourcePrefix,
+		encodings.ShortenUUID(randomID),
+		fileExtension,
+	), nil
 }

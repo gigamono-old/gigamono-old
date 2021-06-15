@@ -13,6 +13,7 @@ var Error = map[string]interface{}{
 	"signup":                          "cannot create user",
 	"signin":                          "cannot sign user in",
 	"workflow-config":                 "invalid workflow config",
+	"integration-config":              "invalid integration config",
 	"workflow-id":                     "invalid workflow id",
 	"pre-session-access-token-cookie": "pre-session access token invalid",
 	"session-access-token-cookie":     "session access token invalid",

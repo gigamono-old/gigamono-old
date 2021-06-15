@@ -13,7 +13,7 @@ import (
 func CreateUserIfNotExist(
 	db *database.DB,
 	sessionUserID *uuid.UUID,
-) (*uuid.UUID, error) {
+) (*resource.User, error) {
 	user := resource.User{
 		Base: models.Base{
 			ID: *sessionUserID,
@@ -22,8 +22,8 @@ func CreateUserIfNotExist(
 
 	// Insert user if not exist.
 	if _, err := db.Model(&user).OnConflict("(id) DO NOTHING").Insert(); err != nil {
-		return &uuid.UUID{}, fmt.Errorf("creating user in db: %v", err)
+		return &user, fmt.Errorf("creating user in db: %v", err)
 	}
 
-	return sessionUserID, nil
+	return &user, nil
 }

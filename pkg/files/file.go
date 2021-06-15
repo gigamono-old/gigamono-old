@@ -43,3 +43,19 @@ func OpenFile(path string, isAppend bool) (*os.File, error) {
 	// Sec: No point giving other non-grp users permissions.
 	return os.OpenFile(path, os.O_CREATE|os.O_WRONLY|append, 0660)
 }
+
+// WriteToFile writes to a file. Creates file if it does not exist.
+func WriteToFile(path string, content []byte) (*os.File, error) {
+	// Open or create file.
+	file, err := OpenOrCreateFile(path, false)
+	if err != nil {
+		return nil, err
+	}
+
+	// Write content to file
+	if _, err := file.Write(content); err != nil {
+		return nil, err
+	}
+
+	return file, nil
+}

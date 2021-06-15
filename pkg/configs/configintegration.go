@@ -1,18 +1,25 @@
 package configs
 
+import (
+	"encoding/json"
+	"strings"
+
+	"github.com/spf13/viper"
+)
+
 // IntegrationConfig holds the information about an app which can be used in tasks.
 type IntegrationConfig struct {
 	Version  uint       `json:"version"`
 	Kind     ConfigKind `json:"kind"`
 	Metadata struct {
 		Name                string   `json:"name"`
-		PublicID            UUID     `mapstructure:"public_id" json:"public_id"`
+		PublicID            *UUID     `mapstructure:"public_id" json:"public_id"`
 		Version             string   `json:"version"`
 		Description         string   `json:"description"`
 		Category            string   `json:"category"`
 		Builtin             bool     `json:"builtin"`
 		Tags                []string `json:"tags"`
-		AvatarURL           string   `mapstructure:"avatar_url" json:"avatar_url"`
+		AvatarURL           *string   `mapstructure:"avatar_url" json:"avatar_url"`
 		HomepageURL         string   `mapstructure:"homepage_url" json:"homepage_url"`
 		APIDocumentationURL string   `mapstructure:"api_documentation_url" json:"api_documentation_url"`
 		ResourceNouns       []string `mapstructure:"resource_nouns" json:"resource_nouns"`
@@ -130,4 +137,34 @@ type Dropdown struct {
 	AllowsMultiple bool         `mapstructure:"allows_multiple" json:"allows_multiple"`
 	AllowsCustom   bool         `mapstructure:"allows_custom" json:"allows_custom"`
 	Options        []string     `json:"options"`
+}
+
+// NewIntegrationConfig creates an IntegrationConfig from string. Supports JSON, TOML and YAML string format.
+func NewIntegrationConfig(integrationString string, format ConfigFormat) (IntegrationConfig, error) {
+	// TODO: Sec: Validation
+	integration := IntegrationConfig{}
+	reader := strings.NewReader(integrationString)
+
+	// Set format to parse.
+	converter := viper.New()
+	converter.SetConfigType(string(format))
+	converter.ReadConfig(reader)
+
+	// Unmarshal string into object.
+	if err := converter.Unmarshal(&integration, getCustomDecoder()); err != nil {
+		return IntegrationConfig{}, err
+	}
+
+	return integration, nil
+}
+
+// JSON converts config to json.
+func (config *IntegrationConfig) JSON() (string, error) {
+	// TODO: Sec: Validation
+	bytes, err := json.Marshal(config)
+	if err != nil {
+		return "", err
+	}
+
+	return string(bytes), nil
 }
