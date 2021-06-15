@@ -60,8 +60,9 @@ type Ports struct {
 
 // FilestoreInfo represents information for managing certain type of file.
 type FilestoreInfo struct {
-	Kind FilestoreManagerKind `json:"kind"`
-	Path string               `json:"path"`
+	Kind       FilestoreManagerKind `json:"kind"`
+	PublicPath string               `mapstructure:"public_path" json:"public_path"`
+	ActualPath string               `mapstructure:"actual_path" json:"actual_path"`
 }
 
 // NewGigamonoConfig creates a GigamonoConfig from string. Supports JSON, TOML and YAML string format.

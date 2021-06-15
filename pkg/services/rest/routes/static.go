@@ -15,23 +15,23 @@ func SetLocalStaticRoutes(server *gin.Engine, app *inits.App) {
 	if app.Config.Filestore.Project.Kind == configs.Local {
 		// TODO: Permission middleware.
 		// Authenticate and add session user.
-		workflowStaticRoute := server.Group("/project", middleware.AuthenticateCreateUser(app))
-		workflowStaticRoute.StaticFS("/", http.Dir(app.Config.Filestore.Project.Path))
+		staticRoute := server.Group("/" + app.Config.Filestore.Project.PublicPath, middleware.AuthenticateCreateUser(app))
+		staticRoute.StaticFS("/", http.Dir(app.Config.Filestore.Project.ActualPath))
 	}
 
 	// Local static folder to serve extension files.
 	if app.Config.Filestore.Extension.Kind == configs.Local {
 		// TODO: Permission middleware.
 		// Authenticate and add session user.
-		workflowStaticRoute := server.Group("/extension", middleware.AuthenticateCreateUser(app))
-		workflowStaticRoute.StaticFS("/", http.Dir(app.Config.Filestore.Extension.Path))
+		staticRoute := server.Group("/" + app.Config.Filestore.Extension.PublicPath, middleware.AuthenticateCreateUser(app))
+		staticRoute.StaticFS("/", http.Dir(app.Config.Filestore.Extension.ActualPath))
 	}
 
 	// Local static folder to serve image files.
 	if app.Config.Filestore.Image.Kind == configs.Local {
 		// TODO: Permission middleware.
 		// Authenticate and add session user.
-		workflowStaticRoute := server.Group("/image", middleware.AuthenticateCreateUser(app))
-		workflowStaticRoute.StaticFS("/", http.Dir(app.Config.Filestore.Image.Path))
+		staticRoute := server.Group("/" + app.Config.Filestore.Image.PublicPath, middleware.AuthenticateCreateUser(app))
+		staticRoute.StaticFS("/", http.Dir(app.Config.Filestore.Image.ActualPath))
 	}
 }
