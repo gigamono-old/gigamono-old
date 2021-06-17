@@ -5,8 +5,8 @@ import (
 	"github.com/gofrs/uuid"
 )
 
-// Project represents a project under a space.
-type Project struct {
+// Space represents a sectio under a workspace.
+type Space struct {
 	models.Base
 	Name        string    `json:"name"`
 	Avatar32URL string    `pg:"avatar_32_url" json:"avatar_32_url"`
