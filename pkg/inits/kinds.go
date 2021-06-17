@@ -10,7 +10,7 @@ const (
 	WorkflowEngineMainServer         ServiceKind = "WorkflowEngineMainServer"
 	WorkflowEngineAPIService         ServiceKind = "WorkflowEngineAPIService"
 	WorkflowEngineRunnableSupervisor ServiceKind = "WorkflowEngineRunnableSupervisor"
-	DocumentEngineMainServer         ServiceKind = "DocumentEngineMainServer"
+	BaseEngineMainServer             ServiceKind = "BaseEngineMainServer"
 )
 
 // DatabaseKind gets the database kind supported by service.
@@ -20,7 +20,7 @@ func (kind *ServiceKind) DatabaseKind() string {
 		WorkflowEngineMainServer,
 		WorkflowEngineAPIService,
 		WorkflowEngineRunnableSupervisor,
-		DocumentEngineMainServer:
+		BaseEngineMainServer:
 		return "resource"
 	case Auth:
 		return "auth"

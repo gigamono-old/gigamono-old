@@ -40,9 +40,9 @@ type GigamonoConfig struct {
 				Ports Ports `json:"ports"`
 			} `mapstructure:"runnable_supervisor" json:"runnable_supervisor"`
 		} `mapstructure:"workflow_engine" json:"workflow_engine"`
-		DocumentEngine struct {
+		BaseEngine struct {
 			Ports Ports `json:"ports"`
-		} `mapstructure:"document_engine" json:"document_engine"`
+		} `mapstructure:"base_engine" json:"base_engine"`
 	} `json:"services"`
 	Secrets   SecretsManagerKind `json:"secrets"`
 	Filestore struct {
