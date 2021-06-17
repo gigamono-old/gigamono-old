@@ -8,7 +8,7 @@ const (
 	API                              ServiceKind = "API"
 	Auth                             ServiceKind = "Auth"
 	WorkflowEngineMainServer         ServiceKind = "WorkflowEngineMainServer"
-	WorkflowEngineWebhookService     ServiceKind = "WorkflowEngineWebhookService"
+	WorkflowEngineAPIService         ServiceKind = "WorkflowEngineAPIService"
 	WorkflowEngineRunnableSupervisor ServiceKind = "WorkflowEngineRunnableSupervisor"
 	DocumentEngineMainServer         ServiceKind = "DocumentEngineMainServer"
 )
@@ -18,7 +18,7 @@ func (kind *ServiceKind) DatabaseKind() string {
 	switch *kind {
 	case API,
 		WorkflowEngineMainServer,
-		WorkflowEngineWebhookService,
+		WorkflowEngineAPIService,
 		WorkflowEngineRunnableSupervisor,
 		DocumentEngineMainServer:
 		return "resource"

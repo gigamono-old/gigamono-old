@@ -33,9 +33,9 @@ type GigamonoConfig struct {
 			MainServer struct {
 				Ports Ports `json:"ports"`
 			} `mapstructure:"main_server" json:"main_server"`
-			WebhookService struct {
+			APIService struct {
 				Ports Ports `json:"ports"`
-			} `mapstructure:"webhook_service" json:"webhook_service"`
+			} `mapstructure:"api_service" json:"api_service"`
 			RunnableSupervisor struct {
 				Ports Ports `json:"ports"`
 			} `mapstructure:"runnable_supervisor" json:"runnable_supervisor"`
