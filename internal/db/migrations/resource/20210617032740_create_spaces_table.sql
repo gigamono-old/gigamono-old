@@ -6,7 +6,7 @@ CREATE TABLE spaces (
     updated_at timestamp with time zone,
     deleted_at timestamp with time zone,
     name text,
-    avatar_32_url text,
+    avatar_url text,
     creator_id uuid REFERENCES users(id)
 );
 -- +goose Down

@@ -9,7 +9,7 @@ CREATE TABLE profiles (
     first_name text,
     last_name text,
     email text,
-    avatar_32_url text,
+    avatar_url text,
     user_id uuid REFERENCES users(id)
 );
 -- +goose Down

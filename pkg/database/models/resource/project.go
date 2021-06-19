@@ -8,7 +8,7 @@ import (
 // Project represents a project under a space.
 type Project struct {
 	models.Base
-	Name        string    `json:"name"`
-	Avatar32URL string    `pg:"avatar_32_url" json:"avatar_32_url"`
-	CreatorID   uuid.UUID `pg:"type:uuid" json:"creator_id"`
+	Name      string    `json:"name"`
+	AvatarURL string    `json:"avatar_url"`
+	CreatorID uuid.UUID `pg:"type:uuid" json:"creator_id"`
 }
