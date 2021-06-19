@@ -8,7 +8,7 @@ import (
 // Integration stores information about an integration.
 type Integration struct {
 	models.Base
-	Name              string     `json:"name"`
-	SpecificationPath string     `json:"specification_path"`
-	CreatorID         *uuid.UUID `json:"creator_id"`
+	Name                 string     `json:"name"`
+	SpecificationFileURL string     `json:"specification_file_url"`
+	CreatorID            *uuid.UUID `json:"creator_id"`
 }

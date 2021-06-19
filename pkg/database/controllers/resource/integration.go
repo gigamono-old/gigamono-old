@@ -13,13 +13,13 @@ func CreateIntegration(
 	db *database.DB,
 	sessionUserID *uuid.UUID,
 	integrationName string,
-	specificationPath string,
+	specificationFileURL string,
 ) (*resource.Integration, error) {
 	// TODO: Sec: Permission.
 	integration := resource.Integration{
-		Name:              integrationName,
-		CreatorID:         sessionUserID,
-		SpecificationPath: specificationPath,
+		Name:                 integrationName,
+		CreatorID:            sessionUserID,
+		SpecificationFileURL: specificationFileURL,
 	}
 
 	// Insert integration and return id.

@@ -6,7 +6,7 @@ CREATE TABLE integrations (
     updated_at timestamp with time zone,
     deleted_at timestamp with time zone,
     name text,
-    specification_path text,
+    specification_file_url text,
     creator_id uuid REFERENCES users(id)
 );
 -- +goose Down

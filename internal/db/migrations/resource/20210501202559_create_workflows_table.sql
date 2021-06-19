@@ -7,8 +7,8 @@ CREATE TABLE workflows (
     deleted_at timestamp with time zone,
     name text,
     is_active boolean DEFAULT FALSE,
-    specification_path text,
-    serverless_js_path text,
+    specification_file_url text,
+    output_serverless_js_file_url text,
     creator_id uuid REFERENCES users(id)
 );
 -- +goose Down

@@ -2,7 +2,7 @@ type Workflow {
   id: String!
   name: String!
   specification: String!
-  specificationPath: String!
+  specificationFileURL: String!
   isActive: Boolean
   creatorID: String!
 }
