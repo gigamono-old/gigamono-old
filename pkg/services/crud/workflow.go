@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/gigamono/gigamono/pkg/configs"
-	controller "github.com/gigamono/gigamono/pkg/database/controllers/resource"
-	model "github.com/gigamono/gigamono/pkg/database/models/resource"
+	"github.com/gigamono/gigamono/pkg/database/models"
+	"github.com/gigamono/gigamono/pkg/database/models/resource"
 	"github.com/gigamono/gigamono/pkg/errs"
 	"github.com/gigamono/gigamono/pkg/files"
 	"github.com/gigamono/gigamono/pkg/inits"
@@ -15,7 +15,7 @@ import (
 )
 
 // CreateWorkflow creates a new workflow in the database.
-func CreateWorkflow(ctx context.Context, app *inits.App, specification string) (*model.Workflow, error) {
+func CreateWorkflow(ctx context.Context, app *inits.App, specification string) (*resource.Workflow, error) {
 	// TODO: Sec: Validation, Permission.
 	userID := ctx.Value(middleware.SessionDataKey).(middleware.SessionData).UserID
 
@@ -39,29 +39,27 @@ func CreateWorkflow(ctx context.Context, app *inits.App, specification string) (
 	// TODO: Compile workflow config.
 
 	// Create the workflow in db.
-	workflow, err := controller.CreateWorkflow(&app.DB, &userID, workflowConfig.Metadata.Name, filePath)
-	if err != nil {
+	workflow := resource.Workflow{Name: workflowConfig.Metadata.Name, CreatorID: &userID, SpecificationFileURL: filePath}
+	if err = workflow.Create(&app.DB); err != nil {
 		panic(errs.NewSystemError("", "creating workflow", err))
 	}
 
-	return workflow, nil
+	return &workflow, nil
 }
 
 // GetWorkflow gets an existing workflow from the database.
-func GetWorkflow(ctx context.Context, app *inits.App, workflowID string) (*model.Workflow, error) {
+func GetWorkflow(_ context.Context, app *inits.App, workflowID string) (*resource.Workflow, error) {
 	// TODO: Sec: Validation, Permission.
-	userID := ctx.Value(middleware.SessionDataKey).(middleware.SessionData).UserID
-
 	workflowUUID, err := uuid.FromString(workflowID)
 	if err != nil {
 		panic(err)
 	}
 
 	// Get the workflow from db.
-	workflow, err := controller.GetWorkflow(&app.DB, &userID, &workflowUUID)
-	if err != nil {
+	workflow := resource.Workflow{Base: models.Base{ID: workflowUUID}}
+	if err := workflow.GetByID(&app.DB); err != nil {
 		panic(errs.NewSystemError("", "getting workflow", err))
 	}
 
-	return workflow, nil
+	return &workflow, nil
 }

@@ -3,7 +3,8 @@ package middleware
 import (
 	"context"
 
-	controllers "github.com/gigamono/gigamono/pkg/database/controllers/resource"
+	"github.com/gigamono/gigamono/pkg/database/models"
+	"github.com/gigamono/gigamono/pkg/database/models/resource"
 	"github.com/gigamono/gigamono/pkg/errs"
 	"github.com/gigamono/gigamono/pkg/inits"
 	"github.com/gigamono/gigamono/pkg/messages"
@@ -69,7 +70,8 @@ func AuthenticateCreateUser(app *inits.App) gin.HandlerFunc {
 		}
 
 		// Add new user if user does not already exist.
-		if _, err := controllers.CreateUserIfNotExist(&app.DB, &sessionData.UserID); err != nil {
+		user := resource.User{Base: models.Base{ID: sessionData.UserID}}
+		if err = user.CreateIfNotExist(&app.DB); err != nil {
 			panic(errs.NewSystemError(
 				messages.Error["authenticate-user"].(string),
 				"trying to create user if not exist",

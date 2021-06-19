@@ -3,9 +3,6 @@ package database
 import (
 	"errors"
 
-	"github.com/gigamono/gigamono/pkg/database/models/resource"
-	"github.com/go-pg/pg/v10/orm"
-
 	"github.com/gigamono/gigamono/pkg/secrets"
 	"github.com/go-pg/pg/v10"
 )
@@ -13,11 +10,6 @@ import (
 // DB contains a db connection.
 type DB struct {
 	*pg.DB
-}
-
-func init() {
-	// Register all junction tables.
-	orm.RegisterTable(resource.XUsersWorkspaces{})
 }
 
 // Connect connects to specified postgres database.
