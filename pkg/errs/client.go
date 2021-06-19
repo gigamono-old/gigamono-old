@@ -9,10 +9,10 @@ type ClientErrors struct {
 
 // ClientError represents an error to be sent to the client.
 type ClientError struct {
-	Path            []string        `json:"path"`
-	Message         string          `json:"message"`
-	Code            MainErrorCode   `json:"code"`
-	Type            ClientErrorType `json:"type,omitempty"`
+	Path    []string        `json:"path"`
+	Message string          `json:"message"`
+	Code    MainErrorCode   `json:"code"`
+	Type    ClientErrorType `json:"type,omitempty"`
 }
 
 // ClientErrorType is type of client error (body, params, query, etc.)
@@ -33,6 +33,6 @@ func (errs *ClientErrors) AddError(clientError ClientError) {
 	errs.ClientErrors = append(errs.ClientErrors, clientError)
 }
 
-func (err ClientError) Error() string  {
+func (err ClientError) Error() string {
 	return err.Message
 }

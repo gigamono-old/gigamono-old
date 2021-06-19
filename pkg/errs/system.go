@@ -9,10 +9,10 @@ import (
 // SystemError represents an internal system error, typically invoked by a panic that will be handled by a panic handler.
 // It wraps actual error to add context information to error.
 type SystemError struct {
-	ClientContextMessage string          // A contextual message for the client.
-	ServerContextMessage string          // A contextual message for the server.
-	FunctionInfo         FunctionInfo    // Info about the function that invoked a panic.
-	ActualError          error           // The wrapped error.
+	ClientContextMessage string       // A contextual message for the client.
+	ServerContextMessage string       // A contextual message for the server.
+	FunctionInfo         FunctionInfo // Info about the function that invoked a panic.
+	ActualError          error        // The wrapped error.
 }
 
 // FunctionInfo holds information about a function.

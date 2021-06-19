@@ -31,10 +31,10 @@ func PanicHandler(ctx *gin.Context, err interface{}) {
 		http.StatusInternalServerError,
 		response.Response{
 			Errors: []errs.ClientError{{
-				Path:            []string{ctx.FullPath()},
-				Message:         clientErrorMessage,
-				Code:            errs.InternalSystemError,
-				Type:            errs.ClientErrorTypeNone,
+				Path:    []string{ctx.FullPath()},
+				Message: clientErrorMessage,
+				Code:    errs.InternalSystemError,
+				Type:    errs.ClientErrorTypeNone,
 			}},
 		},
 	)

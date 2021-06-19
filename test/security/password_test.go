@@ -3,8 +3,8 @@ package security
 import (
 	"testing"
 
-	"github.com/gigamono/gigamono/pkg/security"
 	"github.com/gigamono/gigamono/pkg/errs"
+	"github.com/gigamono/gigamono/pkg/security"
 	"github.com/stretchr/testify/assert"
 )
 

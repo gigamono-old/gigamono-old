@@ -15,7 +15,7 @@ func SetLocalStaticRoutes(server *gin.Engine, app *inits.App) {
 	if app.Config.Filestore.Project.Kind == configs.Local {
 		// TODO: Permission middleware.
 		// Authenticate and add session user.
-		staticRoute := server.Group("/" + app.Config.Filestore.Project.Paths.Public, middleware.AuthenticateCreateUser(app))
+		staticRoute := server.Group("/"+app.Config.Filestore.Project.Paths.Public, middleware.AuthenticateCreateUser(app))
 		staticRoute.StaticFS("/", http.Dir(app.Config.Filestore.Project.Paths.Actual))
 	}
 
@@ -23,7 +23,7 @@ func SetLocalStaticRoutes(server *gin.Engine, app *inits.App) {
 	if app.Config.Filestore.Extension.Kind == configs.Local {
 		// TODO: Permission middleware.
 		// Authenticate and add session user.
-		staticRoute := server.Group("/" + app.Config.Filestore.Extension.Paths.Public, middleware.AuthenticateCreateUser(app))
+		staticRoute := server.Group("/"+app.Config.Filestore.Extension.Paths.Public, middleware.AuthenticateCreateUser(app))
 		staticRoute.StaticFS("/", http.Dir(app.Config.Filestore.Extension.Paths.Actual))
 	}
 
@@ -31,7 +31,7 @@ func SetLocalStaticRoutes(server *gin.Engine, app *inits.App) {
 	if app.Config.Filestore.Image.Kind == configs.Local {
 		// TODO: Permission middleware.
 		// Authenticate and add session user.
-		staticRoute := server.Group("/" + app.Config.Filestore.Image.Paths.Public, middleware.AuthenticateCreateUser(app))
+		staticRoute := server.Group("/"+app.Config.Filestore.Image.Paths.Public, middleware.AuthenticateCreateUser(app))
 		staticRoute.StaticFS("/", http.Dir(app.Config.Filestore.Image.Paths.Actual))
 	}
 }
