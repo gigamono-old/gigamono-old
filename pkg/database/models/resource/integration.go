@@ -11,9 +11,10 @@ import (
 // Integration stores information about an integration.
 type Integration struct {
 	models.Base
-	Name                 string     `json:"name"`
-	SpecificationFileURL string     `json:"specification_file_url"`
-	CreatorID            *uuid.UUID `json:"creator_id"`
+	Name                            string      `json:"name"`
+	SpecificationFileURL            string      `json:"specification_file_url"`
+	CreatorID                       uuid.UUID   `json:"creator_id"`
+	XWorkspaceInstalledIntegrations []Workspace `pg:"many2many:x_workspace_installed_integrations" json:"-"`
 }
 
 // Create creates an integration.
