@@ -15,9 +15,14 @@ import (
 )
 
 // CreateWorkflow creates a new workflow in the database.
-func CreateWorkflow(ctx context.Context, app *inits.App, specification string) (*resource.Workflow, error) {
+func CreateWorkflow(ctx context.Context, app *inits.App, specification string, automationID string) (*resource.Workflow, error) {
 	// TODO: Sec: Validation, Permission.
 	userID := ctx.Value(middleware.SessionDataKey).(middleware.SessionData).UserID
+
+	automationUUID, err := uuid.FromString(automationID)
+	if err != nil {
+		panic(err)
+	}
 
 	// TODO: Validate workflow config.
 	workflowConfig, err := configs.NewWorkflowConfig(specification, configs.JSON)
@@ -39,7 +44,7 @@ func CreateWorkflow(ctx context.Context, app *inits.App, specification string) (
 	// TODO: Compile workflow config.
 
 	// Create the workflow in db.
-	workflow := resource.Workflow{Name: workflowConfig.Metadata.Name, CreatorID: userID, SpecificationFileURL: filePath}
+	workflow := resource.Workflow{Name: workflowConfig.Metadata.Name, SpecificationFileURL: filePath, CreatorID: userID, AutomationID: automationUUID}
 	if err = workflow.Create(&app.DB); err != nil {
 		panic(errs.NewSystemError("", "creating workflow", err))
 	}

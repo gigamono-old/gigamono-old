@@ -3,6 +3,6 @@ type Workflow {
   name: String!
   specification: String!
   specificationFileURL: String!
-  isActive: Boolean
   creatorID: String!
+  automationID: String!
 }
