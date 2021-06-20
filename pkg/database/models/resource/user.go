@@ -20,7 +20,7 @@ type User struct {
 	Workflows    []Workflow    `pg:"rel:has-many,join_fk:creator_id" json:"workflows"`
 	Tables       []Table       `pg:"rel:has-many,join_fk:creator_id" json:"tables"`
 	Integrations []Integration `pg:"rel:has-many,join_fk:creator_id" json:"integrations"`
-	XWorkspaces  []Workspace   `pg:"many2many:x_users_workspaces" json:"-"`
+	XWorkspaces  []Workspace   `pg:"many2many:x_user_workspace_memberships" json:"-"`
 }
 
 // CreateIfNotExist creates a user if user does not already exist.
