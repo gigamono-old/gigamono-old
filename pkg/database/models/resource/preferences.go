@@ -21,27 +21,40 @@ type Details struct {
 		ID              string `json:"id"`
 		FocusSpaceIndex uint64 `json:"focus_space_index"`
 		Spaces          []struct {
-			ID                string `json:"id"`
-			FocusProjectIndex uint64 `json:"focus_project_index"`
-			Projects          []struct {
-				ID                 string `json:"id"`
-				FocusBoardIndex    uint64 `json:"focus_board_index"`
-				FocusScreenIndex   uint64 `json:"focus_screen_index"`
-				FocusWorkflowIndex uint64 `json:"focus_workflow_index"`
-				FocusTableIndex    uint64 `json:"focus_table_index"`
-				Boards             []struct {
+			ID                   string `json:"id"`
+			FocusDeckIndex       uint64 `json:"focus_deck_index"`
+			FocusAppIndex        uint64 `json:"focus_app_index"`
+			FocusAutomationIndex uint64 `json:"focus_automation_index"`
+			FocusBaseIndex       uint64 `json:"focus_base_index"`
+			Decks                []struct {
+				ID              string `json:"id"`
+				FocusBoardIndex uint64 `json:"focus_board_index"`
+				Boards          []struct {
 					ID string `json:"id"`
 				} `json:"boards"`
-				Screens []struct {
+			} `json:"decks"`
+			Apps []struct {
+				ID               string `json:"id"`
+				FocusScreenIndex uint64 `json:"focus_screen_index"`
+				Screens          []struct {
 					ID string `json:"id"`
 				} `json:"screens"`
-				Workflows []struct {
+			} `json:"apps"`
+			Automations []struct {
+				ID                 string `json:"id"`
+				FocusWorkflowIndex uint64 `json:"focus_workflow_index"`
+				Workflows          []struct {
 					ID string `json:"id"`
 				} `json:"workflows"`
-				Tables []struct {
+			} `json:"automations"`
+			Bases []struct {
+				ID string `json:"id"`
+
+				FocusTableIndex uint64 `json:"focus_table_index"`
+				Tables          []struct {
 					ID string `json:"id"`
 				} `json:"tables"`
-			} `json:"projects"`
+			} `json:"bases"`
 		} `json:"spaces"`
 		Layout struct {
 			MainShortcuts      Shortcut `json:"main_shortcuts"`
