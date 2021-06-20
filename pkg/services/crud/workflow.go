@@ -39,7 +39,7 @@ func CreateWorkflow(ctx context.Context, app *inits.App, specification string) (
 	// TODO: Compile workflow config.
 
 	// Create the workflow in db.
-	workflow := resource.Workflow{Name: workflowConfig.Metadata.Name, CreatorID: &userID, SpecificationFileURL: filePath}
+	workflow := resource.Workflow{Name: workflowConfig.Metadata.Name, CreatorID: userID, SpecificationFileURL: filePath}
 	if err = workflow.Create(&app.DB); err != nil {
 		panic(errs.NewSystemError("", "creating workflow", err))
 	}

@@ -11,11 +11,10 @@ import (
 // Workflow stores information about a workflow.
 type Workflow struct {
 	models.Base
-	Name                      string     `json:"name"`
-	IsActive                  bool       `json:"is_active"`
-	SpecificationFileURL      string     `json:"specification_file_url"`
-	OutputServerlessJSFileURL string     `json:"output_serverless_js_url"`
-	CreatorID                 *uuid.UUID `json:"creator_id"`
+	Name                 string    `json:"name"`
+	SpecificationFileURL string    `json:"specification_file_url"`
+	CreatorID            uuid.UUID `json:"creator_id"`
+	AutomationID         uuid.UUID `json:"automation_id"`
 }
 
 // Create creates a workflow.
@@ -24,19 +23,6 @@ func (workflow *Workflow) Create(db *database.DB) error {
 	// Insert workflow and return id.
 	if _, err := db.Model(workflow).Insert(); err != nil {
 		return fmt.Errorf("creating workflow in db: %v", err)
-	}
-
-	return nil
-}
-
-// ActivateByID updates the `is_active` field of a workflow selected by id.
-func (workflow *Workflow) ActivateByID(db *database.DB) error {
-	// TODO: Sec: Permission.
-	workflow.IsActive = true
-
-	// Update details specified workflow.
-	if _, err := db.Model(workflow).Set("is_active = ?is_active").Where("id = ?", workflow.ID).Update(); err != nil {
-		return fmt.Errorf("activating workflow in db: %v", err)
 	}
 
 	return nil
