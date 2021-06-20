@@ -1,6 +1,6 @@
 -- +goose Up
 -- SQL in this section is executed when the migration is applied.
-CREATE TABLE x_users_workspaces (
+CREATE TABLE x_user_workspace_memberships (
     created_at timestamp with time zone,
     updated_at timestamp with time zone,
     deleted_at timestamp with time zone,
@@ -10,4 +10,4 @@ CREATE TABLE x_users_workspaces (
 );
 -- +goose Down
 -- SQL in this section is executed when the migration is rolled back.
-DROP TABLE x_users_workspaces;
+DROP TABLE x_user_workspace_memberships;
