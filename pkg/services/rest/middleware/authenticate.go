@@ -70,6 +70,7 @@ func AuthenticateCreateUser(app *inits.App) gin.HandlerFunc {
 		}
 
 		// Add new user if user does not already exist.
+		// TODO: Is there a way prevent this extra DB hit on every request? Maybe through adding extra info to claims in JWT.
 		user := resource.User{Base: models.Base{ID: sessionData.UserID}}
 		if err = user.CreateIfNotExist(&app.DB); err != nil {
 			panic(errs.NewSystemError(

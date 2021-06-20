@@ -29,7 +29,7 @@ type GigamonoConfig struct {
 		Auth struct {
 			Ports Ports `json:"ports"`
 		} `json:"auth"`
-		WorkflowEngine struct {
+		AutomationEngine struct {
 			MainServer struct {
 				Ports Ports `json:"ports"`
 			} `mapstructure:"main_server" json:"main_server"`
@@ -39,7 +39,7 @@ type GigamonoConfig struct {
 			RunnableSupervisor struct {
 				Ports Ports `json:"ports"`
 			} `mapstructure:"runnable_supervisor" json:"runnable_supervisor"`
-		} `mapstructure:"workflow_engine" json:"workflow_engine"`
+		} `mapstructure:"automation_engine" json:"automation_engine"`
 		BaseEngine struct {
 			Ports Ports `json:"ports"`
 		} `mapstructure:"base_engine" json:"base_engine"`

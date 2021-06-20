@@ -13,13 +13,13 @@ type IntegrationConfig struct {
 	Kind     ConfigKind `json:"kind"`
 	Metadata struct {
 		Name                string   `json:"name"`
-		PublicID            *UUID     `mapstructure:"public_id" json:"public_id"`
+		PublicID            *UUID    `mapstructure:"public_id" json:"public_id"`
 		Version             string   `json:"version"`
 		Description         string   `json:"description"`
 		Category            string   `json:"category"`
 		Builtin             bool     `json:"builtin"`
 		Tags                []string `json:"tags"`
-		AvatarURL           *string   `mapstructure:"avatar_url" json:"avatar_url"`
+		AvatarURL           *string  `mapstructure:"avatar_url" json:"avatar_url"`
 		HomepageURL         string   `mapstructure:"homepage_url" json:"homepage_url"`
 		APIDocumentationURL string   `mapstructure:"api_documentation_url" json:"api_documentation_url"`
 		ResourceNouns       []string `mapstructure:"resource_nouns" json:"resource_nouns"`
