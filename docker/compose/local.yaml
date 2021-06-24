@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  resource_database:
+  resourcedb:
     restart: always
     image: postgres:13.2-alpine
     environment:
@@ -10,9 +10,9 @@ services:
     ports:
       - '5000:5432'
     volumes:
-      - resource_database:/var/lib/postgresql/data
+      - resourcedb:/var/lib/postgresql/data
 
-  auth_database:
+  authdb:
     restart: always
     image: postgres:13.2-alpine
     environment:
@@ -22,7 +22,7 @@ services:
     ports:
       - '5001:5432'
     volumes:
-      - auth_database:/var/lib/postgresql/data
+      - authdb:/var/lib/postgresql/data
 
   api:
     restart: always
@@ -36,7 +36,7 @@ services:
     ports:
       - '3010:3010'
     depends_on:
-      - resource_database
+      - resourcedb
       - auth
 
   auth:
@@ -52,8 +52,8 @@ services:
     ports:
       - '3020:3020'
     depends_on:
-      - auth_database
+      - authdb
 
 volumes:
-  resource_database:
-  auth_database:
+  resourcedb:
+  authdb:
