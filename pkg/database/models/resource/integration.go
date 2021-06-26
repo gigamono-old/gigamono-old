@@ -20,8 +20,8 @@ type Integration struct {
 // Create creates an integration.
 func (integration *Integration) Create(db *database.DB) error {
 	// TODO: Sec: Permission.
-	// Insert integration and return id.
-	if _, err := db.Model(&integration).Insert(); err != nil {
+	// Insert integration in db.
+	if _, err := db.Model(integration).Insert(); err != nil {
 		return fmt.Errorf("creating integration in db: %v", err)
 	}
 
@@ -31,9 +31,9 @@ func (integration *Integration) Create(db *database.DB) error {
 // GetByID gets an integration by id.
 func (integration *Integration) GetByID(db *database.DB) error {
 	// TODO: Sec: Permission.
-	// Select the integration with the specified integrationID
-	if err := db.Model(&integration).Where("id = ?", integration.ID).Select(); err != nil {
-		return fmt.Errorf("fetching integrationn from db: %v", err)
+	// Select the integration with the specified integration ID
+	if err := db.Model(integration).WherePK().Select(); err != nil {
+		return fmt.Errorf("fetching integration from db: %v", err)
 	}
 
 	return nil

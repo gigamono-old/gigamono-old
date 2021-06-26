@@ -20,7 +20,7 @@ type Workflow struct {
 // Create creates a workflow.
 func (workflow *Workflow) Create(db *database.DB) error {
 	// TODO: Sec: Permission.
-	// Insert workflow and return id.
+	// Insert workflow in db.
 	if _, err := db.Model(workflow).Insert(); err != nil {
 		return fmt.Errorf("creating workflow in db: %v", err)
 	}
@@ -32,7 +32,7 @@ func (workflow *Workflow) Create(db *database.DB) error {
 func (workflow *Workflow) GetByID(db *database.DB) error {
 	// TODO: Sec: Permission.
 	// Select the workflow with the specified workflow ID.
-	if err := db.Model(workflow).Where("id = ?", workflow.ID).Select(); err != nil {
+	if err := db.Model(workflow).WherePK().Select(); err != nil {
 		return fmt.Errorf("fetching workflow from db: %v", err)
 	}
 
