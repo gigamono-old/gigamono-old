@@ -16,7 +16,7 @@ func SetLocalStaticRoutes(server *gin.Engine, app *inits.App) {
 		// TODO: Permission middleware.
 		// Authenticate and add session user.
 		staticRoute := server.Group("/"+app.Config.Filestore.Project.Paths.Public, middleware.AuthenticateCreateUser(app))
-		staticRoute.StaticFS("/", http.Dir(app.Config.Filestore.Project.Paths.Actual))
+		staticRoute.StaticFS("/", http.Dir(app.Config.Filestore.Project.Paths.Private))
 	}
 
 	// Local static folder to serve extension files.
@@ -24,7 +24,7 @@ func SetLocalStaticRoutes(server *gin.Engine, app *inits.App) {
 		// TODO: Permission middleware.
 		// Authenticate and add session user.
 		staticRoute := server.Group("/"+app.Config.Filestore.Extension.Paths.Public, middleware.AuthenticateCreateUser(app))
-		staticRoute.StaticFS("/", http.Dir(app.Config.Filestore.Extension.Paths.Actual))
+		staticRoute.StaticFS("/", http.Dir(app.Config.Filestore.Extension.Paths.Private))
 	}
 
 	// Local static folder to serve image files.
@@ -32,6 +32,6 @@ func SetLocalStaticRoutes(server *gin.Engine, app *inits.App) {
 		// TODO: Permission middleware.
 		// Authenticate and add session user.
 		staticRoute := server.Group("/"+app.Config.Filestore.Image.Paths.Public, middleware.AuthenticateCreateUser(app))
-		staticRoute.StaticFS("/", http.Dir(app.Config.Filestore.Image.Paths.Actual))
+		staticRoute.StaticFS("/", http.Dir(app.Config.Filestore.Image.Paths.Private))
 	}
 }

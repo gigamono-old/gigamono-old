@@ -2,32 +2,35 @@ package filestore
 
 import (
 	"io/ioutil"
+	"os"
 
 	"github.com/gigamono/gigamono/pkg/files"
 )
 
 // LocalManager manages code
 type LocalManager struct {
-	ActualRootPath string
-	PublicRootPath string
+	PublicRootPath  string
+	PrivateRootPath string
 }
 
 // NewLocalManager creates a new local directory manager.
-func NewLocalManager(actualRootPath string, publicRootPath string) (LocalManager, error) {
+func NewLocalManager(publicRootPath string, privateRootPath string) (LocalManager, error) {
 	// Create or open file directory.
-	if err := files.OpenOrCreateFolder(actualRootPath); err != nil {
+	if err := files.OpenOrCreateFolder(privateRootPath); err != nil {
 		return LocalManager{}, err
 	}
 
 	return LocalManager{
-		ActualRootPath: actualRootPath,
-		PublicRootPath: publicRootPath,
+		PublicRootPath:  publicRootPath,
+		PrivateRootPath: privateRootPath,
 	}, nil
 }
 
 // WriteToFile writes to a file. Creates file if it does not exist.
+//
+// Returns private file path.
 func (mgr *LocalManager) WriteToFile(filename string, content []byte, opts ...interface{}) (string, error) {
-	filePath := mgr.GetActualPath(filename)
+	filePath := mgr.GetPrivatePath(filename)
 
 	// Open or create file and write content to it.
 	if _, err := files.WriteToFile(filePath, content); err != nil {
@@ -38,8 +41,10 @@ func (mgr *LocalManager) WriteToFile(filename string, content []byte, opts ...in
 }
 
 // ReadFile reads a file.
+//
+// Returns the file content.
 func (mgr *LocalManager) ReadFile(filename string, opts ...interface{}) (string, error) {
-	filePath := mgr.GetActualPath(filename)
+	filePath := mgr.GetPrivatePath(filename)
 
 	content, err := ioutil.ReadFile(filePath)
 	if err != nil {
@@ -49,9 +54,22 @@ func (mgr *LocalManager) ReadFile(filename string, opts ...interface{}) (string,
 	return string(content), nil
 }
 
-// GetActualPath gets the actual path.
-func (mgr *LocalManager) GetActualPath(filename string) string {
-	return mgr.ActualRootPath + "/" + filename
+// DeleteFile deletes a file permanently.
+//
+// Returns private file path.
+func (mgr *LocalManager) DeleteFile(filename string, opts ...interface{}) (string, error) {
+	filePath := mgr.GetPrivatePath(filename)
+
+	if err := os.Remove(filePath); err != nil {
+		return "", err
+	}
+
+	return filePath, nil
+}
+
+// GetPrivatePath gets the private path.
+func (mgr *LocalManager) GetPrivatePath(filename string) string {
+	return mgr.PrivateRootPath + "/" + filename
 }
 
 // GetPublicPath gets the public path.

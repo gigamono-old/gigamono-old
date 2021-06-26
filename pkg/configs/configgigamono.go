@@ -62,8 +62,8 @@ type Ports struct {
 type FilestoreInfo struct {
 	Kind  FilestoreManagerKind `json:"kind"`
 	Paths struct {
-		Public string `json:"public"`
-		Actual string `json:"actual"`
+		Public  string `json:"public"`
+		Private string `json:"private"`
 	} `json:"paths"`
 }
 
