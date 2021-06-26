@@ -17,8 +17,8 @@ import (
 
 // SessionData represnts sessionuser data.
 type SessionData struct {
-	UserID uuid.UUID
-	Claims security.Claims
+	User   *resource.User
+	Claims *security.Claims
 }
 
 // SessionDataKey reepresents the key of JWT claim value stored in a context.
@@ -54,7 +54,7 @@ func AuthenticateCreateUser(app *inits.App) gin.HandlerFunc {
 			}
 		}
 
-		// Create session data.
+		// Convert userID
 		userID, err := uuid.FromString(claims.Subject)
 		if err != nil {
 			panic(errs.NewSystemError(
@@ -64,20 +64,53 @@ func AuthenticateCreateUser(app *inits.App) gin.HandlerFunc {
 			))
 		}
 
-		sessionData := SessionData{
-			UserID: userID,
-			Claims: *claims,
-		}
-
 		// Add new user if user does not already exist.
 		// TODO: Is there a way prevent this extra DB hit on every request? Maybe through adding extra info to claims in JWT.
-		user := resource.User{Base: models.Base{ID: sessionData.UserID}}
-		if err = user.CreateIfNotExist(&app.DB); err != nil {
+		user := resource.User{Base: models.Base{ID: userID}}
+		userExists, err := user.Exists(&app.DB)
+		if err != nil {
 			panic(errs.NewSystemError(
 				messages.Error["authenticate-user"].(string),
-				"trying to create user if not exist",
+				"checking if user exists",
 				err,
 			))
+		}
+
+		if !userExists {
+			// Create user.
+			if err := user.Create(&app.DB); err != nil {
+				panic(errs.NewSystemError(
+					messages.Error["authenticate-user"].(string),
+					"trying to create user if not exist",
+					err,
+				))
+			}
+
+			// Create associated profile.
+			profile := resource.Profile{UserID: user.ID, Email: &claims.Email}
+			if err := profile.Create(&app.DB); err != nil {
+				panic(errs.NewSystemError(
+					messages.Error["authenticate-user"].(string),
+					"trying to create user's profile",
+					err,
+				))
+			}
+
+			// Create associated preferences.
+			preferences := resource.Preferences{UserID: user.ID}
+			if err := preferences.Create(&app.DB); err != nil {
+				panic(errs.NewSystemError(
+					messages.Error["authenticate-user"].(string),
+					"trying to create user's preferences",
+					err,
+				))
+			}
+		}
+
+		// Populate SessionData.
+		sessionData := SessionData{
+			User:   &user,
+			Claims: claims,
 		}
 
 		// Store claims in a new context.
