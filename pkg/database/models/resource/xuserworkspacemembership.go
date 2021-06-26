@@ -14,5 +14,5 @@ type XUserWorkspaceMembership struct {
 }
 
 func init() {
-	orm.RegisterTable(XUserWorkspaceMembership{})
+	orm.RegisterTable((*XUserWorkspaceMembership)(nil))
 }

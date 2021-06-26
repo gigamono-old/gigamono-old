@@ -6,13 +6,13 @@ import (
 	"github.com/gofrs/uuid"
 )
 
-// XWorkspaceIntegration is represents users membership to a workspace.
-type XWorkspaceIntegration struct {
+// XWorkspaceInstalledIntegration is represents users membership to a workspace.
+type XWorkspaceInstalledIntegration struct {
 	models.BaseNoID
 	WorkspaceID   uuid.UUID `pg:",pk,type:uuid" json:"workspace_id"`
 	IntegrationID uuid.UUID `pg:",pk,type:uuid" json:"integration_id"`
 }
 
 func init() {
-	orm.RegisterTable(XUserWorkspaceMembership{})
+	orm.RegisterTable((*XWorkspaceInstalledIntegration)(nil))
 }
