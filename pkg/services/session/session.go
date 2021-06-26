@@ -1,8 +1,6 @@
 package session
 
 import (
-	"fmt"
-
 	"github.com/gigamono/gigamono/pkg/errs"
 	"github.com/gigamono/gigamono/pkg/inits"
 	"github.com/gigamono/gigamono/pkg/messages"
@@ -81,6 +79,7 @@ func VerifyPreSessionCredentials(ctx *gin.Context, publicKey []byte) error {
 	}
 
 	// Compare plaintext CSRF ID and signed CSRF ID.
+	// TODO: Is there really a point to signing CSRF IDs inside JWT claims? JWT itself already requires signing.
 	err = security.VerifySignedCSRFID(plaintextCSRFID, payload.SignedCSRFID, publicKey)
 	switch err.(type) {
 	case errs.TamperError:
@@ -144,10 +143,10 @@ func VerifySessionTokens(ctx *gin.Context, publicKey []byte) (*security.Claims, 
 	}
 
 	// Compare plaintext CSRF ID and signed CSRF ID.
+	// TODO: Is there really a point to signing CSRF IDs inside JWT claims? JWT itself already requires signing.
 	err = security.VerifySignedCSRFID(plaintextCSRFID, payload.SignedCSRFID, publicKey)
 	switch err.(type) {
 	case errs.TamperError:
-		fmt.Println("VerifySignedCSRFID TamperError: reached here")
 		return &security.Claims{}, errs.ClientError{
 			Path:    []string{ctx.FullPath()},
 			Message: messages.Error["session-csrf-tamper"].(string),

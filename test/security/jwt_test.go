@@ -36,7 +36,7 @@ YNJ5qPakZwr7GlDprxc=
 `
 
 func TestValidJWTPublicKey(t *testing.T) {
-	payload := security.GenerateSessionClaims("subject_id", "csrf_token", security.SessionAccess, 604800)
+	payload := security.GenerateSessionClaims("subject_id", "test@email.com", "csrf_token", security.SessionAccess, 604800)
 
 	t.Log(">> Signing")
 	token, err := security.GenerateSignedJWT(payload, []byte(privKey))
@@ -52,7 +52,7 @@ func TestValidJWTPublicKey(t *testing.T) {
 }
 
 func TestInvalidPublicKey(t *testing.T) {
-	payload := security.GenerateSessionClaims("subject_id", "csrf_token", security.SessionAccess, 604800)
+	payload := security.GenerateSessionClaims("subject_id", "test@email.com", "csrf_token", security.SessionAccess, 604800)
 
 	t.Log(">> Signing")
 	token, err := security.GenerateSignedJWT(payload, []byte(privKey))

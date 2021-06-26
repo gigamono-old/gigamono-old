@@ -20,6 +20,7 @@ type StandardClaims struct {
 // Claims is a custom claims type wrapping JWT standard claims.
 type Claims struct {
 	StandardClaims
+	Email        string     `json:"email,omitempty"`
 	SignedCSRFID string     `json:"signed_csrf_id,omitempty"`
 	Action       ActionKind `json:"action,omitempty"`
 }
@@ -61,7 +62,7 @@ func GeneratePreSessionClaims(signedCSRFID string, expirationInSeconds int) *Cla
 }
 
 // GenerateSessionClaims generates JWT claims for a session user.
-func GenerateSessionClaims(subject string, signedCSRFID string, action ActionKind, expirationInSeconds int) *Claims {
+func GenerateSessionClaims(subject string, email string, signedCSRFID string, action ActionKind, expirationInSeconds int) *Claims {
 	now := time.Now()
 
 	return &Claims{
@@ -71,6 +72,7 @@ func GenerateSessionClaims(subject string, signedCSRFID string, action ActionKin
 			ExpiresAt: now.Add(time.Second * time.Duration(expirationInSeconds)).Unix(),
 			IssuedAt:  now.Unix(),
 		},
+		Email:        email,
 		SignedCSRFID: signedCSRFID,
 		Action:       action,
 	}
