@@ -179,7 +179,14 @@ openssl ec -in private.pem -pubout -out public.pem
 curl https://www.gigamono.com/get -sSfL | sh
 ```
 
-...
+- Walks you through the installation.
+- Supports dockerless install for advanced users.
+- Some programs may be required.
+	- curl / wget
+	- ssh / openssl
+	- docker
+	- go
+	- postgres
 
 ##### Build Install
 
@@ -195,4 +202,6 @@ cd gigamono
 sh ./install.sh
 ```
 
-...
+```sh
+docker-compose up -f ./docker/compose/local.yaml
+```
