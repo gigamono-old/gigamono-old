@@ -45,7 +45,7 @@ func NewSystemError(clientContextMessage string, serverContextMessage string, ac
 
 func (err SystemError) Error() string {
 	return fmt.Sprintf(
-		"%v: %v:\n:: %v:\n:: %v: %v\n",
+		"%v: %v:\n:: %v:\n:: %v:%v\n",
 		err.ServerContextMessage,
 		err.ActualError,
 		err.FunctionInfo.Name,
