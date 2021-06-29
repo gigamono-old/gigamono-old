@@ -15,13 +15,13 @@ import (
 	"github.com/gofrs/uuid"
 )
 
-// SessionData represnts sessionuser data.
+// SessionData represents sessionuser data.
 type SessionData struct {
 	User   *resource.User
 	Claims *security.Claims
 }
 
-// SessionDataKey reepresents the key of JWT claim value stored in a context.
+// SessionDataKey represents the key of JWT claim value stored in a context.
 var SessionDataKey = struct{ key string }{key: "SessionDataKey"}
 
 // AuthenticateCreateUser authenticates the user session and adds user if user does not exist.

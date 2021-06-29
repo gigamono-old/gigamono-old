@@ -11,6 +11,7 @@ import (
 //
 // https://en.wikipedia.org/wiki/Argon2
 func GeneratePasswordHash(plainTextPassword string, iterations uint32) (string, error) {
+	// Sec: Beware of DoS.
 	params := &argon2id.Params{
 		Memory:      64 * 1024,
 		Iterations:  iterations,
