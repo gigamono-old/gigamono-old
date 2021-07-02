@@ -8,38 +8,3 @@ INSERT INTO profiles (id, username, first_name, last_name, email, user_id) VALUE
 INSERT INTO profiles (id, username, first_name, last_name, email, user_id) VALUES ('7aca5327-3c43-4dc6-afee-fdc42350af68', 'mitsue_tollner',    'Mitsue',    'Tollner',  'mitsue_tollner@yahoo.com',      '8cdd045c-6645-440c-b007-b7c6073764c6');
 INSERT INTO profiles (id, username, first_name, last_name, email, user_id) VALUES ('8391626c-ceab-4d42-abfb-cc9e03b1b179', 'leota',             'Leota',     'Dilliard', 'leota@hotmail.com',             '76c1e547-d3ea-4ce0-a367-5649f381adbb');
 INSERT INTO profiles (id, username, first_name, last_name, email, user_id) VALUES ('3314825e-6468-4297-929c-6d5db05b25f9', 'sage_wieser',       'Sage',      'Wieser',   'sage_wieser@cox.net',           'e8e36a49-958a-431f-b03e-5603dba9f000');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
