@@ -12,20 +12,20 @@ import (
 // Preferences stores session preferences of a user.
 type Preferences struct {
 	models.Base
-	Details *Details  `json:"details"`
-	UserID  uuid.UUID `pg:"type:uuid,notnull" json:"user_id"`
+	Details PrefsDetails `json:"details"`
+	UserID  uuid.UUID    `pg:"type:uuid,notnull" json:"user_id"`
 }
 
-// Details contains details of the preferences.
-type Details struct {
-	FocusWorkspaceIndex int64            `json:"focus_workspace_index"`
+// PrefsDetails contains details of the preferences.
+type PrefsDetails struct {
+	FocusWorkspaceIndex *int64           `json:"focus_workspace_index"`
 	Workspaces          []PrefsWorkspace `json:"workspaces"`
 }
 
 // PrefsWorkspace contains details about a workspace.
 type PrefsWorkspace struct {
 	ID              string       `json:"id"`
-	FocusSpaceIndex int64        `json:"focus_space_index"`
+	FocusSpaceIndex *int64       `json:"focus_space_index"`
 	Spaces          []PrefsSpace `json:"spaces"`
 	Layout          PrefsLayout  `json:"layout"`
 }
@@ -33,10 +33,10 @@ type PrefsWorkspace struct {
 // PrefsSpace contains details about a space.
 type PrefsSpace struct {
 	ID                   string            `json:"id"`
-	FocusDeckIndex       int64             `json:"focus_deck_index"`
-	FocusAppIndex        int64             `json:"focus_app_index"`
-	FocusAutomationIndex int64             `json:"focus_automation_index"`
-	FocusBaseIndex       int64             `json:"focus_base_index"`
+	FocusDeckIndex       *int64            `json:"focus_deck_index"`
+	FocusAppIndex        *int64            `json:"focus_app_index"`
+	FocusAutomationIndex *int64            `json:"focus_automation_index"`
+	FocusBaseIndex       *int64            `json:"focus_base_index"`
 	Decks                []PrefsDeck       `json:"decks"`
 	Automations          []PrefsAutomation `json:"automations"`
 	Bases                []PrefsBase       `json:"bases"`
@@ -72,9 +72,9 @@ type PrefsBase struct {
 
 // PrefsLayout contains details about a layout.
 type PrefsLayout struct {
-	MainShortcuts      Shortcut `json:"main_shortcuts"`
-	WorkspaceShortcuts Shortcut `json:"workspace_shortcuts"`
-	OtherShortcuts     Shortcut `json:"other_shortcuts"`
+	MainShortcuts  []Shortcut `json:"main_shortcuts"`
+	QuickShortcuts []Shortcut `json:"quick_shortcuts"`
+	OtherShortcuts []Shortcut `json:"other_shortcuts"`
 }
 
 // Shortcut represents a shortcut icon or button in the UI. Usually situated in sidebar.
@@ -85,7 +85,7 @@ type Shortcut struct {
 }
 
 // JSON converts details to json.
-func (details *Details) JSON() (string, error) {
+func (details *PrefsDetails) JSON() (string, error) {
 	// TODO: Sec: Validation
 	bytes, err := json.Marshal(details)
 	if err != nil {
