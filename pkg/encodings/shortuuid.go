@@ -8,8 +8,8 @@ import (
 
 // ShortenUUID reduces UUID to a shorted non-padded base64 string.
 func ShortenUUID(uuid uuid.UUID) string {
-	bytes := uuid[:]
-	return ShortenUUIDBytes(bytes)
+	str := uuid.String()
+	return ShortenUUIDString(str)
 }
 
 // ShortenUUIDString reduces UUID to a shorted non-padded base64 string.
